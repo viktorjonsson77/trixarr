@@ -30,11 +30,11 @@ fun Logo(modifier: Modifier = Modifier) {
 		Image(
 			painter = painterResource(R.drawable.app_logo),
 			contentDescription = null,
-			modifier = Modifier.height(34.dp),
+			modifier = Modifier.height(26.dp),
 		)
 		Text(
 			text = "TV",
-			fontSize = 18.sp,
+			fontSize = 14.sp,
 			fontWeight = FontWeight.Bold,
 			color = Color(0xFF00A4DC),
 			modifier = Modifier.padding(start = 8.dp),
@@ -66,7 +66,7 @@ fun ToolbarClock(
 	val currentTime by rememberCurrentTime()
 	Text(
 		text = currentTime,
-		fontSize = 20.sp,
+		fontSize = 16.sp,
 		color = Color.White,
 		modifier = modifier,
 	)

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+	<string name="jellyfin_tv_latest_movies">Nyligen tillagda filmer</string>
+	<string name="jellyfin_tv_latest_series">Nyligen tillagda serier</string>
+	<string name="jellyfin_tv_resume">Fortsätt</string>
     <string name="video_error_unknown_error">Kunde inte ladda videon</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>

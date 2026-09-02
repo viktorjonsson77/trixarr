@@ -12,8 +12,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.focusRestorer
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -56,6 +62,7 @@ enum class MainToolbarActiveButton {
 @Composable
 fun MainToolbar(
 	activeButton: MainToolbarActiveButton = MainToolbarActiveButton.None,
+	downFocusRequester: FocusRequester? = null,
 ) {
 	val userRepository = koinInject<UserRepository>()
 	val api = koinInject<ApiClient>()
@@ -67,6 +74,7 @@ fun MainToolbar(
 	MainToolbar(
 		userImage = userImage,
 		activeButton = activeButton,
+		downFocusRequester = downFocusRequester,
 	)
 }
 
@@ -74,6 +82,7 @@ fun MainToolbar(
 private fun MainToolbar(
 	userImage: String? = null,
 	activeButton: MainToolbarActiveButton,
+	downFocusRequester: FocusRequester?,
 ) {
 	val focusRequester = remember { FocusRequester() }
 	val navigationRepository = koinInject<NavigationRepository>()
@@ -81,16 +90,25 @@ private fun MainToolbar(
 	val sessionRepository = koinInject<SessionRepository>()
 	val activity = LocalActivity.current
 	val activeButtonColors = ButtonDefaults.colors(
-		containerColor = JellyfinTheme.colorScheme.buttonActive,
-		contentColor = JellyfinTheme.colorScheme.onButtonActive,
+		containerColor = androidx.compose.ui.graphics.Color(0x99141416),
+		contentColor = androidx.compose.ui.graphics.Color.White,
+		focusedContainerColor = androidx.compose.ui.graphics.Color(0xCC35203F),
+		focusedContentColor = androidx.compose.ui.graphics.Color.White,
 	)
 
 	Toolbar(
 		modifier = Modifier
+			.onPreviewKeyEvent { event ->
+				if (downFocusRequester != null && event.key == Key.DirectionDown && event.type == KeyEventType.KeyDown) {
+					downFocusRequester.requestFocus()
+					true
+				} else false
+			}
 			.focusRestorer(focusRequester)
-			.focusGroup(),
+			.focusGroup()
+			.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier),
 		start = {
-			ToolbarButtons {
+			ToolbarButtons(modifier = Modifier.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier)) {
 				Logo()
 				NowPlayingComposable(
 					onFocusableChange = {},
@@ -101,8 +119,9 @@ private fun MainToolbar(
 			ToolbarButtons(
 				modifier = Modifier
 					.focusRequester(focusRequester)
+					.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier)
 			) {
-				ProvideTextStyle(JellyfinTheme.typography.default.copy(fontWeight = FontWeight.Bold, fontSize = 20.sp)) {
+				ProvideTextStyle(JellyfinTheme.typography.default.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp)) {
 					Button(
 						onClick = {
 							if (activeButton != MainToolbarActiveButton.Home) {
@@ -128,7 +147,7 @@ private fun MainToolbar(
 			}
 		},
 		end = {
-			ToolbarButtons {
+			ToolbarButtons(modifier = Modifier.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier)) {
 				val userImagePainter = rememberAsyncImagePainter(userImage)
 				val userImageState by userImagePainter.state.collectAsState()
 				val userImageVisible = userImageState is AsyncImagePainter.State.Success

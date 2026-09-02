@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+	<string name="jellyfin_tv_latest_movies">Recently added movies</string>
+	<string name="jellyfin_tv_latest_series">Recently added series</string>
+	<string name="jellyfin_tv_resume">Resume</string>
     <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin TV</string>
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin TV Debug</string>
     <string name="video_error_unknown_error">Failed to load video</string>
