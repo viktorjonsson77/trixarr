@@ -4,6 +4,13 @@
     android:height="180dp"
     android:viewportWidth="320"
     android:viewportHeight="180">
+    <!-- Distinct Jellyfin TV badge; original Jellyfin symbol and wordmark are retained. -->
+    <path
+        android:fillColor="#CC00A4DC"
+        android:pathData="M286,18h26a5,5 0,0 1,5 5v16a5,5 0,0 1,-5 5h-26a5,5 0,0 1,-5 -5v-16a5,5 0,0 1,5 -5z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M287,25h7v3h-2v10h-3v-10h-2zM297,25h3l3,9 3,-9h3l-5,13h-3z" />
     <path android:pathData="M59.21,103.16C57.66,100.04 67.84,81.59 71,81.59C74.17,81.59 84.32,100.08 82.79,103.16C81.25,106.24 60.76,106.27 59.21,103.16Z">
         <aapt:attr name="android:fillColor">
             <gradient

@@ -33,6 +33,7 @@ import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.koin.android.ext.android.inject
+import org.jellyfin.sdk.model.api.BaseItemDto
 
 class HomeFragment : Fragment() {
 	private val sessionRepository by inject<SessionRepository>()
@@ -48,8 +49,10 @@ class HomeFragment : Fragment() {
 		LaunchedEffect(rowsFocusRequester) { rowsFocusRequester.requestFocus() }
 
 		JellyfinTheme {
+			var selectedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 			Column {
 				MainToolbar(MainToolbarActiveButton.Home)
+				CinematicHomeHero(selectedItem)
 
 				// The leanback code has its own awful focus handling that doesn't work properly with Compose view inteop to workaround this
 				// issue we add custom behavior that only allows focus exit when the current selected row is the first one. Additionally when
@@ -73,6 +76,7 @@ class HomeFragment : Fragment() {
 						.fillMaxSize(),
 					onUpdate = { fragment ->
 						rowsSupportFragment = fragment
+						fragment.onSelectedItemChanged = { selectedItem = it }
 					}
 				)
 			}

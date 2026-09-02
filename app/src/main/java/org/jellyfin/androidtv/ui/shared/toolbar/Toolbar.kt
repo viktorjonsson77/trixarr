@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
@@ -25,11 +27,20 @@ import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 
 @Composable
 fun Logo(modifier: Modifier = Modifier) {
-	Image(
-		painter = painterResource(R.drawable.app_logo),
-		contentDescription = stringResource(R.string.app_name),
-		modifier = modifier,
-	)
+	Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+		Image(
+			painter = painterResource(R.drawable.app_logo),
+			contentDescription = null,
+			modifier = Modifier.height(34.dp),
+		)
+		Text(
+			text = stringResource(R.string.app_name_release),
+			fontSize = 20.sp,
+			fontWeight = FontWeight.Bold,
+			color = Color.White,
+			modifier = Modifier.padding(start = 10.dp),
+		)
+	}
 }
 
 @Composable
@@ -41,7 +52,7 @@ fun Toolbar(
 ) {
 	ToolbarLayout(
 		modifier = modifier
-			.height(95.dp)
+			.height(58.dp)
 			.overscan(),
 		start = start,
 		center = center,

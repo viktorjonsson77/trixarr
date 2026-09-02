@@ -90,41 +90,7 @@ private fun MainToolbar(
 			.focusGroup(),
 		start = {
 			ToolbarButtons {
-				val userImagePainter = rememberAsyncImagePainter(userImage)
-				val userImageState by userImagePainter.state.collectAsState()
-				val userImageVisible = userImageState is AsyncImagePainter.State.Success
-
-				IconButton(
-					onClick = {
-						if (activeButton != MainToolbarActiveButton.User) {
-							mediaManager.clearAudioQueue()
-							sessionRepository.destroyCurrentSession()
-
-							// Open login activity
-							activity?.startActivity(ActivityDestinations.startup(activity))
-							activity?.finishAfterTransition()
-						}
-					},
-					colors = if (activeButton == MainToolbarActiveButton.User) activeButtonColors else ButtonDefaults.colors(),
-					contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
-				) {
-					if (!userImageVisible) {
-						Icon(
-							imageVector = ImageVector.vectorResource(R.drawable.ic_user),
-							contentDescription = stringResource(R.string.lbl_switch_user),
-						)
-					} else {
-						Image(
-							painter = userImagePainter,
-							contentDescription = stringResource(R.string.lbl_switch_user),
-							contentScale = ContentScale.Crop,
-							modifier = Modifier
-								.aspectRatio(1f)
-								.clip(IconButtonDefaults.Shape)
-						)
-					}
-				}
-
+				Logo()
 				NowPlayingComposable(
 					onFocusableChange = {},
 				)
@@ -162,6 +128,40 @@ private fun MainToolbar(
 		},
 		end = {
 			ToolbarButtons {
+				val userImagePainter = rememberAsyncImagePainter(userImage)
+				val userImageState by userImagePainter.state.collectAsState()
+				val userImageVisible = userImageState is AsyncImagePainter.State.Success
+
+				IconButton(
+					onClick = {
+						if (activeButton != MainToolbarActiveButton.User) {
+							mediaManager.clearAudioQueue()
+							sessionRepository.destroyCurrentSession()
+
+							// Open login activity
+							activity?.startActivity(ActivityDestinations.startup(activity))
+							activity?.finishAfterTransition()
+						}
+					},
+					colors = if (activeButton == MainToolbarActiveButton.User) activeButtonColors else ButtonDefaults.colors(),
+					contentPadding = if (userImageVisible) PaddingValues(3.dp) else IconButtonDefaults.ContentPadding,
+				) {
+					if (!userImageVisible) {
+						Icon(
+							imageVector = ImageVector.vectorResource(R.drawable.ic_user),
+							contentDescription = stringResource(R.string.lbl_switch_user),
+						)
+					} else {
+						Image(
+							painter = userImagePainter,
+							contentDescription = stringResource(R.string.lbl_switch_user),
+							contentScale = ContentScale.Crop,
+							modifier = Modifier
+								.aspectRatio(1f)
+								.clip(IconButtonDefaults.Shape)
+						)
+					}
+				}
 				IconButton(
 					onClick = {
 						activity?.startActivity(ActivityDestinations.userPreferences(activity))

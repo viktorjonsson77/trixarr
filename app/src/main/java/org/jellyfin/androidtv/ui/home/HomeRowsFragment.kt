@@ -51,12 +51,14 @@ import org.jellyfin.playback.core.PlaybackManager
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.sockets.subscribe
 import org.jellyfin.sdk.model.api.LibraryChangedMessage
+import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.UserDataChangedMessage
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import kotlin.time.Duration.Companion.seconds
 
 class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyListener {
+	var onSelectedItemChanged: ((BaseItemDto?) -> Unit)? = null
 	private val api by inject<ApiClient>()
 	private val backgroundService by inject<BackgroundService>()
 	private val playbackManager by inject<PlaybackManager>()
@@ -239,6 +241,11 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 		mediaManager.removeAudioEventListener(this)
 	}
 
+	override fun onDestroyView() {
+		onSelectedItemChanged = null
+		super.onDestroyView()
+	}
+
 	private inner class ItemViewClickedListener : OnItemViewClickedListener {
 		override fun onItemClicked(
 			itemViewHolder: Presenter.ViewHolder?,
@@ -264,6 +271,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				currentItem = null
 				//fill in default background
 				backgroundService.clearBackgrounds()
+				onSelectedItemChanged?.invoke(null)
 			} else {
 				currentItem = item
 				currentRow = row as ListRow
@@ -272,6 +280,7 @@ class HomeRowsFragment : RowsSupportFragment(), AudioEventListener, View.OnKeyLi
 				itemRowAdapter?.loadMoreItemsIfNeeded(itemRowAdapter.indexOf(item))
 
 				backgroundService.setBackground(item.baseItem)
+				onSelectedItemChanged?.invoke(item.baseItem)
 			}
 		}
 	}
