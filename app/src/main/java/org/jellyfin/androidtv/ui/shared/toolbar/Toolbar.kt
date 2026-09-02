@@ -15,7 +15,6 @@ import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
@@ -34,11 +33,11 @@ fun Logo(modifier: Modifier = Modifier) {
 			modifier = Modifier.height(34.dp),
 		)
 		Text(
-			text = stringResource(R.string.app_name_release),
-			fontSize = 20.sp,
+			text = "TV",
+			fontSize = 18.sp,
 			fontWeight = FontWeight.Bold,
-			color = Color.White,
-			modifier = Modifier.padding(start = 10.dp),
+			color = Color(0xFF00A4DC),
+			modifier = Modifier.padding(start = 8.dp),
 		)
 	}
 }
@@ -52,7 +51,7 @@ fun Toolbar(
 ) {
 	ToolbarLayout(
 		modifier = modifier
-			.height(58.dp)
+			.height(95.dp)
 			.overscan(),
 		start = start,
 		center = center,

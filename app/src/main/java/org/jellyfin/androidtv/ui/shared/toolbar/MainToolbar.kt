@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import kotlinx.coroutines.flow.filterNotNull
@@ -101,7 +102,7 @@ private fun MainToolbar(
 				modifier = Modifier
 					.focusRequester(focusRequester)
 			) {
-				ProvideTextStyle(JellyfinTheme.typography.default.copy(fontWeight = FontWeight.Bold)) {
+				ProvideTextStyle(JellyfinTheme.typography.default.copy(fontWeight = FontWeight.Bold, fontSize = 20.sp)) {
 					Button(
 						onClick = {
 							if (activeButton != MainToolbarActiveButton.Home) {
