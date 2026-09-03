@@ -128,6 +128,7 @@ dependencies {
 	// Kotlin
 	implementation(libs.kotlinx.coroutines)
 	implementation(libs.kotlinx.serialization.json)
+	implementation(libs.okhttp)
 
 	// Android(x)
 	implementation(libs.androidx.core)
@@ -183,4 +184,5 @@ dependencies {
 	testImplementation(libs.kotest.runner.junit5)
 	testImplementation(libs.kotest.assertions)
 	testImplementation(libs.mockk)
+	testImplementation(libs.mockwebserver)
 }

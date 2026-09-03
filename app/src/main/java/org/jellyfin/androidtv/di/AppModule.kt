@@ -27,6 +27,10 @@ import org.jellyfin.androidtv.data.repository.NotificationsRepositoryImpl
 import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.data.repository.UserViewsRepositoryImpl
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.seerr.SeerrConfigurationRepository
+import org.jellyfin.androidtv.seerr.SeerrAuthStore
+import org.jellyfin.androidtv.seerr.KeystoreSeerrAuthStore
+import org.jellyfin.androidtv.seerr.SharedPreferencesSeerrConfigurationRepository
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.home.HomeViewModel
@@ -139,6 +143,8 @@ val appModule = module {
 	single<CustomMessageRepository> { CustomMessageRepositoryImpl() }
 	single<NavigationRepository> { NavigationRepositoryImpl(Destinations.home) }
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
+	single<SeerrAuthStore> { KeystoreSeerrAuthStore(androidContext()) }
+	single<SeerrConfigurationRepository> { SharedPreferencesSeerrConfigurationRepository(androidContext(), get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }

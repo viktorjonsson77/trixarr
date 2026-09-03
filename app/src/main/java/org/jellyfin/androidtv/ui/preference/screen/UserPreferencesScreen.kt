@@ -1,16 +1,25 @@
 package org.jellyfin.androidtv.ui.preference.screen
 
+import android.content.Intent
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.preference.category.aboutCategory
 import org.jellyfin.androidtv.ui.preference.dsl.OptionsFragment
 import org.jellyfin.androidtv.ui.preference.dsl.link
+import org.jellyfin.androidtv.ui.preference.dsl.action
 import org.jellyfin.androidtv.ui.preference.dsl.optionsScreen
+import org.jellyfin.androidtv.ui.seerr.SeerrConnectActivity
 
 class UserPreferencesScreen : OptionsFragment() {
 	override val screen by optionsScreen {
 		setTitle(R.string.settings_title)
 
 		category {
+			action {
+				title = "Begäranden"
+				content = "Anslut till Seerr och hantera din säkra session"
+				onActivate = { startActivity(Intent(requireContext(), SeerrConnectActivity::class.java)) }
+			}
+
 			link {
 				setTitle(R.string.pref_login)
 				setContent(R.string.pref_login_description)
