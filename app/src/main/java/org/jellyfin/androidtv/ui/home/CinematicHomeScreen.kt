@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -166,7 +167,7 @@ private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItem
 			.onFocusChanged { state -> focused = state.isFocused; if (state.isFocused) onItemFocused(item) }
 			.onPreviewKeyEvent { event ->
 				if (event.nativeKeyEvent.keyCode != android.view.KeyEvent.KEYCODE_DPAD_CENTER) false
-				else if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount > 0) {
+				else if (event.type == KeyEventType.KeyDown && (event.nativeKeyEvent.repeatCount > 0 || event.nativeKeyEvent.isLongPress)) {
 					longPressHandled = true
 					true
 				} else if (event.type == KeyEventType.KeyUp && longPressHandled) {
@@ -205,7 +206,7 @@ private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItem
 	}
 }
 
-enum class CinematicContextAction { Resume, PlayFromBeginning, Details, Trailer, MarkPlayed, MarkUnplayed }
+enum class CinematicContextAction { Resume, PlayFromBeginning, Details, Trailer, MarkPlayed, MarkUnplayed, AddToList, RemoveFromList }
 
 fun contextActions(item: BaseItemDto, hasTrailer: Boolean): List<CinematicContextAction> = buildList {
 	if ((item.userData?.playbackPositionTicks ?: 0L) > 0L) add(CinematicContextAction.Resume)
@@ -213,6 +214,7 @@ fun contextActions(item: BaseItemDto, hasTrailer: Boolean): List<CinematicContex
 	add(CinematicContextAction.Details)
 	if (hasTrailer) add(CinematicContextAction.Trailer)
 	add(if (item.userData?.played == true) CinematicContextAction.MarkUnplayed else CinematicContextAction.MarkPlayed)
+	add(if (item.userData?.isFavorite == true) CinematicContextAction.RemoveFromList else CinematicContextAction.AddToList)
 }
 
 @Composable
@@ -224,6 +226,7 @@ fun CinematicItemContextMenu(item: BaseItemDto, onDismiss: () -> Unit) {
 	val api = koinInject<ApiClient>()
 	val playbackLauncher = koinInject<PlaybackLauncher>()
 	val scope = rememberCoroutineScope()
+	var pendingListAction by remember { mutableStateOf<CinematicContextAction?>(null) }
 	val hasTrailer = remember(item) { TrailerUtils.hasPlayableTrailers(context, item) }
 	val menuColors = ButtonDefaults.colors(
 		containerColor = Color(0xFF26272C),
@@ -231,7 +234,23 @@ fun CinematicItemContextMenu(item: BaseItemDto, onDismiss: () -> Unit) {
 		focusedContainerColor = Color(0xFF432453),
 		focusedContentColor = Color.White,
 	)
-	Dialog(onDismissRequest = onDismiss, properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)) {
+	if (pendingListAction != null) {
+		Dialog(onDismissRequest = { pendingListAction = null }, properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)) {
+			Column(Modifier.width(300.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xF51A1B1F)).padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+				Text(item.name.orEmpty(), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold, maxLines = 2)
+				Text(stringResource(R.string.jellyfin_tv_my_list_favorites_explanation), color = Color.White.copy(.76f), fontSize = 13.sp)
+				Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+					Button(colors = menuColors, onClick = { pendingListAction = null }) { Text(stringResource(R.string.lbl_cancel)) }
+					Button(colors = menuColors, onClick = {
+						val add = pendingListAction == CinematicContextAction.AddToList
+						scope.launch { mutationRepository.setFavorite(item.id, add) }
+						pendingListAction = null
+						onDismiss()
+					}) { Text(stringResource(if (pendingListAction == CinematicContextAction.AddToList) R.string.jellyfin_tv_add_to_my_list else R.string.jellyfin_tv_remove_from_my_list)) }
+				}
+			}
+		}
+	} else Dialog(onDismissRequest = onDismiss, properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)) {
 		Column(
 			modifier = Modifier.width(280.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xF51A1B1F)).padding(16.dp),
 			verticalArrangement = Arrangement.spacedBy(6.dp),
@@ -245,6 +264,8 @@ fun CinematicItemContextMenu(item: BaseItemDto, onDismiss: () -> Unit) {
 					CinematicContextAction.Trailer -> stringResource(R.string.lbl_play_trailers)
 					CinematicContextAction.MarkPlayed -> stringResource(R.string.lbl_mark_played)
 					CinematicContextAction.MarkUnplayed -> stringResource(R.string.lbl_mark_unplayed)
+					CinematicContextAction.AddToList -> stringResource(R.string.jellyfin_tv_add_to_my_list)
+					CinematicContextAction.RemoveFromList -> stringResource(R.string.jellyfin_tv_remove_from_my_list)
 				}
 				Button(modifier = Modifier.fillMaxWidth().height(44.dp), colors = menuColors, onClick = {
 					when (action) {
@@ -259,8 +280,9 @@ fun CinematicItemContextMenu(item: BaseItemDto, onDismiss: () -> Unit) {
 						}
 						CinematicContextAction.MarkPlayed -> scope.launch { mutationRepository.setPlayed(item.id, true) }
 						CinematicContextAction.MarkUnplayed -> scope.launch { mutationRepository.setPlayed(item.id, false) }
+						CinematicContextAction.AddToList, CinematicContextAction.RemoveFromList -> pendingListAction = action
 					}
-					onDismiss()
+					if (action != CinematicContextAction.AddToList && action != CinematicContextAction.RemoveFromList) onDismiss()
 				}) { Text(label, fontSize = 13.sp, maxLines = 1) }
 			}
 		}

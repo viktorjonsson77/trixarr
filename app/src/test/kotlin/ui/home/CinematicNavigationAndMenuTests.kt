@@ -42,11 +42,13 @@ class CinematicNavigationAndMenuTests : StringSpec({
 			CinematicContextAction.Details,
 			CinematicContextAction.Trailer,
 			CinematicContextAction.MarkPlayed,
+			CinematicContextAction.AddToList,
 		)
 		contextActions(media(), hasTrailer = false) shouldContainExactly listOf(
 			CinematicContextAction.PlayFromBeginning,
 			CinematicContextAction.Details,
 			CinematicContextAction.MarkPlayed,
+			CinematicContextAction.AddToList,
 		)
 	}
 
