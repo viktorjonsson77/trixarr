@@ -2,6 +2,8 @@
 
 This document turns the approved reference images into implementation rules. The images define composition and hierarchy only; all runtime artwork and metadata must come from Jellyfin or Seerr.
 
+The reference inventory contains 43 explicitly named approved screens and five excluded Live-TV/recording screens. The series-detail reference was restored as a valid 1672×941 PNG; its wide episode cards, restrained lower content band, left-weighted gradient, and compact action row govern the series composition.
+
 ## Product identity and navigation
 
 - Product names: **Jellyfin TV** and **Jellyfin TV Debug**.

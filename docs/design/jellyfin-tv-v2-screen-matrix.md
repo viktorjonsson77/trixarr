@@ -19,10 +19,10 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 | `jellyfintv_library_filters.png` | Library filters | B | Jellyfin query options | Library dialog | REFERENCE_READY | Pending Shield |
 | `jellyfintv_movie_available.png` | Available movie details | A | Jellyfin | Movie details | REFERENCE_READY | Pending Shield |
 | `jellyfintv_movie_request.png` | Requestable movie | C | Seerr | Movie details | REFERENCE_READY | Explicit confirmation required |
-| `jellyfintv_series_details.png` | Series details | A | Jellyfin | Series details | INVALID_REFERENCE | File is empty; use shared system and season reference |
+| `jellyfintv_series_details.png` | Series details | A | Jellyfin | Series details | IMPLEMENTED | Restored valid reference; Shield comparison required |
 | `jellyfintv_series_request.png` | Series request | C | Seerr | Series details/dialog | REFERENCE_READY | Explicit season selection |
 | `jellyfintv_season_episodes.png` | Season and episodes | A | Jellyfin TV API | Series details | REFERENCE_READY | Pending Shield |
-| `docsdesignjellyfintv_episode_details.png` | Episode details | B | Jellyfin | Episode details | REFERENCE_READY | Misnamed upload; maps to requested filename |
+| `jellyfintv_episode_details.png` | Episode details | B | Jellyfin | Episode details | IMPLEMENTED | Upload filename repaired without changing image bytes |
 | `jellyfintv_person_details.png` | Person details | B | Jellyfin | Person details | REFERENCE_READY | Pending Shield |
 | `jellyfintv_collection_details.png` | Collection details | B | Jellyfin | Collection details | REFERENCE_READY | Pending Shield |
 | `jellyfintv_search_results.png` | Search results | A | Jellyfin + optional Seerr | Sök | REFERENCE_READY | Jellyfin results win duplicates |
@@ -44,9 +44,9 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 | `jellyfintv_profile_select.png` | Profile selection | D | Jellyfin users | Startup/profile | REFERENCE_READY | Pending available profiles |
 | `jellyfintv_profile_pin.png` | Profile PIN | D | Jellyfin authentication | Startup/profile | REFERENCE_READY | PIN never logged/stored cleartext |
 | `jellyfintv_server_connect.png` | Server connect | D | Jellyfin discovery | Startup | REFERENCE_READY | Existing server layer retained |
-| `jellyfintv_discovery_setup.png.png` | Discovery setup | D | Jellyfin + optional Seerr | Startup | REFERENCE_READY | Duplicate extension; maps to requested filename |
+| `jellyfintv_discovery_setup.png` | Discovery setup | D | Jellyfin + optional Seerr | Startup | REFERENCE_READY | Upload filename repaired without changing image bytes |
 | `jellyfintv_connection_error.png` | Connection error | D | Connection state | Startup/error | REFERENCE_READY | Nontechnical, actionable copy |
-| `designjellyfintv_screensaver.png` | Screensaver | D | Jellyfin artwork | Screensaver | REFERENCE_READY | Misnamed upload; maps to requested filename |
+| `jellyfintv_screensaver.png` | Screensaver | D | Jellyfin artwork | Screensaver | REFERENCE_READY | Upload filename repaired without changing image bytes |
 | `jellyfintv_kids_home.png` | Kids home | D | Jellyfin policy/profile | Hem | REFERENCE_READY | Requires real policy, not cosmetic filter |
 | `jellyfintv_live_tv.png` | Live TV | — | — | — | EXCLUDED | Product decision: no Live TV |
 | `jellyfintv_recordings.png` | Recordings | — | — | — | EXCLUDED | Product decision: no recording UI |
@@ -57,10 +57,10 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 ## Inventory notes
 
 - The product brief labels the approved set as 44 images, but its explicit filename set contains exactly 43 entries. No unnamed forty-fourth approved reference exists in the tracked files.
-- Of those 43 concepts, 42 are valid PNG images at 1672×941. `jellyfintv_series_details.png` is tracked but zero bytes, so it is classified `INVALID_REFERENCE`, not counted as usable.
-- Three concepts are present only under malformed filenames: `docsdesignjellyfintv_episode_details.png`, `jellyfintv_discovery_setup.png.png`, and `designjellyfintv_screensaver.png`. The matrix records their real names and intended mappings without renaming user uploads.
+- All 43 explicitly named approved concepts now have valid PNG references at 1672×941. The original, valid `jellyfintv_series_details.png` was restored with SHA-256 `c520a223ad1dba0dd1823259ad3a000a9a347d3b292a1c8c65cbfb6bd42d5d98`.
+- Three malformed upload names were repaired with `git mv`: `jellyfintv_episode_details.png`, `jellyfintv_discovery_setup.png`, and `jellyfintv_screensaver.png`. SHA-256 remained unchanged for every image.
 - The actual excluded set contains exactly five files: `jellyfintv_live_tv.png`, `jellyfintv_recordings.png`, `jellyfintv_recording_details.png`, `jellyfintv_recording_schedule.png`, and `jellyfintv_recording_schedules.png`. The brief's expected count of six does not correspond to a sixth tracked or on-disk Live-TV/DVR reference.
 - `jellyfintv_watch_history.png`, `jellyfintv_add_to_list.png`, and `jellyfintv_playback_error.png` are present, tracked, valid, and classified `REFERENCE_READY`.
 - The filesystem set and Git-tracked design-image set are identical. No binary duplicate SHA-256 hashes were found. `jellyfin-tv-home-spec.md` is an older supplementary document, not a screen reference.
 
-Therefore the reconciled inventory is **42 usable approved references + 1 invalid approved reference + 5 EXCLUDED references**. The earlier `42 + 5` report counted usable and excluded images while omitting the empty approved file from its headline.
+Therefore the reconciled inventory is **43 usable approved references + 5 EXCLUDED references**. The advertised counts 44 and 6 are each one above their corresponding explicit and uploaded filename sets; neither missing concept has a name to implement or recreate.
