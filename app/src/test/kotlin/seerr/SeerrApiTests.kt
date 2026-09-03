@@ -68,5 +68,5 @@ private class BlockingApi : SeerrApi {
 	override suspend fun discover(path: String, page: Int) = TODO()
 	override suspend fun movie(id: Int) = TODO()
 	override suspend fun series(id: Int) = TODO()
-	override suspend fun requests(skip: Int, take: Int) = TODO()
+	override suspend fun requests(userId: Int, skip: Int, take: Int) = TODO()
 }

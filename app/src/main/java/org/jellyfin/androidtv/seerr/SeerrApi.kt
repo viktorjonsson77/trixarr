@@ -17,6 +17,7 @@ data class SeerrResponse(val body: JsonObject, val sessionCookie: String? = null
 data class SeerrQuickConnect(val code: String, val secret: CharArray)
 
 interface SeerrApi {
+	fun imageUrl(path: String, backdrop: Boolean = false): String = path
 	suspend fun status(): SeerrResponse
 	suspend fun publicSettings(): SeerrResponse
 	suspend fun loginWithJellyfin(username: String, password: CharArray): SeerrResponse
@@ -30,7 +31,7 @@ interface SeerrApi {
 	suspend fun discover(path: String, page: Int = 1): SeerrResponse
 	suspend fun movie(id: Int): SeerrResponse
 	suspend fun series(id: Int): SeerrResponse
-	suspend fun requests(skip: Int = 0, take: Int = 50): SeerrResponse
+	suspend fun requests(userId: Int, skip: Int = 0, take: Int = 50): SeerrResponse
 	suspend fun createRequest(mediaType: String, mediaId: Int, seasons: Set<Int>? = null): SeerrResponse
 }
 
@@ -41,6 +42,11 @@ class OkHttpSeerrApi(
 	private val json: Json = Json { ignoreUnknownKeys = true },
 ) : SeerrApi {
 	private val mediaType = "application/json; charset=utf-8".toMediaType()
+	override fun imageUrl(path: String, backdrop: Boolean): String {
+		val apiPath = baseUrl.encodedPath.removeSuffix("api/v1/")
+		val size = if (backdrop) "w1280" else "w500"
+		return baseUrl.newBuilder().encodedPath("${apiPath}imageproxy/tmdb/t/p/$size${if (path.startsWith('/')) path else "/$path"}").query(null).build().toString()
+	}
 
 	override suspend fun status() = get("status", authenticated = false)
 	override suspend fun publicSettings() = get("settings/public", authenticated = false)
@@ -52,7 +58,10 @@ class OkHttpSeerrApi(
 	}
 	override suspend fun movie(id: Int) = get("movie/$id")
 	override suspend fun series(id: Int) = get("tv/$id")
-	override suspend fun requests(skip: Int, take: Int) = get("request", query = mapOf("skip" to "$skip", "take" to "$take", "sort" to "added"))
+	override suspend fun requests(userId: Int, skip: Int, take: Int) = get(
+		"request",
+		query = mapOf("skip" to "$skip", "take" to "$take", "sort" to "added", "requestedBy" to "$userId"),
+	)
 
 	override suspend fun loginWithJellyfin(username: String, password: CharArray) = try {
 		post("auth/jellyfin", buildJson("username" to username, "password" to password.concatToString()), authenticated = false)

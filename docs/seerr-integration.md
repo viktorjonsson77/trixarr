@@ -10,7 +10,9 @@ värden och appens eget anslutningstest har verifierat det verkliga HTTP-API:t.
 Använda read-only-endpoints är `GET /api/v1/status`, `GET /api/v1/settings/public`,
 `GET /api/v1/auth/me`, `GET /api/v1/search`, `GET /api/v1/discover/trending`,
 film-/serieupptäckt och kommande, `GET /api/v1/movie/{id}`,
-`GET /api/v1/tv/{id}` samt `GET /api/v1/request`. Mutationerna begränsas till
+`GET /api/v1/tv/{id}` samt `GET /api/v1/request?requestedBy={currentUserId}`.
+Affischer och bakgrunder hämtas genom Seerrs egen bildproxy, så TV-klienten kontaktar
+inte TMDb direkt. Mutationerna begränsas till
 explicit login/logout och en användarbekräftad `POST /api/v1/request`.
 
 ## Autentisering och session
@@ -60,6 +62,10 @@ behåller resultat från den tjänst som fungerar och UI visar ett kort, rediger
 Loggredigering tar bort lösenord, token, cookies, authorization-värden och URL-query.
 Ingen global serveraktivitet visas; användaraktivitet härleds endast från verifierade
 förändringar i den inloggade användarens egna begäranden.
+
+Den verifierade API-definitionen erbjuder ingen separat, säker användarspecifik
+aktivitetsström. En global adminlogg exponeras därför inte och aktivitetsvyn är
+`NOT_APPLICABLE_PERMISSION_OR_API` tills ett sådant API kan verifieras.
 
 ## Liveverifiering
 

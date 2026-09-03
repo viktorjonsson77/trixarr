@@ -17,11 +17,20 @@ data class SeerrMedia(
 	val title: String,
 	val year: Int? = null,
 	val overview: String? = null,
+	val originalTitle: String? = null,
+	val releaseDate: String? = null,
+	val runtimeMinutes: Int? = null,
+	val certification: String? = null,
+	val rating: Double? = null,
+	val genres: List<String> = emptyList(),
+	val cast: List<String> = emptyList(),
+	val studios: List<String> = emptyList(),
 	val posterUrl: String? = null,
 	val backdropUrl: String? = null,
 	val providerIds: ProviderIds = ProviderIds(tmdb = id),
 	val availability: MediaAvailability = MediaAvailability.Unknown,
 	val seasons: List<SeerrSeason> = emptyList(),
+	val related: List<SeerrMedia> = emptyList(),
 )
 
 data class SeerrSeason(

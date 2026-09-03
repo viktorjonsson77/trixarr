@@ -30,6 +30,8 @@ import org.jellyfin.androidtv.ui.playback.stillwatching.StillWatchingFragment
 import org.jellyfin.androidtv.ui.player.photo.PhotoPlayerFragment
 import org.jellyfin.androidtv.ui.player.video.VideoPlayerFragment
 import org.jellyfin.androidtv.ui.search.SearchFragment
+import org.jellyfin.androidtv.ui.seerr.SeerrDetailsFragment
+import org.jellyfin.androidtv.ui.seerr.SeerrRequestsFragment
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.CollectionType
 import org.jellyfin.sdk.model.api.ItemSortBy
@@ -45,6 +47,11 @@ object Destinations {
 	fun search(query: String? = null) = fragmentDestination<SearchFragment>(
 		SearchFragment.EXTRA_QUERY to query,
 	)
+	fun seerrDetails(id: Int, kind: String) = fragmentDestination<SeerrDetailsFragment>(
+		SeerrDetailsFragment.ARG_ID to id,
+		SeerrDetailsFragment.ARG_KIND to kind,
+	)
+	val seerrRequests = fragmentDestination<SeerrRequestsFragment>()
 
 	// Browsing
 	// TODO only pass item id instead of complete JSON to browsing destinations

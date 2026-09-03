@@ -31,9 +31,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import okhttp3.OkHttpClient
 import org.jellyfin.androidtv.auth.repository.SessionRepository
-import org.jellyfin.androidtv.seerr.OkHttpSeerrApi
 import org.jellyfin.androidtv.seerr.SeerrConfigurationRepository
 import org.jellyfin.androidtv.seerr.SeerrAuthStore
 import org.jellyfin.androidtv.seerr.SeerrHttpException
@@ -46,11 +44,12 @@ import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.cinematic.CinematicScaffold
 import org.jellyfin.androidtv.ui.cinematic.FocusableTvButton
 import org.koin.android.ext.android.inject
-import java.util.concurrent.TimeUnit
+import org.jellyfin.androidtv.seerr.SeerrClientProvider
 
 class SeerrConnectActivity : ComponentActivity() {
 	private val configurations: SeerrConfigurationRepository by inject()
 	private val authStore: SeerrAuthStore by inject()
+	private val clients: SeerrClientProvider by inject()
 	private val jellyfinSession: SessionRepository by inject()
 	private var quickConnectSecret: CharArray? = null
 
@@ -70,8 +69,8 @@ class SeerrConnectActivity : ComponentActivity() {
 				var discoveryStatus by remember { mutableStateOf<String?>(null) }
 				LaunchedEffect(profile, stored?.baseUrl) {
 					val configuration = stored ?: return@LaunchedEffect
-					val url = SeerrUrl.normalize(configuration.baseUrl, configuration.allowInsecureHttp).getOrNull() ?: return@LaunchedEffect
-					val api = OkHttpSeerrApi(url, seerrClient(), { authStore.readSession(profile) })
+					SeerrUrl.normalize(configuration.baseUrl, configuration.allowInsecureHttp).getOrNull() ?: return@LaunchedEffect
+					val api = clients.api(configuration) ?: return@LaunchedEffect
 					SeerrSessionManager(profile, api, authStore).restore().onSuccess { user ->
 						connectedName = user.displayName
 						discoveryStatus = runCatching { SeerrMediaMapper.mapResults(api.discover("trending").body).size }
@@ -88,8 +87,8 @@ class SeerrConnectActivity : ComponentActivity() {
 								FocusableTvButton(onClick = ::finish) { Text("Klar") }
 								FocusableTvButton(onClick = {
 									val configuration = configurations.get(profile) ?: return@FocusableTvButton
-									val url = SeerrUrl.normalize(configuration.baseUrl, configuration.allowInsecureHttp).getOrNull() ?: return@FocusableTvButton
-									val api = OkHttpSeerrApi(url, seerrClient(), { authStore.readSession(profile) })
+									SeerrUrl.normalize(configuration.baseUrl, configuration.allowInsecureHttp).getOrNull() ?: return@FocusableTvButton
+									val api = clients.api(configuration) ?: return@FocusableTvButton
 									lifecycleScope.launch {
 										SeerrSessionManager(profile, api, authStore).logout()
 										connectedName = null
@@ -110,9 +109,9 @@ class SeerrConnectActivity : ComponentActivity() {
 							lifecycleScope.launch {
 								message = "Kontrollerar anslutningen …"
 								val normalized = SeerrUrl.normalize(address, allowHttp)
-								message = normalized.fold(onSuccess = { url ->
+								message = normalized.fold(onSuccess = {
 									runCatching {
-										val api = OkHttpSeerrApi(url, seerrClient(), { null })
+										val api = clients.api(SeerrConfiguration(profile, address, allowHttp)) ?: error("Invalid configuration")
 										val status = api.status().body
 										api.publicSettings()
 										status["version"]?.jsonPrimitive?.contentOrNull
@@ -127,10 +126,10 @@ class SeerrConnectActivity : ComponentActivity() {
 						Text("Jellyfin Quick Connect", color = Color.White)
 						if (quickConnectCode == null) {
 							FocusableTvButton(onClick = {
-								val url = SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
+								SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
 								lifecycleScope.launch {
 									message = "Skapar engångskod …"
-									runCatching { OkHttpSeerrApi(url, seerrClient(), { null }).initiateQuickConnect() }.fold({ result ->
+									runCatching { (clients.api(SeerrConfiguration(profile, address, allowHttp)) ?: error("Invalid configuration")).initiateQuickConnect() }.fold({ result ->
 										quickConnectSecret?.fill('\u0000')
 										quickConnectSecret = result.secret
 										quickConnectCode = result.code
@@ -141,9 +140,9 @@ class SeerrConnectActivity : ComponentActivity() {
 						} else {
 							Text("Kod: $quickConnectCode", color = Color.White)
 							FocusableTvButton(onClick = {
-								val url = SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
+								SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
 								val secret = quickConnectSecret ?: return@FocusableTvButton
-								val api = OkHttpSeerrApi(url, seerrClient(), { authStore.readSession(profile) })
+								val api = clients.api(SeerrConfiguration(profile, address, allowHttp)) ?: return@FocusableTvButton
 								lifecycleScope.launch {
 									message = "Kontrollerar godkännandet …"
 									runCatching { api.checkQuickConnect(secret) }.fold({ approved ->
@@ -165,9 +164,9 @@ class SeerrConnectActivity : ComponentActivity() {
 						SeerrField(password, "Lösenord", password = true) { password = it }
 						Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
 							FocusableTvButton(onClick = {
-								val url = SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
+								SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
 								configurations.save(SeerrConfiguration(profile, address, allowHttp))
-								val api = OkHttpSeerrApi(url, seerrClient(), { authStore.readSession(profile) })
+								val api = clients.api(SeerrConfiguration(profile, address, allowHttp)) ?: return@FocusableTvButton
 								lifecycleScope.launch {
 									message = "Loggar in …"
 									message = SeerrSessionManager(profile, api, authStore).loginWithJellyfin(username.trim(), password.toCharArray()).fold({ user ->
@@ -180,9 +179,9 @@ class SeerrConnectActivity : ComponentActivity() {
 								}
 							}) { Text("Logga in med Jellyfin") }
 							FocusableTvButton(onClick = {
-								val url = SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
+								SeerrUrl.normalize(address, allowHttp).getOrNull() ?: return@FocusableTvButton
 								configurations.save(SeerrConfiguration(profile, address, allowHttp))
-								val api = OkHttpSeerrApi(url, seerrClient(), { authStore.readSession(profile) })
+								val api = clients.api(SeerrConfiguration(profile, address, allowHttp)) ?: return@FocusableTvButton
 								lifecycleScope.launch {
 									message = "Loggar in …"
 									message = SeerrSessionManager(profile, api, authStore).loginLocal(username.trim(), password.toCharArray()).fold({ user ->
@@ -201,12 +200,6 @@ class SeerrConnectActivity : ComponentActivity() {
 			}
 		}
 	}
-
-	private fun seerrClient() = OkHttpClient.Builder()
-		.connectTimeout(5, TimeUnit.SECONDS)
-		.readTimeout(10, TimeUnit.SECONDS)
-		.writeTimeout(10, TimeUnit.SECONDS)
-		.build()
 
 	private fun safeConnectionError(error: Throwable) = when ((error as? SeerrHttpException)?.status) {
 		404 -> "Servern svarar, men API-versionen stöds inte (404)"

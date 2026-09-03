@@ -58,6 +58,10 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.ImageType
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
+import org.jellyfin.androidtv.seerr.model.SeerrMedia
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
+import org.jellyfin.androidtv.ui.seerr.SeerrMediaCard
 
 class SearchFragment : Fragment() {
 	companion object { const val EXTRA_QUERY = "query" }
@@ -89,6 +93,7 @@ private fun CinematicSearchScreen(state: CinematicSearchState, query: String, in
 	val launcher = koinInject<ItemLauncher>()
 	val background = koinInject<BackgroundService>()
 	val context = LocalContext.current
+	val navigation = koinInject<NavigationRepository>()
 	var focusedItem by remember { mutableStateOf<BaseItemDto?>(null) }
 	var contextItem by remember { mutableStateOf<BaseItemDto?>(null) }
 	LaunchedEffect(focusedItem?.id) { focusedItem?.let(background::setBackground) }
@@ -108,13 +113,25 @@ private fun CinematicSearchScreen(state: CinematicSearchState, query: String, in
 			is CinematicSearchState.Loading -> item { EmptyState(stringResource(R.string.loading), state.query) }
 			is CinematicSearchState.NoResults -> item { EmptyState(stringResource(R.string.jellyfin_tv_search_empty), stringResource(R.string.jellyfin_tv_search_empty_description, state.query)) }
 			is CinematicSearchState.Error -> item { ErrorState(stringResource(R.string.jellyfin_tv_search_error), stringResource(R.string.jellyfin_tv_search_error_description), onSubmit, stringResource(R.string.jellyfin_tv_retry)) }
-			is CinematicSearchState.Results -> items(state.groups, key = { it.labelRes }) { group ->
+			is CinematicSearchState.Results -> {
+				items(state.groups, key = { it.labelRes }) { group ->
 				Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
 					Text(stringResource(group.labelRes), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 40.dp))
 					LazyRow(contentPadding = PaddingValues(horizontal = 40.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
 						items(group.items.toList(), key = { it.id }) { item -> SearchResultCard(item, { focusedItem = item }, { launcher.launch(BaseItemDtoBaseRowItem(item), null, context) }, { contextItem = item }) }
 					}
 				}
+				}
+				if (state.external.isNotEmpty()) item {
+					Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+						Text("Fler filmer och serier", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 40.dp))
+						LazyRow(contentPadding = PaddingValues(horizontal = 40.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+							items(state.external, key = { "${it.kind}:${it.id}" }) { media -> SeerrMediaCard(media, {}, { navigation.navigate(Destinations.seerrDetails(media.id, media.kind.name)) }) }
+						}
+					}
+				}
+				if (state.seerrError) item { Text("Seerr kunde inte nås. Jellyfin-resultaten visas fortfarande.", color = Color(0xFFF2B84B), modifier = Modifier.padding(horizontal = 40.dp)) }
+				if (state.jellyfinPartialError) item { Text("Vissa Jellyfin-resultat kunde inte hämtas.", color = Color(0xFFF2B84B), modifier = Modifier.padding(horizontal = 40.dp)) }
 			}
 		}
 	}

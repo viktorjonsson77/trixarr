@@ -31,6 +31,7 @@ import org.jellyfin.androidtv.seerr.SeerrConfigurationRepository
 import org.jellyfin.androidtv.seerr.SeerrAuthStore
 import org.jellyfin.androidtv.seerr.KeystoreSeerrAuthStore
 import org.jellyfin.androidtv.seerr.SharedPreferencesSeerrConfigurationRepository
+import org.jellyfin.androidtv.seerr.SeerrClientProvider
 import org.jellyfin.androidtv.integration.dream.DreamViewModel
 import org.jellyfin.androidtv.ui.InteractionTrackerViewModel
 import org.jellyfin.androidtv.ui.home.HomeViewModel
@@ -145,6 +146,7 @@ val appModule = module {
 	single<SearchRepository> { SearchRepositoryImpl(get()) }
 	single<SeerrAuthStore> { KeystoreSeerrAuthStore(androidContext()) }
 	single<SeerrConfigurationRepository> { SharedPreferencesSeerrConfigurationRepository(androidContext(), get()) }
+	single { SeerrClientProvider(get(), get()) }
 	single<MediaSegmentRepository> { MediaSegmentRepositoryImpl(get(), get()) }
 
 	viewModel { StartupViewModel(get(), get(), get(), get()) }
@@ -153,7 +155,7 @@ val appModule = module {
 	viewModel { NextUpViewModel(get(), get(), get()) }
 	viewModel { StillWatchingViewModel(get(), get(), get(), get()) }
 	viewModel { PhotoPlayerViewModel(get()) }
-	viewModel { SearchViewModel(get()) }
+	viewModel { SearchViewModel(get(), get(), get()) }
 	viewModel { HomeViewModel(get(), get()) }
 	viewModel { DreamViewModel(get(), get(), get(), get(), get()) }
 

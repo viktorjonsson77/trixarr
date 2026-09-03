@@ -13,5 +13,6 @@ object SeerrPermissions {
 		has(value, REQUEST) && has(value, if (kind == MediaKind.Movie) REQUEST_MOVIE else REQUEST_TV)
 
 	fun canViewRequests(value: Long) = has(value, ADMIN) || has(value, REQUEST_VIEW)
+	fun canViewOwnRequests(value: Long) = canViewRequests(value) || canRequest(value, MediaKind.Movie) || canRequest(value, MediaKind.Series)
 	private fun has(value: Long, permission: Long) = value and permission != 0L
 }
