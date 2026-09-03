@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -71,6 +72,11 @@ fun CinematicHomeScreen(state: CinematicHomeState, onItemFocused: (BaseItemDto) 
 	val context = LocalContext.current
 	val heroFocusRequester = remember { FocusRequester() }
 	val listState = rememberLazyListState()
+	val showToolbarScrim by remember {
+		derivedStateOf {
+			listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 24
+		}
+	}
 
 	LaunchedEffect(state.hero?.id) { state.hero?.let(backgroundService::setBackground) }
 
@@ -100,7 +106,7 @@ fun CinematicHomeScreen(state: CinematicHomeState, onItemFocused: (BaseItemDto) 
 			item { Spacer(Modifier.height(32.dp)) }
 		}
 		Box(Modifier.fillMaxWidth().height(48.dp).background(Brush.verticalGradient(listOf(Color.Black.copy(alpha = .45f), Color.Transparent))))
-		if (listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 24) {
+		if (showToolbarScrim) {
 			Box(Modifier.fillMaxWidth().height(95.dp).background(Color.Black.copy(alpha = .82f)))
 		}
 		MainToolbar(MainToolbarActiveButton.Home, downFocusRequester = heroFocusRequester)
