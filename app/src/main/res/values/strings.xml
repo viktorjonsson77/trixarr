@@ -3,6 +3,12 @@
 	<string name="jellyfin_tv_latest_movies">Recently added movies</string>
 	<string name="jellyfin_tv_latest_series">Recently added series</string>
 	<string name="jellyfin_tv_resume">Resume</string>
+	<string name="jellyfin_tv_play_next_episode">Play next episode</string>
+	<string name="jellyfin_tv_seasons">Seasons</string>
+	<string name="jellyfin_tv_play_from_beginning">Play from beginning</string>
+	<string name="jellyfin_tv_more_information">Show more information</string>
+	<string name="jellyfin_tv_discover">Discover</string>
+	<string name="jellyfin_tv_seerr_not_connected">Connect Seerr in settings to discover and request new movies and series.</string>
     <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin TV</string>
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin TV Debug</string>
     <string name="video_error_unknown_error">Failed to load video</string>

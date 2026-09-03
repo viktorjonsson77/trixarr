@@ -3,6 +3,12 @@
 	<string name="jellyfin_tv_latest_movies">Nyligen tillagda filmer</string>
 	<string name="jellyfin_tv_latest_series">Nyligen tillagda serier</string>
 	<string name="jellyfin_tv_resume">Fortsätt</string>
+	<string name="jellyfin_tv_play_next_episode">Spela nästa avsnitt</string>
+	<string name="jellyfin_tv_seasons">Säsonger</string>
+	<string name="jellyfin_tv_play_from_beginning">Spela från början</string>
+	<string name="jellyfin_tv_more_information">Visa mer information</string>
+	<string name="jellyfin_tv_discover">Upptäck</string>
+	<string name="jellyfin_tv_seerr_not_connected">Anslut Seerr i inställningarna för att upptäcka och begära nya filmer och serier.</string>
     <string name="video_error_unknown_error">Kunde inte ladda videon</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>

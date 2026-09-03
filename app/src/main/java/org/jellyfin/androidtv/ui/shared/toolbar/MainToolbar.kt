@@ -2,9 +2,14 @@ package org.jellyfin.androidtv.ui.shared.toolbar
 
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.focusGroup
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,6 +38,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.auth.repository.SessionRepository
 import org.jellyfin.androidtv.auth.repository.UserRepository
+import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.NowPlayingComposable
 import org.jellyfin.androidtv.ui.base.Icon
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
@@ -42,6 +48,7 @@ import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.button.IconButtonDefaults
+import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -49,15 +56,30 @@ import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.primaryImage
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.model.api.BaseItemDto
+import org.jellyfin.sdk.model.api.CollectionType
 import org.koin.compose.koinInject
 
 enum class MainToolbarActiveButton {
 	User,
 	Home,
+	Discover,
 	Search,
+	Movies,
+	Series,
 
 	None,
 }
+
+enum class MainToolbarDestination { Home, Discover, Movies, Series, Search }
+
+fun mainToolbarDestinations(): List<MainToolbarDestination> = listOf(
+	MainToolbarDestination.Home,
+	MainToolbarDestination.Discover,
+	MainToolbarDestination.Movies,
+	MainToolbarDestination.Series,
+	MainToolbarDestination.Search,
+)
 
 @Composable
 fun MainToolbar(
@@ -88,13 +110,30 @@ private fun MainToolbar(
 	val navigationRepository = koinInject<NavigationRepository>()
 	val mediaManager = koinInject<MediaManager>()
 	val sessionRepository = koinInject<SessionRepository>()
+	val userViewsRepository = koinInject<UserViewsRepository>()
+	val itemLauncher = koinInject<ItemLauncher>()
+	val userViews by remember { userViewsRepository.views }.collectAsState(emptyList())
 	val activity = LocalActivity.current
 	val activeButtonColors = ButtonDefaults.colors(
-		containerColor = androidx.compose.ui.graphics.Color(0x99141416),
+		containerColor = androidx.compose.ui.graphics.Color.Transparent,
 		contentColor = androidx.compose.ui.graphics.Color.White,
-		focusedContainerColor = androidx.compose.ui.graphics.Color(0xCC35203F),
+		focusedContainerColor = androidx.compose.ui.graphics.Color(0xCC201923),
 		focusedContentColor = androidx.compose.ui.graphics.Color.White,
 	)
+	val inactiveButtonColors = ButtonDefaults.colors(
+		containerColor = androidx.compose.ui.graphics.Color.Transparent,
+		contentColor = androidx.compose.ui.graphics.Color(0xD9FFFFFF),
+		focusedContainerColor = androidx.compose.ui.graphics.Color(0xCC201923),
+		focusedContentColor = androidx.compose.ui.graphics.Color.White,
+	)
+	fun openLibrary(collectionType: CollectionType) {
+		val matching = matchingLibraries(userViews, collectionType)
+		when (matching.size) {
+			0 -> Unit
+			1 -> itemLauncher.launchUserView(matching.single())
+			else -> navigationRepository.navigate(Destinations.libraryChooser(collectionType))
+		}
+	}
 
 	Toolbar(
 		modifier = Modifier
@@ -122,7 +161,8 @@ private fun MainToolbar(
 					.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier)
 			) {
 				ProvideTextStyle(JellyfinTheme.typography.default.copy(fontWeight = FontWeight.Bold, fontSize = 16.sp)) {
-					Button(
+					ToolbarDestinationButton(
+						active = activeButton == MainToolbarActiveButton.Home,
 						onClick = {
 							if (activeButton != MainToolbarActiveButton.Home) {
 								navigationRepository.navigate(
@@ -131,17 +171,38 @@ private fun MainToolbar(
 								)
 							}
 						},
-						colors = if (activeButton == MainToolbarActiveButton.Home) activeButtonColors else ButtonDefaults.colors(),
+						colors = if (activeButton == MainToolbarActiveButton.Home) activeButtonColors else inactiveButtonColors,
 						content = { Text(stringResource(R.string.lbl_home)) }
 					)
-					Button(
+					ToolbarDestinationButton(
+						active = activeButton == MainToolbarActiveButton.Discover,
 						onClick = {
-							if (activeButton != MainToolbarActiveButton.Search) {
-								navigationRepository.navigate(Destinations.search())
+							if (activeButton != MainToolbarActiveButton.Discover) {
+								navigationRepository.navigate(Destinations.discover)
 							}
 						},
-						colors = if (activeButton == MainToolbarActiveButton.Search) activeButtonColors else ButtonDefaults.colors(),
-						content = { Text(stringResource(R.string.lbl_search)) }
+						colors = if (activeButton == MainToolbarActiveButton.Discover) activeButtonColors else inactiveButtonColors,
+						content = { Text(stringResource(R.string.jellyfin_tv_discover)) }
+					)
+					ToolbarDestinationButton(
+						active = activeButton == MainToolbarActiveButton.Movies,
+						onClick = { openLibrary(CollectionType.MOVIES) },
+						colors = if (activeButton == MainToolbarActiveButton.Movies) activeButtonColors else inactiveButtonColors,
+						content = { Text(stringResource(R.string.lbl_movies)) },
+					)
+					ToolbarDestinationButton(
+						active = activeButton == MainToolbarActiveButton.Series,
+						onClick = { openLibrary(CollectionType.TVSHOWS) },
+						colors = if (activeButton == MainToolbarActiveButton.Series) activeButtonColors else inactiveButtonColors,
+						content = { Text(stringResource(R.string.lbl_series)) },
+					)
+					ToolbarDestinationButton(
+						active = activeButton == MainToolbarActiveButton.Search,
+						onClick = {
+							if (activeButton != MainToolbarActiveButton.Search) navigationRepository.navigate(Destinations.search())
+						},
+						colors = if (activeButton == MainToolbarActiveButton.Search) activeButtonColors else inactiveButtonColors,
+						content = { Text(stringResource(R.string.lbl_search)) },
 					)
 				}
 			}
@@ -197,4 +258,25 @@ private fun MainToolbar(
 			}
 		}
 	)
+}
+
+fun matchingLibraries(views: Collection<BaseItemDto>, collectionType: CollectionType): List<BaseItemDto> =
+	views.filter { it.collectionType == collectionType }
+
+@Composable
+private fun ToolbarDestinationButton(
+	active: Boolean,
+	onClick: () -> Unit,
+	colors: org.jellyfin.androidtv.ui.base.button.ButtonColors,
+	content: @Composable androidx.compose.foundation.layout.RowScope.() -> Unit,
+) {
+	Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally) {
+		Button(onClick = onClick, colors = colors, content = content)
+		Box(
+			Modifier
+				.width(22.dp)
+				.height(2.dp)
+				.background(if (active) androidx.compose.ui.graphics.Color(0xFF8B5CF6) else androidx.compose.ui.graphics.Color.Transparent)
+		)
+	}
 }

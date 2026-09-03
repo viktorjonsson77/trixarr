@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,7 +16,6 @@ import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.font.FontWeight
 import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
@@ -26,20 +24,11 @@ import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 
 @Composable
 fun Logo(modifier: Modifier = Modifier) {
-	Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
-		Image(
-			painter = painterResource(R.drawable.app_logo),
-			contentDescription = null,
-			modifier = Modifier.height(26.dp),
-		)
-		Text(
-			text = "TV",
-			fontSize = 14.sp,
-			fontWeight = FontWeight.Bold,
-			color = Color(0xFF00A4DC),
-			modifier = Modifier.padding(start = 8.dp),
-		)
-	}
+	Image(
+		painter = painterResource(R.drawable.app_logo),
+		contentDescription = null,
+		modifier = modifier.height(26.dp),
+	)
 }
 
 @Composable

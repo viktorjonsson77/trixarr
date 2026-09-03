@@ -91,8 +91,8 @@ class HomeViewModel(
 
 	private suspend fun loadRows(): List<CinematicHomeRow> = withContext(Dispatchers.IO) { coroutineScope {
 		val views = userViewsRepository.views.first()
-		val movieView = views.firstOrNull { it.collectionType == CollectionType.MOVIES }
-		val seriesView = views.firstOrNull { it.collectionType == CollectionType.TVSHOWS }
+		val movieViews = views.filter { it.collectionType == CollectionType.MOVIES }
+		val seriesViews = views.filter { it.collectionType == CollectionType.TVSHOWS }
 		val resume = async {
 			runCatching { api.itemsApi.getResumeItems(fields = ItemRepository.browseFields, imageTypeLimit = 1, limit = HOME_ITEM_LIMIT, mediaTypes = listOf(MediaType.VIDEO), includeItemTypes = listOf(BaseItemKind.EPISODE, BaseItemKind.MOVIE), excludeActiveSessions = true).content.items }
 				.getOrElse { error -> Timber.w(error, "Unable to load Resume row"); emptyList() }
@@ -102,11 +102,11 @@ class HomeViewModel(
 				.getOrElse { error -> Timber.w(error, "Unable to load Next Up row"); emptyList() }
 		}
 		val latestMovies = async {
-			runCatching { api.userLibraryApi.getLatestMedia(fields = ItemRepository.browseFields, imageTypeLimit = 1, limit = HOME_ITEM_LIMIT, parentId = movieView?.id, groupItems = true).content }
+			runCatching { movieViews.flatMap { view -> api.userLibraryApi.getLatestMedia(fields = ItemRepository.browseFields, imageTypeLimit = 1, limit = HOME_ITEM_LIMIT, parentId = view.id, groupItems = true).content }.distinctBy { it.id }.take(HOME_ITEM_LIMIT) }
 				.getOrElse { error -> Timber.w(error, "Unable to load latest movies"); emptyList() }
 		}
 		val latestSeries = async {
-			runCatching { api.userLibraryApi.getLatestMedia(fields = ItemRepository.browseFields, imageTypeLimit = 1, limit = HOME_ITEM_LIMIT, parentId = seriesView?.id, groupItems = true).content.distinctBy { it.seriesId ?: it.id } }
+			runCatching { seriesViews.flatMap { view -> api.userLibraryApi.getLatestMedia(fields = ItemRepository.browseFields, imageTypeLimit = 1, limit = HOME_ITEM_LIMIT, parentId = view.id, groupItems = true).content }.distinctBy { it.seriesId ?: it.id }.take(HOME_ITEM_LIMIT) }
 				.getOrElse { error -> Timber.w(error, "Unable to load latest series"); emptyList() }
 		}
 		listOf(

@@ -83,6 +83,8 @@ public class ItemLauncher {
                         launchUserView(baseItem);
                         return;
                     case SERIES:
+                        navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesDetails(baseItem.getId()));
+                        return;
                     case MUSIC_ARTIST:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(baseItem.getId()));
                         return;

@@ -4,13 +4,13 @@ import android.widget.ImageView
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,14 +20,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +34,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -43,12 +45,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.launch
+import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.data.service.BackgroundService
+import org.jellyfin.androidtv.data.repository.ItemMutationRepository
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.AsyncImage
 import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.BaseRowItemSelectAction
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.base.button.Button
+import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.jellyfin.androidtv.util.apiclient.getUrl
@@ -56,7 +66,10 @@ import org.jellyfin.androidtv.util.apiclient.itemImages
 import org.jellyfin.androidtv.util.apiclient.parentImages
 import org.jellyfin.androidtv.util.apiclient.seriesPrimaryImage
 import org.jellyfin.androidtv.util.apiclient.seriesThumbImage
+import org.jellyfin.androidtv.util.PlaybackHelper
+import org.jellyfin.androidtv.util.sdk.TrailerUtils
 import org.jellyfin.sdk.api.client.ApiClient
+import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
@@ -71,18 +84,13 @@ fun CinematicHomeScreen(state: CinematicHomeState, onItemFocused: (BaseItemDto) 
 	val itemLauncher = koinInject<ItemLauncher>()
 	val context = LocalContext.current
 	val heroFocusRequester = remember { FocusRequester() }
-	val listState = rememberLazyListState()
-	val showToolbarScrim by remember {
-		derivedStateOf {
-			listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset > 24
-		}
-	}
+	var contextItem by remember { mutableStateOf<BaseItemDto?>(null) }
 
 	LaunchedEffect(state.hero?.id) { state.hero?.let(backgroundService::setBackground) }
 
 	Box(Modifier.fillMaxSize()) {
-		LazyColumn(state = listState, modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-			item { Spacer(Modifier.height(95.dp)) }
+		LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+			item { MainToolbar(MainToolbarActiveButton.Home, downFocusRequester = heroFocusRequester) }
 			item {
 				CinematicHomeHero(
 					item = state.hero,
@@ -97,24 +105,23 @@ fun CinematicHomeScreen(state: CinematicHomeState, onItemFocused: (BaseItemDto) 
 				CinematicMediaRow(
 					row = row,
 					onItemFocused = onItemFocused,
+					onItemLongClick = { contextItem = it },
 					onItemClick = { item ->
 						val action = if (row.kind == HomeRowKind.RESUME) BaseRowItemSelectAction.Play else BaseRowItemSelectAction.ShowDetails
 						itemLauncher.launch(BaseItemDtoBaseRowItem(item, row.format == HomeCardFormat.LANDSCAPE, true, action), null, context)
 					},
 				)
 			}
-			item { Spacer(Modifier.height(32.dp)) }
+			item { Box(Modifier.height(32.dp)) }
 		}
-		Box(Modifier.fillMaxWidth().height(48.dp).background(Brush.verticalGradient(listOf(Color.Black.copy(alpha = .45f), Color.Transparent))))
-		if (showToolbarScrim) {
-			Box(Modifier.fillMaxWidth().height(95.dp).background(Color.Black.copy(alpha = .82f)))
-		}
-		MainToolbar(MainToolbarActiveButton.Home, downFocusRequester = heroFocusRequester)
+	}
+	contextItem?.let { item ->
+		CinematicItemContextMenu(item = item, onDismiss = { contextItem = null })
 	}
 }
 
 @Composable
-private fun CinematicMediaRow(row: CinematicHomeRow, onItemFocused: (BaseItemDto) -> Unit, onItemClick: (BaseItemDto) -> Unit) {
+private fun CinematicMediaRow(row: CinematicHomeRow, onItemFocused: (BaseItemDto) -> Unit, onItemLongClick: (BaseItemDto) -> Unit, onItemClick: (BaseItemDto) -> Unit) {
 	Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
 		Text(
 			text = stringResource(row.titleRes),
@@ -124,15 +131,17 @@ private fun CinematicMediaRow(row: CinematicHomeRow, onItemFocused: (BaseItemDto
 			modifier = Modifier.padding(horizontal = HomeHorizontalPadding),
 		)
 		LazyRow(contentPadding = PaddingValues(horizontal = HomeHorizontalPadding), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-			items(row.items, key = { it.id }) { item -> CinematicMediaCard(item, row.format, onItemFocused, onItemClick) }
+			items(row.items, key = { it.id }) { item -> CinematicMediaCard(item, row.format, onItemFocused, onItemLongClick, onItemClick) }
 		}
 	}
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItemFocused: (BaseItemDto) -> Unit, onItemClick: (BaseItemDto) -> Unit) {
+private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItemFocused: (BaseItemDto) -> Unit, onItemLongClick: (BaseItemDto) -> Unit, onItemClick: (BaseItemDto) -> Unit) {
 	val api = koinInject<ApiClient>()
 	var focused by remember { mutableStateOf(false) }
+	var longPressHandled by remember { mutableStateOf(false) }
 	val scale by animateFloatAsState(if (focused) 1.07f else 1f, label = "HomeCardFocus")
 	val image = remember(item, format) {
 		when (format) {
@@ -155,6 +164,17 @@ private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItem
 				CardShape,
 			)
 			.onFocusChanged { state -> focused = state.isFocused; if (state.isFocused) onItemFocused(item) }
+			.onPreviewKeyEvent { event ->
+				if (event.nativeKeyEvent.keyCode != android.view.KeyEvent.KEYCODE_DPAD_CENTER) false
+				else if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount > 0) {
+					longPressHandled = true
+					true
+				} else if (event.type == KeyEventType.KeyUp && longPressHandled) {
+					longPressHandled = false
+					onItemLongClick(item)
+					true
+				} else false
+			}
 			.clickable { onItemClick(item) }
 			.focusable(),
 	) {
@@ -181,6 +201,68 @@ private fun CinematicMediaCard(item: BaseItemDto, format: HomeCardFormat, onItem
 		if (progress > 0f) {
 			Box(Modifier.align(Alignment.BottomStart).fillMaxWidth().height(3.dp).background(Color.White.copy(alpha = .25f)))
 			Box(Modifier.align(Alignment.BottomStart).fillMaxWidth(progress).height(3.dp).background(Brush.horizontalGradient(listOf(Color(0xFFAA5CC3), Color(0xFF00A4DC)))))
+		}
+	}
+}
+
+enum class CinematicContextAction { Resume, PlayFromBeginning, Details, Trailer, MarkPlayed, MarkUnplayed }
+
+fun contextActions(item: BaseItemDto, hasTrailer: Boolean): List<CinematicContextAction> = buildList {
+	if ((item.userData?.playbackPositionTicks ?: 0L) > 0L) add(CinematicContextAction.Resume)
+	add(CinematicContextAction.PlayFromBeginning)
+	add(CinematicContextAction.Details)
+	if (hasTrailer) add(CinematicContextAction.Trailer)
+	add(if (item.userData?.played == true) CinematicContextAction.MarkUnplayed else CinematicContextAction.MarkPlayed)
+}
+
+@Composable
+fun CinematicItemContextMenu(item: BaseItemDto, onDismiss: () -> Unit) {
+	val context = LocalContext.current
+	val playbackHelper = koinInject<PlaybackHelper>()
+	val navigationRepository = koinInject<org.jellyfin.androidtv.ui.navigation.NavigationRepository>()
+	val mutationRepository = koinInject<ItemMutationRepository>()
+	val api = koinInject<ApiClient>()
+	val playbackLauncher = koinInject<PlaybackLauncher>()
+	val scope = rememberCoroutineScope()
+	val hasTrailer = remember(item) { TrailerUtils.hasPlayableTrailers(context, item) }
+	val menuColors = ButtonDefaults.colors(
+		containerColor = Color(0xFF26272C),
+		contentColor = Color.White,
+		focusedContainerColor = Color(0xFF432453),
+		focusedContentColor = Color.White,
+	)
+	Dialog(onDismissRequest = onDismiss, properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)) {
+		Column(
+			modifier = Modifier.width(280.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xF51A1B1F)).padding(16.dp),
+			verticalArrangement = Arrangement.spacedBy(6.dp),
+		) {
+			Text(item.name.orEmpty(), color = Color.White, fontSize = 17.sp, fontWeight = FontWeight.Bold, maxLines = 2, modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp))
+			contextActions(item, hasTrailer).forEach { action ->
+				val label = when (action) {
+					CinematicContextAction.Resume -> stringResource(R.string.jellyfin_tv_resume)
+					CinematicContextAction.PlayFromBeginning -> stringResource(R.string.jellyfin_tv_play_from_beginning)
+					CinematicContextAction.Details -> stringResource(R.string.jellyfin_tv_more_information)
+					CinematicContextAction.Trailer -> stringResource(R.string.lbl_play_trailers)
+					CinematicContextAction.MarkPlayed -> stringResource(R.string.lbl_mark_played)
+					CinematicContextAction.MarkUnplayed -> stringResource(R.string.lbl_mark_unplayed)
+				}
+				Button(modifier = Modifier.fillMaxWidth().height(44.dp), colors = menuColors, onClick = {
+					when (action) {
+						CinematicContextAction.Resume -> playbackHelper.retrieveAndPlay(item.id, false, (item.userData?.playbackPositionTicks ?: 0L) / 10_000L, context)
+						CinematicContextAction.PlayFromBeginning -> playbackHelper.retrieveAndPlay(item.id, false, 0L, context)
+						CinematicContextAction.Details -> navigationRepository.navigate(org.jellyfin.androidtv.ui.navigation.Destinations.itemDetails(item.id))
+						CinematicContextAction.Trailer -> scope.launch {
+							if ((item.localTrailerCount ?: 0) > 0) {
+								val trailers = api.userLibraryApi.getLocalTrailers(item.id).content
+								playbackLauncher.launch(context, trailers)
+							} else TrailerUtils.getExternalTrailerIntent(context, item)?.let(context::startActivity)
+						}
+						CinematicContextAction.MarkPlayed -> scope.launch { mutationRepository.setPlayed(item.id, true) }
+						CinematicContextAction.MarkUnplayed -> scope.launch { mutationRepository.setPlayed(item.id, false) }
+					}
+					onDismiss()
+				}) { Text(label, fontSize = 13.sp, maxLines = 1) }
+			}
 		}
 	}
 }
