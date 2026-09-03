@@ -186,6 +186,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             if (mediaSources == null || mediaSources.isEmpty()) {
                 return null;
             } else {
+                String selectedMediaSourceId = videoQueueManager.getValue().getSelectedMediaSourceId();
+                if (selectedMediaSourceId != null) {
+                    for (MediaSourceInfo mediaSource : mediaSources) {
+                        if (selectedMediaSourceId.equals(mediaSource.getId())) return mediaSource;
+                    }
+                }
                 // Prefer the media source with the same id as the item
                 for (MediaSourceInfo mediaSource : mediaSources) {
                     if (item.getId().equals(UUIDSerializerKt.toUUIDOrNull(mediaSource.getId()))) {

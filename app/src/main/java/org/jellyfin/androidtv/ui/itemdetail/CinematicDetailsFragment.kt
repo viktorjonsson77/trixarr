@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.lifecycle.lifecycleScope
@@ -50,10 +51,14 @@ import org.jellyfin.androidtv.ui.home.CinematicItemContextMenu
 import org.jellyfin.androidtv.ui.home.episodeLabel
 import org.jellyfin.androidtv.ui.home.playbackProgress
 import org.jellyfin.androidtv.ui.itemhandling.BaseItemDtoBaseRowItem
+import org.jellyfin.androidtv.ui.itemhandling.BaseItemPersonBaseRowItem
 import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.playback.PlaybackLauncher
 import org.jellyfin.androidtv.util.PlaybackHelper
 import org.jellyfin.androidtv.util.apiclient.getUrl
 import org.jellyfin.androidtv.util.apiclient.itemImages
+import org.jellyfin.androidtv.util.apiclient.primaryImage
+import org.jellyfin.androidtv.util.sdk.TrailerUtils
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.extensions.itemsApi
 import org.jellyfin.sdk.api.client.extensions.libraryApi
@@ -61,6 +66,7 @@ import org.jellyfin.sdk.api.client.extensions.userLibraryApi
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
 import org.jellyfin.sdk.model.api.ImageType
+import org.jellyfin.sdk.model.api.MediaSourceInfo
 import org.jellyfin.sdk.model.api.request.GetSimilarItemsRequest
 import org.koin.android.ext.android.inject
 import org.koin.compose.koinInject
@@ -76,6 +82,15 @@ data class CinematicDetailState(
 	val availability: DetailAvailability = DetailAvailability.InLibrary,
 	val loading: Boolean = true,
 )
+
+fun showVersionSelector(mediaSources: List<MediaSourceInfo>?): Boolean = mediaSources.orEmpty().size > 1
+
+fun versionLabel(source: MediaSourceInfo): String = listOfNotNull(
+	source.name?.takeIf(String::isNotBlank),
+	source.container?.uppercase(Locale.ROOT)?.takeIf(String::isNotBlank),
+).distinct().joinToString(" · ").ifBlank { "Version" }
+
+fun favoriteStateAfterMutation(original: Boolean, requested: Boolean, succeeded: Boolean): Boolean = if (succeeded) requested else original
 
 class CinematicDetailsFragment : Fragment() {
 	private val api by inject<ApiClient>()
@@ -118,13 +133,28 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 	if (item == null) { EmptyState(stringResource(R.string.jellyfin_tv_search_error), stringResource(R.string.jellyfin_tv_search_error_description)); return }
 	val context = LocalContext.current
 	val playback = koinInject<PlaybackHelper>()
+	val playbackLauncher = koinInject<PlaybackLauncher>()
+	val api = koinInject<ApiClient>()
 	val mutation = koinInject<ItemMutationRepository>()
 	val launcher = koinInject<ItemLauncher>()
 	val scope = rememberCoroutineScope()
 	var contextItem by remember { mutableStateOf<BaseItemDto?>(null) }
+	var showVersions by remember { mutableStateOf(false) }
+	var isFavorite by remember(item.id) { mutableStateOf(item.userData?.isFavorite == true) }
+	val hasTrailer = remember(item) { TrailerUtils.hasPlayableTrailers(context, item) }
 	LazyColumn(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black.copy(.94f), Color.Black.copy(.45f), Color.Transparent))), verticalArrangement = Arrangement.spacedBy(14.dp)) {
 		item {
 			Column(Modifier.padding(start = 48.dp, top = 58.dp, end = 48.dp).width(880.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+				if (item.type == BaseItemKind.PERSON) {
+					val portrait = item.itemImages[ImageType.PRIMARY]
+					AsyncImage(
+						url = portrait?.getUrl(api),
+						blurHash = portrait?.blurHash,
+						aspectRatio = 2f / 3f,
+						scaleType = ImageView.ScaleType.CENTER_CROP,
+						modifier = Modifier.width(150.dp).height(225.dp).clip(RoundedCornerShape(14.dp)).background(Color(0xFF191A1F)),
+					)
+				}
 				Text(item.name.orEmpty(), color = Color.White, fontSize = 40.sp, fontWeight = FontWeight.Bold, maxLines = 2)
 				val facts = detailFacts(item)
 				if (facts.isNotEmpty()) Text(facts, color = Color.White.copy(.82f), fontSize = 14.sp)
@@ -135,19 +165,94 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 						FocusableTvButton(onClick = { playback.retrieveAndPlay(item.id, false, if (resume) (item.userData?.playbackPositionTicks ?: 0L) / 10_000L else 0L, context) }) { Text(stringResource(if (resume) R.string.jellyfin_tv_resume else R.string.lbl_play)) }
 						if (resume) FocusableTvButton(onClick = { playback.retrieveAndPlay(item.id, false, 0L, context) }) { Text(stringResource(R.string.jellyfin_tv_play_from_beginning)) }
 					}
-					FocusableTvButton(onClick = { scope.launch { mutation.setFavorite(item.id, item.userData?.isFavorite != true) } }) { Text(stringResource(if (item.userData?.isFavorite == true) R.string.jellyfin_tv_in_my_list else R.string.jellyfin_tv_add_to_my_list)) }
+					if (hasTrailer) FocusableTvButton(onClick = {
+						scope.launch {
+							if ((item.localTrailerCount ?: 0) > 0) {
+								playbackLauncher.launch(context, api.userLibraryApi.getLocalTrailers(item.id).content)
+							} else TrailerUtils.getExternalTrailerIntent(context, item)?.let(context::startActivity)
+						}
+					}) { Text(stringResource(R.string.lbl_play_trailers)) }
+					if (item.type == BaseItemKind.MOVIE && showVersionSelector(item.mediaSources)) {
+						FocusableTvButton(onClick = { showVersions = true }) { Text(stringResource(R.string.select_version)) }
+					}
+					FocusableTvButton(onClick = {
+						val original = isFavorite
+						val requested = !original
+						isFavorite = requested
+						scope.launch {
+							val succeeded = runCatching { mutation.setFavorite(item.id, requested) }.isSuccess
+							isFavorite = favoriteStateAfterMutation(original, requested, succeeded)
+						}
+					}) { Text(stringResource(if (isFavorite) R.string.jellyfin_tv_in_my_list else R.string.jellyfin_tv_add_to_my_list)) }
 					if (item.type !in setOf(BaseItemKind.PERSON, BaseItemKind.BOX_SET)) FocusableTvButton(onClick = { scope.launch { mutation.setPlayed(item.id, item.userData?.played != true) } }) { Text(stringResource(if (item.userData?.played == true) R.string.lbl_mark_unplayed else R.string.lbl_mark_played)) }
 				}
 			}
 		}
-		item.people?.take(8)?.takeIf { it.isNotEmpty() }?.let { people ->
-			item { DetailTextSection(stringResource(R.string.lbl_cast_crew), people.mapNotNull { it.name }.joinToString("  ·  ")) }
+		item.people?.take(10)?.takeIf { it.isNotEmpty() }?.let { people ->
+			item {
+				Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
+					Text(stringResource(R.string.lbl_cast_crew), color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 48.dp))
+					LazyRow(contentPadding = PaddingValues(horizontal = 48.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+						items(people, key = { it.id }) { person ->
+							PersonCard(person.name.orEmpty(), person.role, person.primaryImage?.getUrl(api)) {
+								launcher.launch(BaseItemPersonBaseRowItem(person), null, context)
+							}
+						}
+					}
+				}
+			}
 		}
 		if (state.related.isNotEmpty()) item { DetailMediaRow(if (item.type == BaseItemKind.SEASON) stringResource(R.string.lbl_episodes) else stringResource(R.string.lbl_items), state.related, launcher, { contextItem = it }) }
 		if (state.similar.isNotEmpty()) item { DetailMediaRow(stringResource(R.string.jellyfin_tv_similar), state.similar, launcher, { contextItem = it }) }
 		item { Spacer(Modifier.height(30.dp)) }
 	}
 	contextItem?.let { CinematicItemContextMenu(it) { contextItem = null } }
+	if (showVersions) VersionSelectorDialog(
+		item = item,
+		onDismiss = { showVersions = false },
+		onSelected = { source ->
+			showVersions = false
+			playbackLauncher.launch(context, listOf(item), mediaSourceId = source.id)
+		},
+	)
+}
+
+@Composable
+private fun PersonCard(name: String, role: String?, imageUrl: String?, onClick: () -> Unit) {
+	var focused by remember { mutableStateOf(false) }
+	val shape = RoundedCornerShape(11.dp)
+	Column(
+		Modifier.width(96.dp).onFocusChanged { focused = it.isFocused }.clickable(onClick = onClick).focusable(),
+		verticalArrangement = Arrangement.spacedBy(5.dp),
+	) {
+		AsyncImage(
+			url = imageUrl,
+			aspectRatio = 2f / 3f,
+			scaleType = ImageView.ScaleType.CENTER_CROP,
+			modifier = Modifier.fillMaxWidth().aspectRatio(2f / 3f).clip(shape).background(Color(0xFF191A1F))
+				.border(if (focused) 2.dp else 1.dp, if (focused) Color(0xFF19C7F3) else Color.White.copy(.12f), shape),
+		)
+		Text(name, color = Color.White, fontSize = 11.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+		role?.takeIf(String::isNotBlank)?.let { Text(it, color = Color.White.copy(.62f), fontSize = 9.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) }
+	}
+}
+
+@Composable
+private fun VersionSelectorDialog(item: BaseItemDto, onDismiss: () -> Unit, onSelected: (MediaSourceInfo) -> Unit) {
+	Dialog(onDismissRequest = onDismiss) {
+		Column(
+			Modifier.width(420.dp).clip(RoundedCornerShape(16.dp)).background(Color(0xFF17181D)).padding(22.dp),
+			verticalArrangement = Arrangement.spacedBy(12.dp),
+		) {
+			Text(stringResource(R.string.select_version), color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+			item.mediaSources.orEmpty().forEach { source ->
+				FocusableTvButton(onClick = { onSelected(source) }, modifier = Modifier.fillMaxWidth()) {
+					Text(versionLabel(source), color = Color.White)
+				}
+			}
+			FocusableTvButton(onClick = onDismiss) { Text(stringResource(android.R.string.cancel)) }
+		}
+	}
 }
 
 fun detailFacts(item: BaseItemDto): String = listOfNotNull(

@@ -8,6 +8,7 @@ import org.jellyfin.androidtv.ui.browsing.HistoryDateGroup
 import org.jellyfin.androidtv.ui.browsing.historyDateGroup
 import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.BaseItemKind
+import org.jellyfin.sdk.model.api.MediaSourceInfo
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -34,5 +35,25 @@ class CinematicDetailModelTests : StringSpec({
 
 	"detail availability is provider independent" {
 		DetailAvailability.entries.map { it.name } shouldBe listOf("InLibrary", "Requestable", "Requested", "Processing", "PartiallyAvailable", "Unavailable")
+	}
+
+	"version selector is only shown for multiple real media sources" {
+		showVersionSelector(null) shouldBe false
+		showVersionSelector(listOf(mockk())) shouldBe false
+		showVersionSelector(listOf(mockk(), mockk())) shouldBe true
+	}
+
+	"version labels only expose server supplied name and container" {
+		val source = mockk<MediaSourceInfo> {
+			every { name } returns "Director's cut"
+			every { container } returns "mkv"
+		}
+		versionLabel(source) shouldBe "Director's cut · MKV"
+	}
+
+	"favorite mutation keeps success and rolls back failure" {
+		favoriteStateAfterMutation(original = false, requested = true, succeeded = true) shouldBe true
+		favoriteStateAfterMutation(original = false, requested = true, succeeded = false) shouldBe false
+		favoriteStateAfterMutation(original = true, requested = false, succeeded = false) shouldBe true
 	}
 })

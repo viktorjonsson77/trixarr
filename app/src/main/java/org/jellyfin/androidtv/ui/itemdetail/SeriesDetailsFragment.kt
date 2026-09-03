@@ -149,6 +149,7 @@ private fun CinematicSeriesScreen(state: CinematicSeriesState, onSeasonSelected:
 	val playbackLauncher = org.koin.compose.koinInject<org.jellyfin.androidtv.ui.playback.PlaybackLauncher>()
 	val scope = androidx.compose.runtime.rememberCoroutineScope()
 	var contextItem by remember { mutableStateOf<BaseItemDto?>(null) }
+	var focusedEpisode by remember(state.selectedSeason, state.episodes) { mutableStateOf(state.episodes.firstOrNull()) }
 	val hasTrailer = remember(series) { TrailerUtils.hasPlayableTrailers(context, series) }
 	val actionColors = ButtonDefaults.colors(
 		containerColor = Color(0xD91A1B1F),
@@ -194,24 +195,37 @@ private fun CinematicSeriesScreen(state: CinematicSeriesState, onSeasonSelected:
 				items(state.seasons, key = { it.id }) { season -> Button(colors = actionColors, onClick = { onSeasonSelected(season) }) { Text(season.name.orEmpty()) } }
 			}
 		}
-		items(state.episodes, key = { it.id }) { episode ->
-			SeriesEpisodeCard(episode, onClick = { itemLauncher.launch(BaseItemDtoBaseRowItem(episode), null, context) }, onLongClick = { contextItem = episode })
+		item {
+			LazyRow(contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 48.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+				items(state.episodes, key = { it.id }) { episode ->
+					SeriesEpisodeCard(
+						episode,
+						onFocused = { focusedEpisode = episode },
+						onClick = { itemLauncher.launch(BaseItemDtoBaseRowItem(episode), null, context) },
+						onLongClick = { contextItem = episode },
+					)
+				}
+			}
 		}
+		focusedEpisode?.overview?.takeIf(String::isNotBlank)?.let { overview ->
+			item { Text(overview, color = Color.White.copy(alpha = .78f), fontSize = 13.sp, maxLines = 2, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(horizontal = 48.dp).width(760.dp)) }
+		}
+		item { androidx.compose.foundation.layout.Spacer(Modifier.height(24.dp)) }
 	}
 	contextItem?.let { CinematicItemContextMenu(it) { contextItem = null } }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SeriesEpisodeCard(episode: BaseItemDto, onClick: () -> Unit, onLongClick: () -> Unit) {
+private fun SeriesEpisodeCard(episode: BaseItemDto, onFocused: () -> Unit, onClick: () -> Unit, onLongClick: () -> Unit) {
 	val api = org.koin.compose.koinInject<ApiClient>()
 	var focused by remember { mutableStateOf(false) }
 	var longPressHandled by remember { mutableStateOf(false) }
-	Row(
-		modifier = Modifier.padding(horizontal = 48.dp).fillMaxWidth().height(112.dp).clip(RoundedCornerShape(12.dp))
+	Column(
+		modifier = Modifier.width(260.dp).clip(RoundedCornerShape(12.dp))
 			.background(if (focused) Color(0xDD25202A) else Color(0xB3151619))
 			.border(if (focused) 2.dp else 1.dp, if (focused) Color(0xFF8B5CF6) else Color.White.copy(alpha = .10f), RoundedCornerShape(12.dp))
-			.onFocusChanged { focused = it.isFocused }
+			.onFocusChanged { focused = it.isFocused; if (it.isFocused) onFocused() }
 			.onPreviewKeyEvent { event ->
 				if (event.nativeKeyEvent.keyCode != android.view.KeyEvent.KEYCODE_DPAD_CENTER) false
 				else if (event.type == KeyEventType.KeyDown && (event.nativeKeyEvent.repeatCount > 0 || event.nativeKeyEvent.isLongPress)) {
@@ -224,20 +238,19 @@ private fun SeriesEpisodeCard(episode: BaseItemDto, onClick: () -> Unit, onLongC
 				} else false
 			}
 			.clickable(onClick = onClick).focusable().padding(8.dp),
-		horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically,
+		verticalArrangement = Arrangement.spacedBy(7.dp),
 	) {
 		val image = episode.itemImages[ImageType.PRIMARY]
-		Box(Modifier.width(160.dp).height(90.dp).clip(RoundedCornerShape(8.dp))) {
+		Box(Modifier.fillMaxWidth().height(137.dp).clip(RoundedCornerShape(8.dp))) {
 			AsyncImage(url = image?.getUrl(api), blurHash = image?.blurHash, aspectRatio = 16f / 9f, scaleType = ImageView.ScaleType.CENTER_CROP, modifier = Modifier.fillMaxSize())
 			val progress = episode.playbackProgress()
 			if (progress > 0) Box(Modifier.align(Alignment.BottomStart).fillMaxWidth(progress).height(3.dp).background(Color(0xFF00A4DC)))
 		}
-		Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-			Text(episode.episodeLabel() ?: episode.name.orEmpty(), color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+		Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+			Text(episode.episodeLabel() ?: episode.name.orEmpty(), color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
 			val runtime = episode.runTimeTicks?.div(600_000_000L)?.let { "$it min" }
 			val meta = listOfNotNull(runtime, episode.productionYear?.toString()).joinToString(" · ")
 			if (meta.isNotEmpty()) Text(meta, color = Color.White.copy(alpha = .72f), fontSize = 11.sp)
-			episode.overview?.let { Text(it, color = Color.White.copy(alpha = .78f), fontSize = 11.sp, maxLines = 2, overflow = TextOverflow.Ellipsis) }
 		}
 	}
 }

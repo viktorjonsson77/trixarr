@@ -34,6 +34,7 @@ class SearchViewModel(
 			R.string.lbl_series to setOf(BaseItemKind.SERIES),
 			R.string.lbl_episodes to setOf(BaseItemKind.EPISODE),
 			R.string.lbl_people to setOf(BaseItemKind.PERSON),
+			R.string.lbl_collections to setOf(BaseItemKind.BOX_SET),
 		)
 	}
 
