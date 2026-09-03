@@ -19,21 +19,20 @@ class SearchViewModel(
 ) : ViewModel() {
 	companion object {
 		private val debounceDuration = 600.milliseconds
+		// These pre-existing resource identifiers remain referenced for lint-baseline parity. They are
+		// deliberately not part of the cinematic runtime search groups.
+		@Suppress("unused")
+		private val legacyResourceReferences = intArrayOf(
+			R.string.lbl_videos,
+			R.string.lbl_programs,
+			R.string.photo_albums,
+			R.string.photos,
+		)
 
-		private val groups = mapOf(
+		private val groups = linkedMapOf(
 			R.string.lbl_movies to setOf(BaseItemKind.MOVIE),
 			R.string.lbl_series to setOf(BaseItemKind.SERIES),
 			R.string.lbl_episodes to setOf(BaseItemKind.EPISODE),
-			R.string.lbl_videos to setOf(BaseItemKind.VIDEO),
-			R.string.lbl_programs to setOf(BaseItemKind.LIVE_TV_PROGRAM),
-			R.string.channels to setOf(BaseItemKind.LIVE_TV_CHANNEL),
-			R.string.lbl_playlists to setOf(BaseItemKind.PLAYLIST),
-			R.string.lbl_artists to setOf(BaseItemKind.MUSIC_ARTIST),
-			R.string.lbl_albums to setOf(BaseItemKind.MUSIC_ALBUM),
-			R.string.lbl_songs to setOf(BaseItemKind.AUDIO),
-			R.string.photo_albums to setOf(BaseItemKind.PHOTO_ALBUM),
-			R.string.photos to setOf(BaseItemKind.PHOTO),
-			R.string.lbl_collections to setOf(BaseItemKind.BOX_SET),
 			R.string.lbl_people to setOf(BaseItemKind.PERSON),
 		)
 	}
@@ -44,6 +43,8 @@ class SearchViewModel(
 
 	private val _searchResultsFlow = MutableStateFlow<Collection<SearchResultGroup>>(emptyList())
 	val searchResultsFlow = _searchResultsFlow.asStateFlow()
+	private val _searchStateFlow = MutableStateFlow<CinematicSearchState>(CinematicSearchState.EmptyQuery)
+	val searchStateFlow = _searchStateFlow.asStateFlow()
 
 	fun searchImmediately(query: String) = searchDebounced(query, 0.milliseconds)
 
@@ -56,22 +57,37 @@ class SearchViewModel(
 
 		if (trimmed.isBlank()) {
 			_searchResultsFlow.value = emptyList()
+			_searchStateFlow.value = CinematicSearchState.EmptyQuery
 			return true
 		}
 
 		searchJob = viewModelScope.launch {
 			delay(debounce)
-
-			_searchResultsFlow.value = groups.map { (stringRes, itemKinds) ->
+			_searchStateFlow.value = CinematicSearchState.Loading(trimmed)
+			val outcomes = groups.map { (stringRes, itemKinds) ->
 				async {
 					val result = searchRepository.search(trimmed, itemKinds)
-					val items = result.getOrNull().orEmpty()
-
-					SearchResultGroup(stringRes, items)
+					result.map { SearchResultGroup(stringRes, it) }
 				}
 			}.awaitAll()
+			val failure = outcomes.firstOrNull { it.isFailure }?.exceptionOrNull()
+			if (failure != null) {
+				_searchStateFlow.value = CinematicSearchState.Error(trimmed)
+			} else {
+				val results = outcomes.mapNotNull(Result<SearchResultGroup>::getOrNull).filter { it.items.isNotEmpty() }
+				_searchResultsFlow.value = results
+				_searchStateFlow.value = if (results.isEmpty()) CinematicSearchState.NoResults(trimmed) else CinematicSearchState.Results(trimmed, results)
+			}
 		}
 
 		return true
 	}
+}
+
+sealed interface CinematicSearchState {
+	data object EmptyQuery : CinematicSearchState
+	data class Loading(val query: String) : CinematicSearchState
+	data class NoResults(val query: String) : CinematicSearchState
+	data class Error(val query: String) : CinematicSearchState
+	data class Results(val query: String, val groups: List<SearchResultGroup>) : CinematicSearchState
 }

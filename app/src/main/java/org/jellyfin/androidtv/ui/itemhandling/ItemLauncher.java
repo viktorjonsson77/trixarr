@@ -85,6 +85,11 @@ public class ItemLauncher {
                     case SERIES:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.seriesDetails(baseItem.getId()));
                         return;
+					case MOVIE:
+					case EPISODE:
+					case PERSON:
+						navigationRepository.getValue().navigate(Destinations.INSTANCE.cinematicItemDetails(baseItem.getId()));
+						return;
                     case MUSIC_ARTIST:
                         navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(baseItem.getId()));
                         return;
@@ -120,11 +125,11 @@ public class ItemLauncher {
 
                         return;
                     case SEASON:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.folderBrowser(baseItem));
+						navigationRepository.getValue().navigate(Destinations.INSTANCE.cinematicItemDetails(baseItem.getId()));
                         return;
 
                     case BOX_SET:
-                        navigationRepository.getValue().navigate(Destinations.INSTANCE.collectionBrowser(baseItem));
+						navigationRepository.getValue().navigate(Destinations.INSTANCE.cinematicItemDetails(baseItem.getId()));
                         return;
 
                     case PHOTO:
@@ -170,7 +175,7 @@ public class ItemLauncher {
                 }
                 break;
             case Person:
-                navigationRepository.getValue().navigate(Destinations.INSTANCE.itemDetails(rowItem.getItemId()));
+				navigationRepository.getValue().navigate(Destinations.INSTANCE.cinematicItemDetails(rowItem.getItemId()));
 
                 break;
             case Chapter:

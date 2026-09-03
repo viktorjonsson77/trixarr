@@ -163,7 +163,7 @@ private fun LibraryPoster(item: BaseItemDto, requestInitialFocus: Boolean, onFoc
 		Modifier.width(112.dp).scale(scale).focusRequester(focusRequester).onFocusChanged { focused = it.isFocused; if (it.isFocused) onFocus() }
 			.onPreviewKeyEvent { event ->
 				if (event.nativeKeyEvent.keyCode != android.view.KeyEvent.KEYCODE_DPAD_CENTER) false
-				else if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount > 0) { longPress = true; true }
+				else if (event.type == KeyEventType.KeyDown && (event.nativeKeyEvent.repeatCount > 0 || event.nativeKeyEvent.isLongPress)) { longPress = true; true }
 				else if (event.type == KeyEventType.KeyUp && longPress) { longPress = false; onLongClick(); true }
 				else false
 			}

@@ -56,8 +56,11 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 
 ## Inventory notes
 
-- The prompt labels the approved set as 44 images, while its explicit approved filename list contains 43 entries.
-- Forty-two approved references are valid PNG images at 1672×941. `jellyfintv_series_details.png` exists but is zero bytes.
-- Three requested concepts are present under malformed filenames: episode details, discovery setup, and screensaver.
-- Five additional valid images are explicitly excluded because they depict Live TV or recording workflows.
-- No binary duplicate hashes were found. `jellyfin-tv-home-spec.md` is an older supplementary document, not a screen reference.
+- The product brief labels the approved set as 44 images, but its explicit filename set contains exactly 43 entries. No unnamed forty-fourth approved reference exists in the tracked files.
+- Of those 43 concepts, 42 are valid PNG images at 1672×941. `jellyfintv_series_details.png` is tracked but zero bytes, so it is classified `INVALID_REFERENCE`, not counted as usable.
+- Three concepts are present only under malformed filenames: `docsdesignjellyfintv_episode_details.png`, `jellyfintv_discovery_setup.png.png`, and `designjellyfintv_screensaver.png`. The matrix records their real names and intended mappings without renaming user uploads.
+- The actual excluded set contains exactly five files: `jellyfintv_live_tv.png`, `jellyfintv_recordings.png`, `jellyfintv_recording_details.png`, `jellyfintv_recording_schedule.png`, and `jellyfintv_recording_schedules.png`. The brief's expected count of six does not correspond to a sixth tracked or on-disk Live-TV/DVR reference.
+- `jellyfintv_watch_history.png`, `jellyfintv_add_to_list.png`, and `jellyfintv_playback_error.png` are present, tracked, valid, and classified `REFERENCE_READY`.
+- The filesystem set and Git-tracked design-image set are identical. No binary duplicate SHA-256 hashes were found. `jellyfin-tv-home-spec.md` is an older supplementary document, not a screen reference.
+
+Therefore the reconciled inventory is **42 usable approved references + 1 invalid approved reference + 5 EXCLUDED references**. The earlier `42 + 5` report counted usable and excluded images while omitting the empty approved file from its headline.

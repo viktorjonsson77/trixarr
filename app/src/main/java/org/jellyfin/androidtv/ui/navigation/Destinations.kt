@@ -12,6 +12,8 @@ import org.jellyfin.androidtv.ui.browsing.CollectionFragment
 import org.jellyfin.androidtv.ui.browsing.GenericFolderFragment
 import org.jellyfin.androidtv.ui.browsing.LibraryChooserFragment
 import org.jellyfin.androidtv.ui.browsing.CinematicLibraryFragment
+import org.jellyfin.androidtv.ui.browsing.PersonalMediaFragment
+import org.jellyfin.androidtv.ui.browsing.PersonalMediaMode
 import org.jellyfin.androidtv.ui.browsing.SuggestedMoviesFragment
 import org.jellyfin.androidtv.ui.discover.DiscoverFragment
 import org.jellyfin.androidtv.ui.home.HomeFragment
@@ -19,6 +21,7 @@ import org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment
 import org.jellyfin.androidtv.ui.itemdetail.ItemListFragment
 import org.jellyfin.androidtv.ui.itemdetail.MusicFavoritesListFragment
 import org.jellyfin.androidtv.ui.itemdetail.SeriesDetailsFragment
+import org.jellyfin.androidtv.ui.itemdetail.CinematicDetailsFragment
 import org.jellyfin.androidtv.ui.livetv.LiveTvGuideFragment
 import org.jellyfin.androidtv.ui.playback.AudioNowPlayingFragment
 import org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment
@@ -56,6 +59,10 @@ object Destinations {
 	fun cinematicLibrary(item: BaseItemDto, collectionType: CollectionType) = fragmentDestination<CinematicLibraryFragment>(
 		CinematicLibraryFragment.ARG_LIBRARY_ID to item.id.toString(),
 		CinematicLibraryFragment.ARG_COLLECTION_TYPE to collectionType.name,
+	)
+
+	fun personalMedia(mode: PersonalMediaMode) = fragmentDestination<PersonalMediaFragment>(
+		PersonalMediaFragment.ARG_MODE to mode.name,
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
@@ -103,6 +110,10 @@ object Destinations {
 	// Item details
 	fun itemDetails(item: UUID) = fragmentDestination<FullDetailsFragment>(
 		"ItemId" to item.toString(),
+	)
+
+	fun cinematicItemDetails(item: UUID) = fragmentDestination<CinematicDetailsFragment>(
+		CinematicDetailsFragment.ARG_ITEM_ID to item.toString(),
 	)
 
 	fun seriesDetails(item: UUID) = fragmentDestination<SeriesDetailsFragment>(

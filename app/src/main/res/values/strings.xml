@@ -10,6 +10,25 @@
 	<string name="jellyfin_tv_discover">Discover</string>
 	<string name="jellyfin_tv_seerr_not_connected">Connect Seerr in settings to discover and request new movies and series.</string>
 	<string name="jellyfin_tv_library_loading">Loading your library.</string>
+	<string name="jellyfin_tv_search_start">Search Jellyfin</string>
+	<string name="jellyfin_tv_search_start_description">Enter a title, episode, or person.</string>
+	<string name="jellyfin_tv_search_empty">No results</string>
+	<string name="jellyfin_tv_search_empty_description">Nothing in your library matched “%1$s”.</string>
+	<string name="jellyfin_tv_search_error">Search unavailable</string>
+	<string name="jellyfin_tv_search_error_description">Jellyfin could not complete the search.</string>
+	<string name="jellyfin_tv_retry">Try again</string>
+	<string name="jellyfin_tv_add_to_my_list">Add to My list</string>
+	<string name="jellyfin_tv_remove_from_my_list">Remove from My list</string>
+	<string name="jellyfin_tv_similar">Similar</string>
+	<string name="jellyfin_tv_in_my_list">In My list</string>
+	<string name="jellyfin_tv_my_list">My list</string>
+	<string name="jellyfin_tv_watch_history">Watch history</string>
+	<string name="jellyfin_tv_personal_empty">There is nothing to show yet.</string>
+	<string name="jellyfin_tv_history_today">Today</string>
+	<string name="jellyfin_tv_history_yesterday">Yesterday</string>
+	<string name="jellyfin_tv_history_week">This week</string>
+	<string name="jellyfin_tv_history_older">Earlier</string>
+	<string name="jellyfin_tv_my_list_favorites_explanation">My list uses your personal Jellyfin favorites.</string>
 	<string name="jellyfin_tv_library_empty">No content was found in this library.</string>
     <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin TV</string>
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin TV Debug</string>

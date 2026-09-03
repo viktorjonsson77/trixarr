@@ -214,7 +214,7 @@ private fun SeriesEpisodeCard(episode: BaseItemDto, onClick: () -> Unit, onLongC
 			.onFocusChanged { focused = it.isFocused }
 			.onPreviewKeyEvent { event ->
 				if (event.nativeKeyEvent.keyCode != android.view.KeyEvent.KEYCODE_DPAD_CENTER) false
-				else if (event.type == KeyEventType.KeyDown && event.nativeKeyEvent.repeatCount > 0) {
+				else if (event.type == KeyEventType.KeyDown && (event.nativeKeyEvent.repeatCount > 0 || event.nativeKeyEvent.isLongPress)) {
 					longPressHandled = true
 					true
 				} else if (event.type == KeyEventType.KeyUp && longPressHandled) {
