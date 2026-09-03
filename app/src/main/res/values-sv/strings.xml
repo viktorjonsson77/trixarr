@@ -9,6 +9,8 @@
 	<string name="jellyfin_tv_more_information">Visa mer information</string>
 	<string name="jellyfin_tv_discover">Upptäck</string>
 	<string name="jellyfin_tv_seerr_not_connected">Anslut Seerr i inställningarna för att upptäcka och begära nya filmer och serier.</string>
+	<string name="jellyfin_tv_library_loading">Laddar ditt bibliotek.</string>
+	<string name="jellyfin_tv_library_empty">Inget innehåll hittades i biblioteket.</string>
     <string name="video_error_unknown_error">Kunde inte ladda videon</string>
     <string name="btn_cancel">Avbryt</string>
     <string name="byletter_letters">ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ</string>

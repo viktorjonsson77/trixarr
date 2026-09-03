@@ -48,7 +48,6 @@ import org.jellyfin.androidtv.ui.base.button.Button
 import org.jellyfin.androidtv.ui.base.button.ButtonDefaults
 import org.jellyfin.androidtv.ui.base.button.IconButton
 import org.jellyfin.androidtv.ui.base.button.IconButtonDefaults
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
 import org.jellyfin.androidtv.ui.navigation.ActivityDestinations
 import org.jellyfin.androidtv.ui.navigation.Destinations
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
@@ -111,7 +110,6 @@ private fun MainToolbar(
 	val mediaManager = koinInject<MediaManager>()
 	val sessionRepository = koinInject<SessionRepository>()
 	val userViewsRepository = koinInject<UserViewsRepository>()
-	val itemLauncher = koinInject<ItemLauncher>()
 	val userViews by remember { userViewsRepository.views }.collectAsState(emptyList())
 	val activity = LocalActivity.current
 	val activeButtonColors = ButtonDefaults.colors(
@@ -130,7 +128,7 @@ private fun MainToolbar(
 		val matching = matchingLibraries(userViews, collectionType)
 		when (matching.size) {
 			0 -> Unit
-			1 -> itemLauncher.launchUserView(matching.single())
+			1 -> navigationRepository.navigate(Destinations.cinematicLibrary(matching.single(), collectionType))
 			else -> navigationRepository.navigate(Destinations.libraryChooser(collectionType))
 		}
 	}

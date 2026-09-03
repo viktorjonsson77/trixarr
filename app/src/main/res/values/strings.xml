@@ -9,6 +9,8 @@
 	<string name="jellyfin_tv_more_information">Show more information</string>
 	<string name="jellyfin_tv_discover">Discover</string>
 	<string name="jellyfin_tv_seerr_not_connected">Connect Seerr in settings to discover and request new movies and series.</string>
+	<string name="jellyfin_tv_library_loading">Loading your library.</string>
+	<string name="jellyfin_tv_library_empty">No content was found in this library.</string>
     <string name="app_name_release" translatable="false" tools:ignore="UnusedResources">Jellyfin TV</string>
     <string name="app_name_debug" translatable="false" tools:ignore="UnusedResources">Jellyfin TV Debug</string>
     <string name="video_error_unknown_error">Failed to load video</string>

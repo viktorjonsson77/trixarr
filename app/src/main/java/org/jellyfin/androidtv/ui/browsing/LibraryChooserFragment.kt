@@ -19,7 +19,8 @@ import org.jellyfin.androidtv.data.repository.UserViewsRepository
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.base.button.Button
-import org.jellyfin.androidtv.ui.itemhandling.ItemLauncher
+import org.jellyfin.androidtv.ui.navigation.Destinations
+import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbar
 import org.jellyfin.androidtv.ui.shared.toolbar.MainToolbarActiveButton
 import org.jellyfin.sdk.model.api.CollectionType
@@ -27,7 +28,7 @@ import org.koin.android.ext.android.inject
 
 class LibraryChooserFragment : Fragment() {
 	private val userViewsRepository by inject<UserViewsRepository>()
-	private val itemLauncher by inject<ItemLauncher>()
+	private val navigationRepository by inject<NavigationRepository>()
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) = content {
 		val type = CollectionType.valueOf(requireArguments().getString(ARG_COLLECTION_TYPE)!!)
@@ -43,7 +44,7 @@ class LibraryChooserFragment : Fragment() {
 					verticalArrangement = Arrangement.spacedBy(12.dp),
 				) {
 					libraries.forEach { library ->
-						Button(onClick = { itemLauncher.launchUserView(library) }) { Text(library.name.orEmpty()) }
+						Button(onClick = { navigationRepository.navigate(Destinations.cinematicLibrary(library, type)) }) { Text(library.name.orEmpty()) }
 					}
 				}
 			}

@@ -11,6 +11,7 @@ import org.jellyfin.androidtv.ui.browsing.ByLetterFragment
 import org.jellyfin.androidtv.ui.browsing.CollectionFragment
 import org.jellyfin.androidtv.ui.browsing.GenericFolderFragment
 import org.jellyfin.androidtv.ui.browsing.LibraryChooserFragment
+import org.jellyfin.androidtv.ui.browsing.CinematicLibraryFragment
 import org.jellyfin.androidtv.ui.browsing.SuggestedMoviesFragment
 import org.jellyfin.androidtv.ui.discover.DiscoverFragment
 import org.jellyfin.androidtv.ui.home.HomeFragment
@@ -50,6 +51,11 @@ object Destinations {
 
 	fun libraryChooser(collectionType: CollectionType) = fragmentDestination<LibraryChooserFragment>(
 		LibraryChooserFragment.ARG_COLLECTION_TYPE to collectionType.name,
+	)
+
+	fun cinematicLibrary(item: BaseItemDto, collectionType: CollectionType) = fragmentDestination<CinematicLibraryFragment>(
+		CinematicLibraryFragment.ARG_LIBRARY_ID to item.id.toString(),
+		CinematicLibraryFragment.ARG_COLLECTION_TYPE to collectionType.name,
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations
