@@ -16,6 +16,8 @@ import org.jellyfin.androidtv.seerr.model.SeerrMedia
 class DiscoverLayoutTests : StringSpec({
 	"floating information has no permanent hero or row measurement contract" {
 		DiscoverLayoutContract.DwellMillis shouldBe 800L
+		DiscoverLayoutContract.BackdropDebounceMillis shouldBe 180L
+		DiscoverLayoutContract.BackdropFadeMillis shouldBe 900
 		discoverHeroPresentation(media(1, "Kort", null)).description shouldBe ""
 		discoverHeroPresentation(media(2, "En mycket lång titel", "Lång ".repeat(100))).title shouldBe "En mycket lång titel"
 	}

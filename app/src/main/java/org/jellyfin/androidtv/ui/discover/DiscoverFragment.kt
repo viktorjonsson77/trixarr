@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -62,8 +63,8 @@ import org.jellyfin.androidtv.seerr.model.SeerrMedia
 import org.jellyfin.androidtv.ui.seerr.SeerrMediaCard
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -94,8 +95,7 @@ class DiscoverFragment : Fragment() {
 			var focusedBounds by remember { mutableStateOf<Rect?>(null) }
 			var dwellMediaKey by remember { mutableStateOf<String?>(null) }
 			var screenActive by remember { mutableStateOf(true) }
-			var focusedRow by rememberSaveable { mutableIntStateOf(0) }
-			var rowScrollJob by remember { mutableStateOf<Job?>(null) }
+			var displayedBackdropUrl by remember { mutableStateOf<String?>(null) }
 			val contentFocus = remember { FocusRequester() }
 			val columnState = rememberLazyListState()
 			val coroutineScope = rememberCoroutineScope()
@@ -150,6 +150,12 @@ class DiscoverFragment : Fragment() {
 				}
 			}
 			val selectedKey = focused?.media?.let(::discoverMediaKey)
+			val selectedBackdropUrl = focused?.media?.backdropUrl
+			LaunchedEffect(selectedKey, selectedBackdropUrl) {
+				if (selectedBackdropUrl == null) return@LaunchedEffect
+				if (displayedBackdropUrl != null) delay(DiscoverLayoutContract.BackdropDebounceMillis)
+				displayedBackdropUrl = selectedBackdropUrl
+			}
 			LaunchedEffect(selectedKey, focusedBounds, columnState.isScrollInProgress, screenActive, state) {
 				dwellMediaKey = null
 				dwellController.update(selectedKey, focusedBounds != null, columnState.isScrollInProgress, screenActive && state is DiscoverState.Content)
@@ -161,7 +167,9 @@ class DiscoverFragment : Fragment() {
 					if (event.type == KeyEventType.KeyDown && event.key in DiscoverLayoutContract.DismissKeys) { dwellController.dismiss(); dwellMediaKey = null }
 					false
 				}) {
-					heroPresentation?.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
+					Crossfade(targetState = displayedBackdropUrl, animationSpec = tween(DiscoverLayoutContract.BackdropFadeMillis), label = "DiscoverBackdrop") { backdropUrl ->
+						backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
+					}
 					Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color.Black.copy(.82f), Color.Transparent))))
 					Column(Modifier.fillMaxSize()) {
 						MainToolbar(MainToolbarActiveButton.Discover, downFocusRequester = contentFocus)
@@ -182,15 +190,6 @@ class DiscoverFragment : Fragment() {
 								onFocus = {
 													dwellController.dismiss(); dwellMediaKey = null
 													focusedBounds = null
-													if (focusedRow != rowIndex) {
-														focusedRow = rowIndex
-														rowScrollJob?.cancel()
-														rowScrollJob = coroutineScope.launch {
-															// Let focus bring-into-view finish first, then make the row boundary authoritative.
-															delay(50)
-															columnState.animateScrollToItem(rowIndex)
-														}
-													}
 													focused = item
 													selectedId = item.media.id
 													selectedKind = item.media.kind.name
@@ -269,6 +268,8 @@ internal object DiscoverLayoutContract {
 	val SafeMargin = 32.dp
 	val AnchorGap = 12.dp
 	const val DwellMillis = 800L
+	const val BackdropDebounceMillis = 180L
+	const val BackdropFadeMillis = 900
 	const val TitleMaxLines = 2
 	const val DescriptionMaxLines = 2
 	val DismissKeys = setOf(Key.DirectionLeft, Key.DirectionRight, Key.DirectionUp, Key.DirectionDown, Key.Back)
