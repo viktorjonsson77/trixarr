@@ -7,9 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -40,6 +40,7 @@ import org.jellyfin.androidtv.seerr.SeerrClientProvider
 import org.jellyfin.androidtv.seerr.SeerrRepository
 import org.jellyfin.androidtv.seerr.model.SeerrMedia
 import org.jellyfin.androidtv.ui.seerr.SeerrMediaCard
+import org.jellyfin.androidtv.ui.seerr.StatusChip
 import coil3.compose.AsyncImage
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -97,8 +98,7 @@ class DiscoverFragment : Fragment() {
 					}
 				}.filter { it.second.isNotEmpty() }
 				state = if (rows.isEmpty()) DiscoverState.Error else DiscoverState.Content(rows)
-				val restored = rows.asSequence().flatMap { it.second.asSequence() }
-					.firstOrNull { it.media.id == selectedId && it.media.kind.name == selectedKind }
+				val restored = resolveDiscoverSelection(rows, selectedId, selectedKind)
 				focused = restored ?: rows.firstOrNull()?.second?.firstOrNull()
 				focused?.let { selected ->
 					selectedId = selected.media.id
@@ -112,17 +112,21 @@ class DiscoverFragment : Fragment() {
 				}
 			}
 			CinematicScaffold {
+				val heroPresentation = focused?.media?.let(::discoverHeroPresentation)
 				Box(Modifier.fillMaxSize()) {
-					focused?.media?.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
+					heroPresentation?.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
 					Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color.Black.copy(.82f), Color.Transparent))))
-					LazyColumn(Modifier.fillMaxSize(), state = columnState, verticalArrangement = Arrangement.spacedBy(14.dp)) {
-						item { MainToolbar(MainToolbarActiveButton.Discover, downFocusRequester = contentFocus) }
+					Column(Modifier.fillMaxSize()) {
+						MainToolbar(MainToolbarActiveButton.Discover, downFocusRequester = contentFocus)
 						when (val current = state) {
-							DiscoverState.Loading -> item { EmptyState("Upptäck", "Hämtar filmer och serier …") }
-							DiscoverState.Disconnected -> item { EmptyState("Anslut till Seerr", getString(R.string.jellyfin_tv_seerr_not_connected), action = { FocusableTvButton(onClick = { startActivity(android.content.Intent(requireContext(), org.jellyfin.androidtv.ui.seerr.SeerrConnectActivity::class.java)) }) { Text("Anslut Seerr") } }) }
-							DiscoverState.Error -> item { ErrorState("Upptäck kunde inte hämtas", "Kontrollera anslutningen och försök igen.", ::load, "Försök igen") }
+							DiscoverState.Loading -> Box(Modifier.weight(1f)) { EmptyState("Upptäck", "Hämtar filmer och serier …") }
+							DiscoverState.Disconnected -> Box(Modifier.weight(1f)) { EmptyState("Anslut till Seerr", getString(R.string.jellyfin_tv_seerr_not_connected), action = { FocusableTvButton(onClick = { startActivity(android.content.Intent(requireContext(), org.jellyfin.androidtv.ui.seerr.SeerrConnectActivity::class.java)) }) { Text("Anslut Seerr") } }) }
+							DiscoverState.Error -> Box(Modifier.weight(1f)) { ErrorState("Upptäck kunde inte hämtas", "Kontrollera anslutningen och försök igen.", ::load, "Försök igen") }
 							is DiscoverState.Content -> {
-								focused?.let { hero -> item { DiscoverHero(hero.media) { openDiscoverEntry(hero, navigation) } } }
+								Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.HeroHeight)) {
+									if (heroPresentation != null) DiscoverHero(heroPresentation) { focused?.let { openDiscoverEntry(it, navigation) } }
+								}
+								LazyColumn(Modifier.fillMaxWidth().weight(1f), state = columnState, verticalArrangement = Arrangement.spacedBy(14.dp)) {
 								itemsIndexed(current.rows, key = { _, row -> row.first }) { rowIndex, (title, media) ->
 									Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
 										Text(title, color = Color.White, fontSize = 19.sp, modifier = Modifier.padding(horizontal = 40.dp))
@@ -138,6 +142,7 @@ class DiscoverFragment : Fragment() {
 												},
 												onClick = { openDiscoverEntry(item, navigation) },
 												modifier = if (selected || (selectedId == null && rowIndex == 0 && itemIndex == 0)) Modifier.focusRequester(contentFocus) else Modifier,
+												cardWidth = DiscoverLayoutContract.CardWidth,
 											)
 										}
 										}
@@ -147,6 +152,7 @@ class DiscoverFragment : Fragment() {
 									FocusableTvButton(onClick = { navigation.navigate(Destinations.seerrRequests) }) { Text("Mina begäranden") }
 									FocusableTvButton(onClick = { navigation.navigate(Destinations.personalMedia(PersonalMediaMode.History)) }) { Text(getString(R.string.jellyfin_tv_watch_history)) }
 								} }
+								}
 							}
 						}
 					}
@@ -163,7 +169,42 @@ private sealed interface DiscoverState {
 	data class Content(val rows: List<Pair<String, List<DiscoverEntry>>>) : DiscoverState
 }
 
-private data class DiscoverEntry(val media: SeerrMedia, val localId: String? = null)
+internal data class DiscoverEntry(val media: SeerrMedia, val localId: String? = null)
+
+internal data class DiscoverHeroPresentation(
+	val mediaKey: String,
+	val title: String,
+	val metadata: String,
+	val description: String,
+	val backdropUrl: String?,
+	val availability: org.jellyfin.androidtv.seerr.model.MediaAvailability,
+)
+
+internal fun discoverHeroPresentation(media: SeerrMedia) = DiscoverHeroPresentation(
+	mediaKey = "${media.kind}:${media.id}",
+	title = media.title,
+	metadata = listOfNotNull(media.year?.toString(), if (media.kind.name == "Movie") "Film" else "Serie").joinToString("  •  "),
+	description = media.overview.orEmpty(),
+	backdropUrl = media.backdropUrl,
+	availability = media.availability,
+)
+
+internal fun resolveDiscoverSelection(rows: List<Pair<String, List<DiscoverEntry>>>, selectedId: Int?, selectedKind: String?) =
+	rows.asSequence().flatMap { it.second.asSequence() }
+		.firstOrNull { it.media.id == selectedId && it.media.kind.name == selectedKind }
+
+internal object DiscoverLayoutContract {
+	val HeroHeight = 154.dp
+	val TitleHeight = 54.dp
+	val MetadataHeight = 18.dp
+	val DescriptionHeight = 42.dp
+	val ActionHeight = 40.dp
+	val CardWidth = 104.dp
+	const val TitleMaxLines = 2
+	const val DescriptionMaxLines = 3
+
+	fun rowViewportStart(toolbarHeight: androidx.compose.ui.unit.Dp) = toolbarHeight + HeroHeight
+}
 
 private fun openDiscoverEntry(entry: DiscoverEntry, navigation: NavigationRepository) {
 	val localId = entry.localId?.let { runCatching { UUID.fromString(it) }.getOrNull() }
@@ -172,13 +213,22 @@ private fun openDiscoverEntry(entry: DiscoverEntry, navigation: NavigationReposi
 }
 
 @Composable
-private fun DiscoverHero(media: SeerrMedia, onDetails: () -> Unit) {
-	Column(Modifier.padding(horizontal = 40.dp).fillMaxWidth(.48f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-		Text(media.title, color = Color.White, fontSize = 34.sp)
-		Text(listOfNotNull(media.year?.toString(), if (media.kind.name == "Movie") "Film" else "Serie").joinToString("  •  "), color = Color.White.copy(.78f))
-		media.overview?.let { Text(it, color = Color.White.copy(.82f), maxLines = 3) }
-		Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-			FocusableTvButton(onClick = onDetails) { Text(if (media.availability == org.jellyfin.androidtv.seerr.model.MediaAvailability.Requestable) "Begär" else "Mer information") }
+private fun DiscoverHero(presentation: DiscoverHeroPresentation, onDetails: () -> Unit) {
+	Column(Modifier.fillMaxHeight().padding(horizontal = 40.dp).fillMaxWidth(.48f)) {
+		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.TitleHeight), contentAlignment = Alignment.BottomStart) {
+			Text(presentation.title, color = Color.White, fontSize = 26.sp, lineHeight = 27.sp, maxLines = DiscoverLayoutContract.TitleMaxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+		}
+		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.MetadataHeight), contentAlignment = Alignment.CenterStart) {
+			Text(presentation.metadata, color = Color.White.copy(.78f), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+		}
+		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.DescriptionHeight), contentAlignment = Alignment.TopStart) {
+			Text(presentation.description, color = Color.White.copy(.82f), fontSize = 13.sp, lineHeight = 14.sp, maxLines = DiscoverLayoutContract.DescriptionMaxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+		}
+		Row(Modifier.height(DiscoverLayoutContract.ActionHeight), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+			StatusChip(presentation.availability)
+			FocusableTvButton(onClick = onDetails) {
+				Text(if (presentation.availability == org.jellyfin.androidtv.seerr.model.MediaAvailability.Requestable) "Begär" else "Mer information")
+			}
 		}
 	}
 }

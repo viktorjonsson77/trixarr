@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -37,12 +38,12 @@ import org.jellyfin.androidtv.ui.cinematic.CinematicColors
 import org.jellyfin.androidtv.ui.cinematic.CinematicDimensions
 
 @Composable
-fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier, cardWidth: Dp = 122.dp) {
 	var focused by remember { mutableStateOf(false) }
 	val scale by animateFloatAsState(if (focused) CinematicDimensions.FocusScale else 1f, label = "SeerrCardFocus")
 	val shape = RoundedCornerShape(CinematicDimensions.CardCorner)
 	Column(
-		modifier.width(122.dp).scale(scale).onFocusChanged { focused = it.isFocused; if (it.isFocused) onFocus() }
+		modifier.width(cardWidth).scale(scale).onFocusChanged { focused = it.isFocused; if (it.isFocused) onFocus() }
 			.clickable(onClick = onClick).focusable(),
 		verticalArrangement = Arrangement.spacedBy(5.dp),
 	) {
