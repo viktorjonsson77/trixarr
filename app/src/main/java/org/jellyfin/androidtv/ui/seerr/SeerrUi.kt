@@ -38,7 +38,7 @@ import org.jellyfin.androidtv.ui.cinematic.CinematicColors
 import org.jellyfin.androidtv.ui.cinematic.CinematicDimensions
 
 @Composable
-fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier, cardWidth: Dp = 122.dp) {
+fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier, cardWidth: Dp = 122.dp, reserveMetadataSpace: Boolean = false) {
 	var focused by remember { mutableStateOf(false) }
 	val scale by animateFloatAsState(if (focused) CinematicDimensions.FocusScale else 1f, label = "SeerrCardFocus")
 	val shape = RoundedCornerShape(CinematicDimensions.CardCorner)
@@ -53,7 +53,7 @@ fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, 
 			StatusChip(media.availability, Modifier.padding(6.dp))
 		}
 		Text(media.title, color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
-		media.year?.let { Text("$it", color = CinematicColors.TextSecondary, fontSize = 10.sp) }
+		if (reserveMetadataSpace || media.year != null) Text(media.year?.toString().orEmpty(), color = CinematicColors.TextSecondary, fontSize = 10.sp, maxLines = 1)
 	}
 }
 

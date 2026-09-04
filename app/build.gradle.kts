@@ -185,4 +185,5 @@ dependencies {
 	testImplementation(libs.kotest.assertions)
 	testImplementation(libs.mockk)
 	testImplementation(libs.mockwebserver)
+	testImplementation(libs.kotlinx.coroutines.test)
 }

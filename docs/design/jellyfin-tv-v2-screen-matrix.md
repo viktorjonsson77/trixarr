@@ -11,6 +11,8 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 | `jellyfintv_for_you.png` | For you | B | Jellyfin suggestions + Seerr | Home row/page | REFERENCE_READY | Pending Shield |
 | `jellyfintv_watch_history.png` | Watch history | C | Jellyfin DatePlayed/user data | Personal page | REFERENCE_READY | Removal hidden unless supported |
 | `jellyfintv_discover.png` | Discovery | A | Seerr, optional | Upptäck | REFERENCE_READY | Offline state required |
+| `jellyfintv_discovery_browsing.png` | Discovery browsing state | A | Jellyfin + Seerr | Upptäck | IMPLEMENTED | Full-height stable rows; no permanent metadata stage |
+| `jellyfintv_discovery_floating_info.png` | Discovery dwell-information state | A | Jellyfin + Seerr | Upptäck overlay | IMPLEMENTED | Non-focusable overlay after 800 ms; must not reflow rows |
 | `jellyfintv_movies.png` | Movies library | A | Jellyfin movie views | Filmer | REFERENCE_READY | Multi-library selector required |
 | `jellyfintv_series.png` | Series library | A | Jellyfin TV views | Serier | REFERENCE_READY | Multi-library selector required |
 | `jellyfintv_genre.png` | Genre | B | Jellyfin / Seerr | Genre details | REFERENCE_READY | Pending Shield |
@@ -64,3 +66,8 @@ Status values describe the state at v2 kickoff. `REFERENCE_READY` means the imag
 - The filesystem set and Git-tracked design-image set are identical. No binary duplicate SHA-256 hashes were found. `jellyfin-tv-home-spec.md` is an older supplementary document, not a screen reference.
 
 Therefore the reconciled inventory is **43 usable approved references + 5 EXCLUDED references**. The advertised counts 44 and 6 are each one above their corresponding explicit and uploaded filename sets; neither missing concept has a name to implement or recreate.
+
+Two later, explicitly approved behavioral-state references supplement that canonical inventory:
+`jellyfintv_discovery_browsing.png` and `jellyfintv_discovery_floating_info.png`.
+Together they define an unchanged Discover row layout with dwell information rendered only
+as a non-measuring overlay; they do not revive or rename a missing item from the original set.

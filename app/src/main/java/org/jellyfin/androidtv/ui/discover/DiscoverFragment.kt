@@ -3,17 +3,37 @@ package org.jellyfin.androidtv.ui.discover
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
@@ -40,8 +60,11 @@ import org.jellyfin.androidtv.seerr.SeerrClientProvider
 import org.jellyfin.androidtv.seerr.SeerrRepository
 import org.jellyfin.androidtv.seerr.model.SeerrMedia
 import org.jellyfin.androidtv.ui.seerr.SeerrMediaCard
-import org.jellyfin.androidtv.ui.seerr.StatusChip
 import coil3.compose.AsyncImage
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.Dispatchers
@@ -68,8 +91,23 @@ class DiscoverFragment : Fragment() {
 			var focused by remember { mutableStateOf<DiscoverEntry?>(null) }
 			var selectedId by rememberSaveable { mutableStateOf<Int?>(null) }
 			var selectedKind by rememberSaveable { mutableStateOf<String?>(null) }
+			var focusedBounds by remember { mutableStateOf<Rect?>(null) }
+			var dwellMediaKey by remember { mutableStateOf<String?>(null) }
+			var screenActive by remember { mutableStateOf(true) }
+			var focusedRow by rememberSaveable { mutableIntStateOf(0) }
+			var rowScrollJob by remember { mutableStateOf<Job?>(null) }
 			val contentFocus = remember { FocusRequester() }
 			val columnState = rememberLazyListState()
+			val coroutineScope = rememberCoroutineScope()
+			val dwellController = remember(coroutineScope) { DiscoverDwellController(coroutineScope) { dwellMediaKey = it } }
+			DisposableEffect(Unit) {
+				val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+					screenActive = event != androidx.lifecycle.Lifecycle.Event.ON_PAUSE && event != androidx.lifecycle.Lifecycle.Event.ON_STOP
+					if (!screenActive) dwellMediaKey = null
+				}
+				lifecycle.addObserver(observer)
+				onDispose { lifecycle.removeObserver(observer); dwellController.dismiss() }
+			}
 			fun load() { state = DiscoverState.Loading }
 			LaunchedEffect(profile, state is DiscoverState.Loading) {
 				if (state !is DiscoverState.Loading) return@LaunchedEffect
@@ -111,9 +149,18 @@ class DiscoverFragment : Fragment() {
 					runCatching { contentFocus.requestFocus() }
 				}
 			}
+			val selectedKey = focused?.media?.let(::discoverMediaKey)
+			LaunchedEffect(selectedKey, focusedBounds, columnState.isScrollInProgress, screenActive, state) {
+				dwellMediaKey = null
+				dwellController.update(selectedKey, focusedBounds != null, columnState.isScrollInProgress, screenActive && state is DiscoverState.Content)
+			}
 			CinematicScaffold {
 				val heroPresentation = focused?.media?.let(::discoverHeroPresentation)
-				Box(Modifier.fillMaxSize()) {
+				var rootSize by remember { mutableStateOf(androidx.compose.ui.unit.IntSize.Zero) }
+				Box(Modifier.fillMaxSize().onGloballyPositioned { rootSize = it.size }.onPreviewKeyEvent { event ->
+					if (event.type == KeyEventType.KeyDown && event.key in DiscoverLayoutContract.DismissKeys) { dwellController.dismiss(); dwellMediaKey = null }
+					false
+				}) {
 					heroPresentation?.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
 					Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color.Black.copy(.82f), Color.Transparent))))
 					Column(Modifier.fillMaxSize()) {
@@ -123,9 +170,6 @@ class DiscoverFragment : Fragment() {
 							DiscoverState.Disconnected -> Box(Modifier.weight(1f)) { EmptyState("Anslut till Seerr", getString(R.string.jellyfin_tv_seerr_not_connected), action = { FocusableTvButton(onClick = { startActivity(android.content.Intent(requireContext(), org.jellyfin.androidtv.ui.seerr.SeerrConnectActivity::class.java)) }) { Text("Anslut Seerr") } }) }
 							DiscoverState.Error -> Box(Modifier.weight(1f)) { ErrorState("Upptäck kunde inte hämtas", "Kontrollera anslutningen och försök igen.", ::load, "Försök igen") }
 							is DiscoverState.Content -> {
-								Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.HeroHeight)) {
-									if (heroPresentation != null) DiscoverHero(heroPresentation) { focused?.let { openDiscoverEntry(it, navigation) } }
-								}
 								LazyColumn(Modifier.fillMaxWidth().weight(1f), state = columnState, verticalArrangement = Arrangement.spacedBy(14.dp)) {
 								itemsIndexed(current.rows, key = { _, row -> row.first }) { rowIndex, (title, media) ->
 									Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
@@ -135,14 +179,27 @@ class DiscoverFragment : Fragment() {
 											val selected = item.media.id == selectedId && item.media.kind.name == selectedKind
 											SeerrMediaCard(
 												item.media,
-												onFocus = {
+								onFocus = {
+													dwellController.dismiss(); dwellMediaKey = null
+													focusedBounds = null
+													if (focusedRow != rowIndex) {
+														focusedRow = rowIndex
+														rowScrollJob?.cancel()
+														rowScrollJob = coroutineScope.launch {
+															// Let focus bring-into-view finish first, then make the row boundary authoritative.
+															delay(50)
+															columnState.animateScrollToItem(rowIndex)
+														}
+													}
 													focused = item
 													selectedId = item.media.id
 													selectedKind = item.media.kind.name
 												},
 												onClick = { openDiscoverEntry(item, navigation) },
-												modifier = if (selected || (selectedId == null && rowIndex == 0 && itemIndex == 0)) Modifier.focusRequester(contentFocus) else Modifier,
+												modifier = (if (selected || (selectedId == null && rowIndex == 0 && itemIndex == 0)) Modifier.focusRequester(contentFocus) else Modifier)
+													.onGloballyPositioned { coordinates -> if (item.media.let(::discoverMediaKey) == selectedKey) focusedBounds = coordinates.boundsInRoot() },
 												cardWidth = DiscoverLayoutContract.CardWidth,
+												reserveMetadataSpace = true,
 											)
 										}
 										}
@@ -152,9 +209,21 @@ class DiscoverFragment : Fragment() {
 									FocusableTvButton(onClick = { navigation.navigate(Destinations.seerrRequests) }) { Text("Mina begäranden") }
 									FocusableTvButton(onClick = { navigation.navigate(Destinations.personalMedia(PersonalMediaMode.History)) }) { Text(getString(R.string.jellyfin_tv_watch_history)) }
 								} }
+								item { Spacer(Modifier.height(220.dp)) }
 								}
 							}
 						}
+					}
+					val density = LocalDensity.current
+					val popup = remember(focusedBounds, rootSize, density) {
+						with(density) { focusedBounds?.let { calculateFloatingInfoPosition(it, rootSize.width.toFloat(), rootSize.height.toFloat(), DiscoverLayoutContract.PopupWidth.toPx(), DiscoverLayoutContract.PopupHeight.toPx(), DiscoverLayoutContract.SafeMargin.toPx(), DiscoverLayoutContract.AnchorGap.toPx()) } }
+					}
+					AnimatedVisibility(
+						visible = dwellMediaKey != null && dwellMediaKey == heroPresentation?.mediaKey && popup != null,
+						enter = fadeIn(tween(150)) + scaleIn(tween(150), initialScale = .98f),
+						exit = fadeOut(tween(90)),
+					) {
+						if (heroPresentation != null && popup != null) FloatingDiscoverInfo(heroPresentation, popup)
 					}
 				}
 			}
@@ -181,7 +250,7 @@ internal data class DiscoverHeroPresentation(
 )
 
 internal fun discoverHeroPresentation(media: SeerrMedia) = DiscoverHeroPresentation(
-	mediaKey = "${media.kind}:${media.id}",
+	mediaKey = discoverMediaKey(media),
 	title = media.title,
 	metadata = listOfNotNull(media.year?.toString(), if (media.kind.name == "Movie") "Film" else "Serie").joinToString("  •  "),
 	description = media.overview.orEmpty(),
@@ -194,16 +263,58 @@ internal fun resolveDiscoverSelection(rows: List<Pair<String, List<DiscoverEntry
 		.firstOrNull { it.media.id == selectedId && it.media.kind.name == selectedKind }
 
 internal object DiscoverLayoutContract {
-	val HeroHeight = 154.dp
-	val TitleHeight = 54.dp
-	val MetadataHeight = 18.dp
-	val DescriptionHeight = 42.dp
-	val ActionHeight = 40.dp
 	val CardWidth = 104.dp
+	val PopupWidth = 360.dp
+	val PopupHeight = 145.dp
+	val SafeMargin = 32.dp
+	val AnchorGap = 12.dp
+	const val DwellMillis = 800L
 	const val TitleMaxLines = 2
-	const val DescriptionMaxLines = 3
+	const val DescriptionMaxLines = 2
+	val DismissKeys = setOf(Key.DirectionLeft, Key.DirectionRight, Key.DirectionUp, Key.DirectionDown, Key.Back)
+}
 
-	fun rowViewportStart(toolbarHeight: androidx.compose.ui.unit.Dp) = toolbarHeight + HeroHeight
+internal fun discoverMediaKey(media: SeerrMedia) = "${media.kind}:${media.id}"
+
+internal class DiscoverDwellController(
+	private val scope: CoroutineScope,
+	private val onShow: (String) -> Unit,
+) {
+	private var job: Job? = null
+	private var generation = 0L
+	var visibleKey: String? = null
+		private set
+
+	fun update(key: String?, boundsMeasured: Boolean, scrolling: Boolean, active: Boolean) {
+		dismiss()
+		if (key == null || !boundsMeasured || scrolling || !active) return
+		val expectedGeneration = generation
+		job = scope.launch {
+			delay(DiscoverLayoutContract.DwellMillis)
+			if (expectedGeneration == generation) {
+				visibleKey = key
+				onShow(key)
+			}
+		}
+	}
+
+	fun dismiss() {
+		generation++
+		job?.cancel()
+		job = null
+		visibleKey = null
+	}
+}
+
+internal data class FloatingInfoPosition(val x: Float, val y: Float, val anchorX: Float, val above: Boolean)
+
+internal fun calculateFloatingInfoPosition(card: Rect, rootWidth: Float, rootHeight: Float, popupWidth: Float, popupHeight: Float, safe: Float, gap: Float): FloatingInfoPosition {
+	val x = (card.center.x - popupWidth / 2f).coerceIn(safe, (rootWidth - safe - popupWidth).coerceAtLeast(safe))
+	val aboveY = card.top - popupHeight - gap
+	val belowY = card.bottom + gap
+	val above = aboveY >= safe || belowY + popupHeight > rootHeight - safe
+	val y = (if (above) aboveY else belowY).coerceIn(safe, (rootHeight - safe - popupHeight).coerceAtLeast(safe))
+	return FloatingInfoPosition(x, y, (card.center.x - x).coerceIn(18f, popupWidth - 18f), above)
 }
 
 private fun openDiscoverEntry(entry: DiscoverEntry, navigation: NavigationRepository) {
@@ -213,22 +324,18 @@ private fun openDiscoverEntry(entry: DiscoverEntry, navigation: NavigationReposi
 }
 
 @Composable
-private fun DiscoverHero(presentation: DiscoverHeroPresentation, onDetails: () -> Unit) {
-	Column(Modifier.fillMaxHeight().padding(horizontal = 40.dp).fillMaxWidth(.48f)) {
-		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.TitleHeight), contentAlignment = Alignment.BottomStart) {
-			Text(presentation.title, color = Color.White, fontSize = 26.sp, lineHeight = 27.sp, maxLines = DiscoverLayoutContract.TitleMaxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+private fun FloatingDiscoverInfo(presentation: DiscoverHeroPresentation, position: FloatingInfoPosition) {
+	Box(Modifier.offset { IntOffset(position.x.toInt(), position.y.toInt()) }.width(DiscoverLayoutContract.PopupWidth).height(DiscoverLayoutContract.PopupHeight + 10.dp)) {
+		Column(Modifier.width(DiscoverLayoutContract.PopupWidth).height(DiscoverLayoutContract.PopupHeight).shadow(10.dp, androidx.compose.foundation.shape.RoundedCornerShape(14.dp)).clip(androidx.compose.foundation.shape.RoundedCornerShape(14.dp)).background(Color(0xD91A2035)).border(1.dp, Color(0xFFB99CFF), androidx.compose.foundation.shape.RoundedCornerShape(14.dp)).padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+			Text(presentation.title, color = Color.White, fontSize = 17.sp, lineHeight = 19.sp, maxLines = DiscoverLayoutContract.TitleMaxLines, overflow = TextOverflow.Ellipsis)
+			if (presentation.metadata.isNotBlank()) Text(presentation.metadata, color = Color.White.copy(.82f), fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+			if (presentation.description.isNotBlank()) Text(presentation.description, color = Color.White.copy(.86f), fontSize = 12.sp, lineHeight = 15.sp, maxLines = DiscoverLayoutContract.DescriptionMaxLines, overflow = TextOverflow.Ellipsis)
+			Spacer(Modifier.weight(1f))
+			Text("OK  Mer information", color = Color.White.copy(.9f), fontSize = 12.sp)
 		}
-		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.MetadataHeight), contentAlignment = Alignment.CenterStart) {
-			Text(presentation.metadata, color = Color.White.copy(.78f), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-		}
-		Box(Modifier.fillMaxWidth().height(DiscoverLayoutContract.DescriptionHeight), contentAlignment = Alignment.TopStart) {
-			Text(presentation.description, color = Color.White.copy(.82f), fontSize = 13.sp, lineHeight = 14.sp, maxLines = DiscoverLayoutContract.DescriptionMaxLines, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
-		}
-		Row(Modifier.height(DiscoverLayoutContract.ActionHeight), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-			StatusChip(presentation.availability)
-			FocusableTvButton(onClick = onDetails) {
-				Text(if (presentation.availability == org.jellyfin.androidtv.seerr.model.MediaAvailability.Requestable) "Begär" else "Mer information")
-			}
+		Canvas(Modifier.offset { IntOffset((position.anchorX - 8.dp.toPx()).toInt(), if (position.above) DiscoverLayoutContract.PopupHeight.roundToPx() - 1 else -9.dp.roundToPx()) }.size(16.dp, 10.dp)) {
+			val path = Path().apply { if (position.above) { moveTo(0f, 0f); lineTo(size.width, 0f); lineTo(size.width / 2f, size.height) } else { moveTo(size.width / 2f, 0f); lineTo(size.width, size.height); lineTo(0f, size.height) }; close() }
+			drawPath(path, Color(0xD91A2035))
 		}
 	}
 }
