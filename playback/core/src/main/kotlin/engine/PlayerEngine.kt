@@ -1,4 +1,4 @@
-package org.jellyfin.androidtv.ui.playback.engine
+package org.jellyfin.playback.core.engine
 
 /** Commands run on the playback thread. Sessions/reporting remain owned by PlaybackController. */
 interface PlayerEngine<T> {
@@ -23,10 +23,21 @@ class PlayerEngineManager<T>(private val candidates: List<() -> PlayerEngine<T>>
 		private set
 	var fallbackReason: String? = null
 		private set
+	var selectionReason: String = "Default registered engine"
+		private set
+	var capabilityDecision: CapabilityDecision? = null
+		private set
+	fun evaluate(media: MediaCapabilityInput, device: DeviceCapabilitySnapshot): CapabilityDecision {
+		val decision = PlayerCapabilityPolicy().evaluate(media, device, active != null || nextCandidate < candidates.size)
+		capabilityDecision = decision
+		selectionReason = "${active?.id ?: "registered engine"}: ${decision.permission}; ${decision.reasons.joinToString()}"
+		return decision
+	}
 	private var released = false
 	private var prepared = false
 	private var nextCandidate = 0
 	private var failure: Exception? = null
+	private val failedEngines = mutableSetOf<String>()
 
 	/** Allows the legacy owner to attach its Surface before the first request arrives. */
 	fun initialize(): PlayerEngine<T> {
@@ -34,8 +45,15 @@ class PlayerEngineManager<T>(private val candidates: List<() -> PlayerEngine<T>>
 		active?.let { return it }
 		while (nextCandidate < candidates.size) {
 			try {
-				return candidates[nextCandidate++]().also { active = it }
+				val candidate = candidates[nextCandidate++]()
+				if (candidate.id in failedEngines) {
+					try { candidate.release() } catch (error: Exception) { released = true; throw error }
+					continue
+				}
+				active = candidate
+				return candidate
 			} catch (error: Exception) {
+				if (released) throw error
 				failure = error
 				fallbackReason = error.javaClass.simpleName
 			}
@@ -45,12 +63,14 @@ class PlayerEngineManager<T>(private val candidates: List<() -> PlayerEngine<T>>
 
 	private fun discard() {
 		val previous = active
+		previous?.let { failedEngines += it.id }
 		active = null
 		try { previous?.release() } catch (error: Exception) { released = true; throw error }
 	}
 
 	fun prepare(request: T) {
 		check(!released)
+		check(capabilityDecision?.canAttempt != false) { "Capability policy rejected playback" }
 		if (prepared) { requireNotNull(active).prepare(request); return }
 		while (true) {
 			val candidate = initialize()

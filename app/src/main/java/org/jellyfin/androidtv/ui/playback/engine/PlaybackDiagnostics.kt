@@ -18,6 +18,15 @@ import org.jellyfin.sdk.model.api.MediaStreamType
 
 /** Event driven, bounded, in-memory diagnostics. URLs, tokens and exception messages are never retained. */
 class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Media3PlayerEngine) : AnalyticsListener {
+	private var sessionOwner: org.jellyfin.playback.core.engine.PlaybackSessionOwner? = null
+	fun session(owner: org.jellyfin.playback.core.engine.PlaybackSessionOwner) { sessionOwner = owner }
+	fun policy(decision: org.jellyfin.playback.core.engine.CapabilityDecision, reason: String, fallback: String?) {
+		put("DEVICE CAPABILITY / Policy", decision.permission)
+		decision.evidence.forEach { (key, value) -> put("DEVICE CAPABILITY / $key", value) }
+		put("PLAYER / Engine selection reason", reason)
+		put("ERRORS / Fallback", fallback ?: "NONE")
+		put("SELECTED DECODER / Selection reason", "Media3 default ordering; policy blocks unverified DV HEVC fallback; see actual decoder events")
+	}
 	private val fields = linkedMapOf<String, String>()
 	private var dropped = 0
 	private var lastFailure: String? = null
@@ -29,14 +38,14 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 		put("ERRORS / Engine initialization", lastFailure)
 	}
 	fun source(info: StreamInfo) {
-		fields.keys.removeAll { it.startsWith("SOURCE /") || it.startsWith("VIDEO / MediaCodec") || it.startsWith("VIDEO / Decoder input") || it.startsWith("ERRORS /") }
+		fields.keys.removeAll { it.startsWith("SOURCE FORMAT /") || it.startsWith("VIDEO / MediaCodec") || it.startsWith("VIDEO / Decoder input") || it.startsWith("ERRORS /") }
 		dropped = 0
 		put("ERRORS / Previous attempt", lastFailure)
 		put("PLAYER / Delivery", info.playMethod)
 		put("PLAYER / URL type", info.mediaUrl?.substringBefore(':')?.takeIf { it in listOf("http", "https", "file", "content") })
-		put("SOURCE / Container (Jellyfin)", info.mediaSource?.container)
+		put("SOURCE FORMAT / Container (Jellyfin)", info.mediaSource?.container)
 		info.mediaSource?.mediaStreams?.filter { it.type == MediaStreamType.VIDEO || it.type == MediaStreamType.AUDIO }?.forEach { stream ->
-			val prefix = "SOURCE / ${stream.type} #${stream.index} (Jellyfin)"
+			val prefix = "SOURCE FORMAT / ${stream.type} #${stream.index} (Jellyfin)"
 			put("$prefix codec", stream.codec)
 			put("$prefix profile", stream.profile)
 			put("$prefix bitrate", stream.bitRate)
@@ -116,6 +125,16 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 		}
 	}
 	fun snapshot(): String {
+		sessionOwner?.snapshot?.let { session ->
+			put("SESSION / ID", session.id)
+			put("SESSION / Generation", session.generation)
+			put("SESSION / Reporting", session.reportingState)
+			put("SESSION / Resume ms", session.resumePositionMs)
+			put("SESSION / Position ms", session.positionMs)
+			put("SESSION / Terminal reason", session.terminalReason)
+			put("ACTUAL PLAYER STATE / Session", session.state)
+		}
+
 		format("VIDEO / Selected stream", player.videoFormat)
 		format("AUDIO / Selected stream", player.audioFormat)
 		put("PLAYER / Active engine", engine.id)

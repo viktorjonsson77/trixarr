@@ -54,7 +54,12 @@ class ExoPlayerBackend(
 	private var currentStream: PlayableMediaStream? = null
 	private var subtitleView: SubtitleView? = null
 	private var audioPipeline = ExoPlayerAudioPipeline()
-	private val exoPlayer by lazy {
+	private var released = false
+	override val id = "Jellyfin Media3"
+	override val error get() = if (exoPlayerDelegate.isInitialized()) exoPlayer.playerError?.errorCodeName else null
+	override val state get() = if (released) "RELEASED" else if (!exoPlayerDelegate.isInitialized()) "IDLE" else if (exoPlayer.isPlaying) "PLAYING" else "STATE_${exoPlayer.playbackState}"
+	private val exoPlayer get() = exoPlayerDelegate.value
+	private val exoPlayerDelegate = lazy {
 		val dataSourceFactory = DefaultDataSource.Factory(
 			context,
 			exoPlayerOptions.baseDataSourceFactory,
@@ -151,6 +156,26 @@ class ExoPlayerBackend(
 			val queueEntry = mediaItem?.localConfiguration?.tag as? QueueEntry
 			audioPipeline.normalizationGain = queueEntry?.normalizationGain
 		}
+	}
+
+	override fun release() {
+		if (released) return
+		released = true
+		setListener(null)
+		if (exoPlayerDelegate.isInitialized()) exoPlayer.release()
+	}
+	override fun selectTrack(type: Int, group: Int, track: Int): Boolean {
+		if (type != C.TRACK_TYPE_AUDIO && type != C.TRACK_TYPE_TEXT) return false
+		val builder = exoPlayer.trackSelectionParameters.buildUpon().clearOverridesOfType(type)
+		if (type == C.TRACK_TYPE_TEXT && group == -1) {
+			exoPlayer.trackSelectionParameters = builder.setTrackTypeDisabled(type, true).build()
+			return true
+		}
+		val candidate = exoPlayer.currentTracks.groups.getOrNull(group) ?: return false
+		if (candidate.type != type || track !in 0 until candidate.length || !candidate.isTrackSupported(track)) return false
+		exoPlayer.trackSelectionParameters = builder.setTrackTypeDisabled(type, false)
+			.setOverrideForType(androidx.media3.common.TrackSelectionOverride(candidate.mediaTrackGroup, track)).build()
+		return true
 	}
 
 	override fun supportsStream(

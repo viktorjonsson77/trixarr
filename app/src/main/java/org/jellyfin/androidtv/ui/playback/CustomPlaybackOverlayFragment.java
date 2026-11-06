@@ -139,6 +139,21 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     private final PlaybackOverlayFragmentHelper helper = new PlaybackOverlayFragmentHelper(this);
 
+    private Long restoredPosition;
+    private boolean restoredPaused;
+    private boolean lifecyclePaused;
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        if (controller != null && controller.getFragment() == this) {
+            outState.putLong("engine.resume", controller.getCurrentPosition());
+            outState.putBoolean("engine.paused", controller.isPaused() && !lifecyclePaused);
+            if (controller.getCurrentlyPlayingItem() != null) outState.putString("engine.item", controller.getCurrentlyPlayingItem().getId().toString());
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +174,19 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
         int mediaPosition = videoQueueManager.getValue().getCurrentMediaPosition();
+        if (savedInstanceState != null && savedInstanceState.containsKey("engine.resume")) {
+            String restoredItem = savedInstanceState.getString("engine.item");
+            for (int i = 0; i < mItemsToPlay.size(); i++) {
+                if (mItemsToPlay.get(i).getId().toString().equals(restoredItem)) {
+                    mediaPosition = i;
+                    restoredPosition = savedInstanceState.getLong("engine.resume");
+                    restoredPaused = savedInstanceState.getBoolean("engine.paused");
+                    break;
+                }
+            }
+        }
+        PlaybackController previous = playbackControllerContainer.getValue().getPlaybackController();
+        if (previous != null) previous.endPlayback(false);
 
         playbackControllerContainer.getValue().setPlaybackController(new PlaybackController(mItemsToPlay, this, mediaPosition));
 
@@ -228,6 +256,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
 
     @Override
     public void onDestroyView() {
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        if (controller != null && controller.getFragment() == this) controller.endPlayback(false);
         super.onDestroyView();
 
         binding = null;
@@ -294,7 +324,8 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             return null;
         });
 
-        int startPos = getArguments().getInt("Position", 0);
+        long startPos = restoredPosition != null ? restoredPosition : getArguments().getInt("Position", 0);
+        playbackControllerContainer.getValue().getPlaybackController().restorePausedAfterSeek(restoredPaused);
 
         // start playing
         playbackControllerContainer.getValue().getPlaybackController().play(startPos);
@@ -686,6 +717,12 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
             Utils.showToast(requireContext(), R.string.msg_cannot_play_time);
             return;
         }
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        if (controller != null) controller.setBackgrounded(false);
+        if (lifecyclePaused && controller != null && controller.isPaused()) {
+            lifecyclePaused = false;
+            controller.play(controller.getCurrentPosition());
+        }
     }
 
     @Override
@@ -693,6 +730,9 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         super.onPause();
         if (mItemsToPlay == null || mItemsToPlay.isEmpty()) return;
 
+        PlaybackController controller = playbackControllerContainer.getValue().getPlaybackController();
+        if (controller != null && controller.getFragment() == this) controller.setBackgrounded(true);
+        if (controller != null && controller.getFragment() == this && controller.isPlaying()) { lifecyclePaused = true; controller.pause(); }
         setPlayPauseActionState(0);
 
         // give back audio focus
@@ -703,6 +743,7 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
     public void onStop() {
         super.onStop();
         Timber.i("Stopping!");
+        if (!requireActivity().isChangingConfigurations() && !requireActivity().isFinishing() && !isRemoving()) return;
 
         if (leanbackOverlayFragment != null)
             leanbackOverlayFragment.setOnKeyInterceptListener(null);
@@ -711,10 +752,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         // if it doesn't, playback has already been stopped elsewhere, and the references to this have been replaced
         if (playbackControllerContainer.getValue().getPlaybackController() != null && playbackControllerContainer.getValue().getPlaybackController().getFragment() == this) {
             Timber.i("this fragment belongs to the current session, ending it");
-            playbackControllerContainer.getValue().getPlaybackController().endPlayback();
+            playbackControllerContainer.getValue().getPlaybackController().endPlayback(false);
         }
 
-        closePlayer();
+        if (!requireActivity().isChangingConfigurations()) closePlayer();
     }
 
     public void show() {

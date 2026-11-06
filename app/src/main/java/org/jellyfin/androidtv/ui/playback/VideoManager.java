@@ -61,11 +61,25 @@ import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
 public class VideoManager {
-    private org.jellyfin.androidtv.ui.playback.engine.PlayerEngineManager<MediaItem> engine;
+    private org.jellyfin.playback.core.engine.PlayerEngineManager<MediaItem> engine;
     private org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine adapter;
     private org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics diagnostics;
     private volatile android.media.MediaFormat lastDiagnosticFormat;
     private volatile long diagnosticGeneration;
+    private org.jellyfin.playback.core.engine.PlaybackSessionOwner sessionOwner;
+    private long sessionGeneration;
+    private final org.jellyfin.androidtv.ui.playback.engine.CapabilityCodecSelector capabilityCodecSelector = new org.jellyfin.androidtv.ui.playback.engine.CapabilityCodecSelector();
+    public void bindSession(org.jellyfin.playback.core.engine.PlaybackSessionOwner owner, long generation) {
+        sessionOwner = owner;
+        sessionGeneration = generation;
+        diagnostics.session(owner);
+        owner.bindEngine(generation, adapter.getId(), () -> stopPlayback());
+    }
+    private boolean acceptEvent(AnalyticsListener.EventTime time) {
+        if (sessionOwner == null || !sessionOwner.isCurrent(sessionGeneration)) return false;
+        if (time.timeline.isEmpty()) return false;
+        return time.timeline.getWindow(time.windowIndex, new Timeline.Window()).mediaItem.mediaId.equals(sessionOwner.getSnapshot().getId());
+    }
     public void showDiagnostics() { if (diagnostics != null) diagnostics.show(mActivity); }
     public boolean selectEngineTrack(int type, int group, int track) { return adapter.selectTrack(type, group, track); }
     private ZoomMode mZoomMode;
@@ -93,14 +107,19 @@ public class VideoManager {
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
-        engine = new org.jellyfin.androidtv.ui.playback.engine.PlayerEngineManager<>(Collections.singletonList(
+        engine = new org.jellyfin.playback.core.engine.PlayerEngineManager<>(Collections.singletonList(
                 () -> new org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine(configureExoplayerBuilder(activity).build())));
         try {
             adapter = (org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine) engine.initialize();
             mExoPlayer = adapter.getPlayer();
         } catch (IllegalStateException error) {
             Timber.e("Playback engine initialization failed: %s", error.getClass().getSimpleName());
-            mHandler.post(() -> _helper.getFragment().closePlayer());
+            mHandler.post(() -> new android.app.AlertDialog.Builder(activity)
+                    .setTitle("Playback initialization failed")
+                    .setMessage("Engine: Jellyfin Media3\nState: ERROR\nReason: " + error.getClass().getSimpleName()
+                            + "\nCapability: UNKNOWN\nDecoder: UNKNOWN\nHDMI OUTPUT NOT VERIFIED")
+                    .setPositiveButton("Close", (dialog, which) -> _helper.getFragment().closePlayer())
+                    .setOnCancelListener(dialog -> _helper.getFragment().closePlayer()).show());
             return;
         }
         diagnostics = new org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics(mExoPlayer, adapter);
@@ -143,16 +162,18 @@ public class VideoManager {
         mExoPlayerView.getSubtitleView().setBottomPaddingFraction(userPreferences.get(UserPreferences.Companion.getSubtitlesOffsetPosition()));
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
 
-        mExoPlayer.addListener(new Player.Listener() {
+        mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
             @Override
-            public void onPlayerError(@NonNull PlaybackException error) {
+            public void onPlayerError(AnalyticsListener.EventTime time, @NonNull PlaybackException error) {
+                if (!acceptEvent(time)) return;
                 Timber.e("***** Got error from player");
                 if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onError();
                 stopProgressLoop();
             }
 
             @Override
-            public void onIsPlayingChanged(boolean isPlaying) {
+            public void onIsPlayingChanged(AnalyticsListener.EventTime time, boolean isPlaying) {
+                if (!acceptEvent(time)) return;
                 if (isPlaying) {
                     if (mPlaybackControllerNotifiable != null) mPlaybackControllerNotifiable.onPrepared();
                     startProgressLoop();
@@ -164,7 +185,8 @@ public class VideoManager {
             }
 
             @Override
-            public void onPlaybackStateChanged(int playbackState) {
+            public void onPlaybackStateChanged(AnalyticsListener.EventTime time, int playbackState) {
+                if (!acceptEvent(time)) return;
                 if (playbackState == Player.STATE_BUFFERING) {
                     Timber.d("Player is buffering");
                 }
@@ -175,6 +197,8 @@ public class VideoManager {
                 }
             }
 
+        });
+        mExoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlaybackParametersChanged(@NonNull PlaybackParameters playbackParameters) {
                 if (mPlaybackControllerNotifiable != null) {
@@ -225,6 +249,7 @@ public class VideoManager {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
         DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
         defaultRendererFactory.setEnableDecoderFallback(true);
+        defaultRendererFactory.setMediaCodecSelector(capabilityCodecSelector);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
 
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
@@ -297,13 +322,9 @@ public class VideoManager {
     }
 
     public long getCurrentPosition() {
-        if (mExoPlayer == null || !isPlaying()) {
-            return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
-        } else {
-            long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
-            lastExoPlayerPosition = mExoPlayerCurrentPosition;
-            return mExoPlayerCurrentPosition;
-        }
+        if (!isInitialized()) return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
+        lastExoPlayerPosition = adapter.getPositionMs();
+        return lastExoPlayerPosition;
     }
 
     public boolean isPlaying() {
@@ -371,6 +392,11 @@ public class VideoManager {
         diagnosticGeneration++;
         lastDiagnosticFormat = null;
         diagnostics.source(streamInfo);
+        org.jellyfin.playback.core.engine.MediaCapabilityInput media = org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.media(streamInfo);
+        org.jellyfin.playback.core.engine.CapabilityDecision decision = engine.evaluate(media, org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.device(mActivity, media));
+        capabilityCodecSelector.configure(media, decision);
+        diagnostics.policy(decision, engine.getSelectionReason(), engine.getFallbackReason());
+        if (!decision.getCanAttempt()) return false;
         String path = streamInfo.getMediaUrl();
         if (path == null) {
             Timber.w("Video path is null cannot continue");
@@ -399,11 +425,13 @@ public class VideoManager {
             }
 
             MediaItem mediaItem = new MediaItem.Builder()
+                    .setMediaId(sessionOwner != null ? sessionOwner.getSnapshot().getId() : "unowned")
                     .setUri(Uri.parse(path))
                     .setSubtitleConfigurations(subtitleConfigurations)
                     .build();
 
             engine.prepare(mediaItem);
+            if (sessionOwner != null) sessionOwner.selectedEngine(sessionGeneration, engine.getActive().getId());
             return true;
         } catch (IllegalStateException e) {
             diagnostics.initializationFailure(e);

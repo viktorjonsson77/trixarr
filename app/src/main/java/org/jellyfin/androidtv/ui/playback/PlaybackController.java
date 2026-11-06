@@ -71,7 +71,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
-    private final org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGate attemptGate = new org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGate();
+    private final org.jellyfin.playback.core.engine.PlaybackSessionOwner attemptGate = new org.jellyfin.playback.core.engine.PlaybackSessionOwner();
     int mCurrentIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -93,6 +93,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Handler mHandler;
 
     private long mStartPosition = 0;
+    private long engineTimelineOffsetMs = 0;
 
     // tmp position used when seeking
     private long mSeekPosition = -1;
@@ -110,6 +111,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
+    public org.jellyfin.playback.core.engine.PlaybackSessionOwner getSessionOwner() { return attemptGate; }
+
     public void showDiagnostics() { if (mVideoManager != null) mVideoManager.showDiagnostics(); }
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
@@ -117,21 +120,37 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex) {
-        mItems = items;
-        mCurrentIndex = 0;
-        if (items != null && startIndex > 0 && startIndex < items.size()) {
-            mCurrentIndex = startIndex;
-        }
-        mFragment = fragment;
-        mHandler = new Handler();
-
-        interactionTracker = lazyInteractionTracker.getValue();
-
-        refreshRateSwitchingBehavior = userPreferences.getValue().get(UserPreferences.Companion.getRefreshRateSwitchingBehavior());
-        if (refreshRateSwitchingBehavior != RefreshRateSwitchingBehavior.DISABLED)
-            getDisplayModes();
-
+        this(items, fragment, startIndex, new Handler(), get(InteractionTrackerViewModel.class),
+                ((UserPreferences) get(UserPreferences.class)).get(UserPreferences.Companion.getRefreshRateSwitchingBehavior()));
     }
+
+    // Explicit dependencies allow controller/session/reporting regression tests without Android UI.
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex,
+            Handler handler, InteractionTrackerViewModel tracker, RefreshRateSwitchingBehavior refreshBehavior) {
+        mItems = items;
+        mCurrentIndex = items != null && startIndex >= 0 && startIndex < items.size() ? startIndex : 0;
+        mFragment = fragment;
+        mHandler = handler;
+        interactionTracker = tracker;
+        refreshRateSwitchingBehavior = refreshBehavior;
+        if (refreshBehavior != RefreshRateSwitchingBehavior.DISABLED) getDisplayModes();
+    }
+
+    private boolean backgrounded;
+    private boolean pendingForegroundStart;
+    public void setBackgrounded(boolean background) {
+        backgrounded = background;
+        if (!background && pendingForegroundStart) {
+            pendingForegroundStart = false;
+            if (attemptGate.getSnapshot() != null && attemptGate.getSnapshot().getTerminalReason() == null && mVideoManager != null) mVideoManager.start();
+        }
+    }
+    private void startEngineWhenForeground() {
+        if (backgrounded) pendingForegroundStart = true;
+        else mVideoManager.start();
+    }
+    private boolean restorePaused;
+    public void restorePausedAfterSeek(boolean paused) { restorePaused = paused; }
 
     public boolean hasFragment() {
         return mFragment != null;
@@ -252,28 +271,21 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void playerErrorEncountered() {
-        // reset the retry count if it's been more than 30s since previous error
-        if (playbackRetries > 0 && Instant.now().toEpochMilli() - lastPlaybackError > 30000) {
-            Timber.i("playback stabilized - retry count reset to 0 from %s", playbackRetries);
-            playbackRetries = 0;
+        finishSession("PLAYBACK_ERROR", org.jellyfin.playback.core.engine.SessionState.ERROR);
+        if (mFragment != null) {
+            Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
+            mFragment.closePlayer();
         }
+    }
 
-        playbackRetries++;
-        lastPlaybackError = Instant.now().toEpochMilli();
-
-        if (playbackRetries < 3) {
-            if (mFragment != null)
-                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
-            Timber.i("Player error encountered - retrying");
-            stop();
-            play(mCurrentPosition);
-        } else {
-            mPlaybackState = PlaybackState.ERROR;
-            if (mFragment != null) {
-                Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.too_many_errors));
-                mFragment.closePlayer();
-            }
+    private void finishSession(String reason, org.jellyfin.playback.core.engine.SessionState state) {
+        refreshCurrentPosition();
+        stopReportLoop();
+        boolean reportStop = attemptGate.finish(reason, state);
+        if (reportStop && mFragment != null && mCurrentStreamInfo != null && getCurrentlyPlayingItem() != null) {
+            reportingHelper.getValue().reportStopped(mFragment, this, getCurrentlyPlayingItem(), mCurrentStreamInfo, mCurrentPosition * 10000);
         }
+        mPlaybackState = state == org.jellyfin.playback.core.engine.SessionState.ERROR ? PlaybackState.ERROR : PlaybackState.IDLE;
     }
 
     @TargetApi(23)
@@ -386,7 +398,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 if (finishedInitialSeek) {
                     // playback has started following initial seek for direct play and hls
                     // get current position and reset seekPosition
-                    newPos = mVideoManager.getCurrentPosition();
+                    newPos = mVideoManager.getCurrentPosition() + engineTimelineOffsetMs;
                     mSeekPosition = -1;
                 } else if (wasSeeking) {
                     // the initial seek for direct play and hls completed
@@ -400,6 +412,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         }
         // use original value if new one isn't available
         mCurrentPosition = newPos != -1 ? newPos : mCurrentPosition;
+        org.jellyfin.playback.core.engine.PlaybackSessionSnapshot session = attemptGate.getSnapshot();
+        if (session != null) attemptGate.update(session.getGeneration(), mCurrentPosition, isPaused());
     }
 
     public void play(long position) {
@@ -552,7 +566,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions internalOptions) {
-        final long attempt = attemptGate.begin();
+        if (attemptGate.getSnapshot() != null && attemptGate.getSnapshot().getTerminalReason() == null) stop();
+        final long attempt = attemptGate.begin(item.getId().toString(), position);
         if (isLiveTv) {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
@@ -592,15 +607,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 @Override
                 public void onError(Exception exception) {
                     if (!isActive() || !attemptGate.isCurrent(attempt)) return;
-                    Timber.e(exception, "Unable to get stream info for internal player");
-                    if (mVideoManager == null)
-                        return;
+                    handlePlaybackInfoError(exception);
                 }
             });
         }
     }
 
     private void handlePlaybackInfoError(Exception exception) {
+        finishSession("PLAYBACK_INFO_ERROR", org.jellyfin.playback.core.engine.SessionState.ERROR);
         Timber.e(exception, "Error getting playback stream info");
         if (mFragment == null) return;
         if (exception instanceof PlaybackException) {
@@ -631,6 +645,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mCurrentOptions.setAudioStreamIndex(null); // reset audio stream index to allow auto selection on new item
 
         mStartPosition = position;
+        mCurrentPosition = position;
+        engineTimelineOffsetMs = 0;
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
@@ -665,9 +681,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (mFragment != null) mFragment.updateDisplay();
 
+        if (mVideoManager != null) mVideoManager.bindSession(attemptGate, attempt);
         if (mVideoManager == null || !mVideoManager.setMediaStreamInfo(api.getValue(), response)) {
-            mPlaybackState = PlaybackState.ERROR;
-            if (mFragment != null) mFragment.closePlayer();
+            finishSession("INITIALIZATION_FAILED", org.jellyfin.playback.core.engine.SessionState.ERROR);
+            if (mVideoManager != null) mVideoManager.showDiagnostics();
             return;
         }
 
@@ -680,12 +697,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     @Override
                     public void run() {
                         if (mVideoManager != null && attemptGate.isCurrent(attempt)) {
-                            mVideoManager.start();
+                            startEngineWhenForeground();
                         }
                     }
                 }, videoStartDelay);
             } else {
-                mVideoManager.start();
+                startEngineWhenForeground();
             }
 
             dataRefreshService.getValue().setLastPlayedItem(item);
@@ -829,6 +846,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             Timber.d("already paused, ignoring");
             return;
         }
+        refreshCurrentPosition();
         mPlaybackState = PlaybackState.PAUSED;
         if (hasInitializedVideoManager()) mVideoManager.pause();
         if (mFragment != null) {
@@ -856,17 +874,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void stop() {
-        boolean reportStop = attemptGate.stop();
         refreshCurrentPosition();
+        org.jellyfin.playback.core.engine.PlaybackSessionSnapshot ending = attemptGate.getSnapshot();
+        if (ending != null) attemptGate.update(ending.getGeneration(), mCurrentPosition, isPaused());
+        boolean reportStop = attemptGate.stop();
         Timber.i("stop called at %s", mCurrentPosition);
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
 
-            if (hasInitializedVideoManager()) mVideoManager.stopPlayback();
+
             if (reportStop && getCurrentlyPlayingItem() != null && mCurrentStreamInfo != null) {
                 Long mbPos = mCurrentPosition * 10000;
-                reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), mCurrentStreamInfo, mbPos);
+                reportingHelper.getValue().reportStopped(mFragment, this, getCurrentlyPlayingItem(), mCurrentStreamInfo, mbPos);
             }
             clearPlaybackSessionOptions();
         }
@@ -950,6 +970,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void seek(long pos, boolean skipToNext) {
+        final boolean remainPaused = isPaused();
         if (pos <= 0) pos = 0;
 
         Timber.i("Trying to seek from %s to %d", mCurrentPosition, pos);
@@ -993,27 +1014,23 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (!mVideoManager.isSeekable()) {
             Timber.d("Seek method - rebuilding the stream");
             //mkv transcodes require re-start of stream for seek
-            mVideoManager.stopPlayback();
+            StreamInfo previousStream = mCurrentStreamInfo;
+            stop();
+            final long targetPosition = pos;
+            final long seekAttempt = attemptGate.begin(getCurrentlyPlayingItem().getId().toString(), pos);
             mPlaybackState = PlaybackState.BUFFERING;
 
-            playbackManager.getValue().changeVideoStream(mFragment, mCurrentStreamInfo, mCurrentOptions, pos * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
+            playbackManager.getValue().changeVideoStream(mFragment, previousStream, mCurrentOptions, pos * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo response) {
-                    if (!isActive()) return;
-                    mCurrentStreamInfo = response;
-                    if (mVideoManager != null) {
-                        if (mVideoManager.setMediaStreamInfo(api.getValue(), response)) {
-                            mVideoManager.start();
-                        } else {
-                            mPlaybackState = PlaybackState.ERROR;
-                            if (mFragment != null) mFragment.closePlayer();
-                        }
-                    }
+                    if (!isActive() || !attemptGate.claimPreparation(seekAttempt)) return;
+                    restorePaused = remainPaused;
+                    startItem(getCurrentlyPlayingItem(), targetPosition, response, seekAttempt);
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    if (!isActive()) return;
+                    if (!isActive() || !attemptGate.isCurrent(seekAttempt)) return;
                     if (mFragment != null)
                         Utils.showToast(mFragment.getContext(), R.string.msg_video_playback_error);
                     Timber.e(exception, "Error trying to seek transcoded stream");
@@ -1028,15 +1045,23 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             // stopProgressLoop() being called at the beginning of startProgressLoop keeps this from breaking. otherwise it would start twice
             // if seek() is called from skip()
             mPlaybackState = PlaybackState.SEEKING;
-            if (mVideoManager.seekTo(pos) < 0) {
+            if (mVideoManager.seekTo(Math.max(0, pos - engineTimelineOffsetMs)) < 0) {
                 if (mFragment != null)
                     Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.seek_error));
                 pause();
             } else {
-                mVideoManager.play();
-                mPlaybackState = PlaybackState.PLAYING;
-                if (mFragment != null) mFragment.setFadingEnabled(true);
-                startReportLoop();
+                mCurrentPosition = pos;
+                if (remainPaused) {
+                    mVideoManager.pause();
+                    mPlaybackState = PlaybackState.PAUSED;
+                    wasSeeking = false;
+                    startPauseReportLoop();
+                } else {
+                    mVideoManager.play();
+                    mPlaybackState = PlaybackState.PLAYING;
+                    if (mFragment != null) mFragment.setFadingEnabled(true);
+                    startReportLoop();
+                }
             }
         }
     }
@@ -1092,6 +1117,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void startReportLoop() {
+        if (attemptGate.getSnapshot() == null || !attemptGate.getSnapshot().getStarted() || attemptGate.getSnapshot().getTerminalReason() != null) return;
         if (mCurrentStreamInfo == null) return;
 
         stopReportLoop();
@@ -1114,6 +1140,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void startPauseReportLoop() {
+        if (attemptGate.getSnapshot() == null || !attemptGate.getSnapshot().getStarted() || attemptGate.getSnapshot().getTerminalReason() != null) return;
         stopReportLoop();
         if (mCurrentStreamInfo == null) return;
         reportingHelper.getValue().reportProgress(mFragment, this, getCurrentlyPlayingItem(), mCurrentStreamInfo, mCurrentPosition * 10000, true);
@@ -1151,10 +1178,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void initialSeek(final long position) {
+        final long generation = attemptGate.getSnapshot().getGeneration();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (mVideoManager == null)
+                if (mVideoManager == null || !attemptGate.isCurrent(generation))
                     return;
                 if (mVideoManager.getDuration() <= 0) {
                     // use mVideoManager.getDuration here for accurate results
@@ -1163,6 +1191,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                 } else if (mVideoManager.isSeekable()) {
                     seek(position);
                 } else {
+                    engineTimelineOffsetMs = position;
+                    mCurrentPosition = position;
                     finishedInitialSeek = true;
                 }
             }
@@ -1211,6 +1241,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onPrepared() {
+        if (attemptGate.getSnapshot() == null || attemptGate.getSnapshot().getTerminalReason() != null || mCurrentStreamInfo == null) return;
         if (mPlaybackState == PlaybackState.BUFFERING) {
             if (mFragment != null) {
                 mFragment.setFadingEnabled(true);
@@ -1253,6 +1284,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onError() {
+        if (attemptGate.getSnapshot() == null || attemptGate.getSnapshot().getTerminalReason() != null || mCurrentStreamInfo == null) return;
         if (mFragment == null) {
             playerErrorEncountered();
             return;
@@ -1270,12 +1302,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     @Override
     public void onCompletion() {
+        if (attemptGate.getSnapshot() == null || attemptGate.getSnapshot().getTerminalReason() != null || mCurrentStreamInfo == null) return;
         Timber.i("On Completion fired");
+        finishSession("COMPLETED", org.jellyfin.playback.core.engine.SessionState.COMPLETED);
         itemComplete();
     }
 
     @Override
     public void onProgress() {
+        if (attemptGate.getSnapshot() == null || attemptGate.getSnapshot().getTerminalReason() != null || mCurrentStreamInfo == null) return;
         refreshCurrentPosition();
         if (isPlaying()) {
             if (!spinnerOff) {
@@ -1287,6 +1322,10 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     stopSpinner();
                 }
             }
+        }
+        if (restorePaused && finishedInitialSeek && isPlaying()) {
+            restorePaused = false;
+            pause();
         }
         if (mFragment != null)
             mFragment.setCurrentTime(mCurrentPosition);

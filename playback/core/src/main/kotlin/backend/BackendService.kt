@@ -18,16 +18,27 @@ class BackendService {
 	private var _subtitleView: PlayerSubtitleView? = null
 
 	fun switchBackend(backend: PlayerBackend) {
+		if (_backend === backend) return
 		_backend?.stop()
 		_backend?.setListener(null)
 		_backend?.setSurfaceView(null)
 		_backend?.setSubtitleView(null)
+		_backend?.release()
 
 		_backend = backend.apply {
 			_surfaceView?.let(::setSurfaceView)
 			_subtitleView?.let(::setSubtitleView)
-			setListener(BackendEventListener())
+			setListener(BackendEventListener(this))
 		}
+	}
+
+	fun release() {
+		val previous = _backend
+		_backend = null
+		previous?.setListener(null)
+		previous?.setSurfaceView(null)
+		previous?.setSubtitleView(null)
+		previous?.release()
 	}
 
 	fun attachSurfaceView(surfaceView: PlayerSurfaceView) {
@@ -78,10 +89,10 @@ class BackendService {
 		listeners.remove(listener)
 	}
 
-	inner class BackendEventListener : PlayerBackendEventListener {
+	inner class BackendEventListener(private val source: PlayerBackend) : PlayerBackendEventListener {
 		private fun <T> callListeners(
 			body: PlayerBackendEventListener.() -> T
-		): List<T> = listeners.map { listener -> listener.body() }
+		): List<T> = if (_backend !== source) emptyList() else listeners.map { listener -> listener.body() }
 
 		override fun onPlayStateChange(state: PlayState) {
 			callListeners { onPlayStateChange(state) }

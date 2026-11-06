@@ -10,13 +10,25 @@ import timber.log.Timber
 import kotlin.reflect.KClass
 
 class PlaybackManager internal constructor(
-	val backend: PlayerBackend,
+	backend: PlayerBackend,
 	private val services: MutableList<PlayerService>,
 	val options: PlaybackManagerOptions,
 	parentJob: Job? = null,
 ) {
+	val sessionOwner = org.jellyfin.playback.core.engine.PlaybackSessionOwner()
 	internal val backendService = BackendService().also { service ->
 		service.switchBackend(backend)
+	}
+
+	val backend: PlayerBackend get() = requireNotNull(backendService.backend)
+	private var released = false
+	fun release() {
+		if (released) return
+		released = true
+		services.forEach { service -> runCatching { service.onRelease() }.onFailure { Timber.e(it, "Player service release failed") } }
+		sessionOwner.finish("RELEASED")
+		job.cancel()
+		backendService.release()
 	}
 
 	private val job = SupervisorJob(parentJob)
@@ -48,6 +60,7 @@ class PlaybackManager internal constructor(
 
 	fun removeService(service: PlayerService) {
 		Timber.i("Removing service $service")
+		service.onRelease()
 		service.coroutineScope.cancel()
 		services.remove(service)
 	}

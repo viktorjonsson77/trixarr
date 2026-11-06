@@ -1,10 +1,11 @@
 package org.jellyfin.androidtv.util.apiclient
 
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import org.jellyfin.playback.core.engine.OrderedPlaybackReporter
+import org.jellyfin.playback.core.engine.ReportKind
 import org.jellyfin.androidtv.data.compat.StreamInfo
 import org.jellyfin.androidtv.data.model.DataRefreshService
 import org.jellyfin.androidtv.ui.playback.PlaybackController
@@ -23,7 +24,9 @@ import java.time.Instant
 class ReportingHelper(
 	private val dataRefreshService: DataRefreshService,
 	private val api: ApiClient,
+	scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO),
 ) {
+	private val reporter = OrderedPlaybackReporter(scope)
 	fun reportStart(
 		lifecycleOwner: LifecycleOwner,
 		playbackController: PlaybackController?,
@@ -32,6 +35,10 @@ class ReportingHelper(
 		position: Long,
 		paused: Boolean
 	) {
+		val owner = playbackController?.sessionOwner ?: return
+		val session = owner.snapshot ?: return
+		if (session.mediaId != item.id.toString()) return
+
 		val info = PlaybackStartInfo(
 			itemId = item.id,
 			positionTicks = position,
@@ -48,12 +55,7 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
-			Timber.i("Reporting ${item.name} playback started at $position")
-			runCatching {
-				api.playStateApi.reportPlaybackStart(info)
-			}.onFailure { error -> Timber.e(error, "Failed to report started playback!") }
-		}
+		reporter.enqueue(owner, session, ReportKind.START) { api.playStateApi.reportPlaybackStart(info) }
 	}
 
 	fun reportProgress(
@@ -64,6 +66,11 @@ class ReportingHelper(
 		position: Long,
 		paused: Boolean
 	) {
+		val owner = playbackController?.sessionOwner ?: return
+		val session = owner.snapshot ?: return
+		if (session.mediaId != item.id.toString()) return
+		if (!owner.update(session.generation, position / 10000, paused)) return
+
 		val info = PlaybackProgressInfo(
 			itemId = item.id,
 			positionTicks = position,
@@ -80,30 +87,24 @@ class ReportingHelper(
 			mediaSourceId = streamInfo.mediaSourceId,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
-			Timber.d("Reporting ${item.name} playback progress at $position")
-			runCatching {
-				api.playStateApi.reportPlaybackProgress(info)
-			}.onFailure { error -> Timber.w(error, "Failed to report playback progress") }
-		}
+		reporter.enqueue(owner, session, ReportKind.PROGRESS) { api.playStateApi.reportPlaybackProgress(info) }
 	}
 
-	fun reportStopped(lifecycleOwner: LifecycleOwner, item: BaseItemDto, streamInfo: StreamInfo, position: Long?) {
+	fun reportStopped(lifecycleOwner: LifecycleOwner, playbackController: PlaybackController?, item: BaseItemDto, streamInfo: StreamInfo, position: Long?) {
+		val owner = playbackController?.sessionOwner ?: return
+		val session = owner.snapshot ?: return
+		if (session.mediaId != item.id.toString()) return
+
 		val info = PlaybackStopInfo(
 			itemId = item.id,
 			positionTicks = position,
 			mediaSourceId = streamInfo.mediaSourceId,
 			liveStreamId = streamInfo.mediaSource?.liveStreamId,
 			playSessionId = streamInfo.playSessionId,
-			failed = false,
+			failed = session.state == org.jellyfin.playback.core.engine.SessionState.ERROR,
 		)
 
-		lifecycleOwner.lifecycleScope.launch(Dispatchers.IO + NonCancellable) {
-			Timber.i("Reporting ${item.name} playback stopped at $position")
-			runCatching {
-				api.playStateApi.reportPlaybackStopped(info)
-			}.onFailure { error -> Timber.e(error, "Failed to report stopped playback!") }
-		}
+		reporter.enqueue(owner, session, ReportKind.STOP) { api.playStateApi.reportPlaybackStopped(info) }
 
 		// Update dataRefreshService
 		dataRefreshService.lastPlayback = Instant.now()

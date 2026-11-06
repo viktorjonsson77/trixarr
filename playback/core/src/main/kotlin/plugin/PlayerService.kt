@@ -27,5 +27,7 @@ abstract class PlayerService {
 	val state: PlayerState get() = _state
 	val coroutineScope: CoroutineScope get() = _coroutineScope
 
+	open fun onRelease() = Unit
+
 	open suspend fun onInitialize() = Unit
 }
