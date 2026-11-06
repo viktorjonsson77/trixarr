@@ -25,7 +25,6 @@ import androidx.media3.common.PlaybackParameters;
 import androidx.media3.common.Player;
 import androidx.media3.common.Timeline;
 import androidx.media3.common.TrackGroup;
-import androidx.media3.common.TrackSelectionOverride;
 import androidx.media3.common.TrackSelectionParameters;
 import androidx.media3.common.Tracks;
 import androidx.media3.common.util.UnstableApi;
@@ -62,6 +61,13 @@ import timber.log.Timber;
 
 @OptIn(markerClass = UnstableApi.class)
 public class VideoManager {
+    private org.jellyfin.androidtv.ui.playback.engine.PlayerEngineManager<MediaItem> engine;
+    private org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine adapter;
+    private org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics diagnostics;
+    private volatile android.media.MediaFormat lastDiagnosticFormat;
+    private volatile long diagnosticGeneration;
+    public void showDiagnostics() { if (diagnostics != null) diagnostics.show(mActivity); }
+    public boolean selectEngineTrack(int type, int group, int track) { return adapter.selectTrack(type, group, track); }
     private ZoomMode mZoomMode;
     private Activity mActivity;
     private Equalizer mEqualizer;
@@ -87,7 +93,25 @@ public class VideoManager {
         _helper = helper;
         nightModeEnabled = userPreferences.get(UserPreferences.Companion.getAudioNightMode());
 
-        mExoPlayer = configureExoplayerBuilder(activity).build();
+        engine = new org.jellyfin.androidtv.ui.playback.engine.PlayerEngineManager<>(Collections.singletonList(
+                () -> new org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine(configureExoplayerBuilder(activity).build())));
+        try {
+            adapter = (org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine) engine.initialize();
+            mExoPlayer = adapter.getPlayer();
+        } catch (IllegalStateException error) {
+            Timber.e("Playback engine initialization failed: %s", error.getClass().getSimpleName());
+            mHandler.post(() -> _helper.getFragment().closePlayer());
+            return;
+        }
+        diagnostics = new org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics(mExoPlayer, adapter);
+        mExoPlayer.addAnalyticsListener(diagnostics);
+        mExoPlayer.setVideoFrameMetadataListener((presentationTimeUs, releaseTimeNs, format, mediaFormat) -> {
+            if (mediaFormat != lastDiagnosticFormat) {
+                lastDiagnosticFormat = mediaFormat;
+                long generation = diagnosticGeneration;
+                mHandler.post(() -> { if (mExoPlayer != null && generation == diagnosticGeneration) diagnostics.mediaFormat(mediaFormat); });
+            }
+        });
 
         if (userPreferences.get(UserPreferences.Companion.getDebuggingEnabled())) {
             mExoPlayer.addAnalyticsListener(new EventLogger());
@@ -230,7 +254,7 @@ public class VideoManager {
     }
 
     public boolean isInitialized() {
-        return mExoPlayer != null;
+        return mExoPlayer != null && !"RELEASED".equals(adapter.getState());
     }
 
     public @NonNull ZoomMode getZoomMode() {
@@ -283,7 +307,7 @@ public class VideoManager {
     }
 
     public boolean isPlaying() {
-        return mExoPlayer.isPlaying();
+        return isInitialized() && mExoPlayer.isPlaying();
     }
 
     public void start() {
@@ -292,22 +316,22 @@ public class VideoManager {
             _helper.getFragment().closePlayer();
             return;
         }
-        mExoPlayer.setPlayWhenReady(true);
+        adapter.play();
         normalWidth = mExoPlayerView.getLayoutParams().width;
         normalHeight = mExoPlayerView.getLayoutParams().height;
     }
 
     public void play() {
-        mExoPlayer.setPlayWhenReady(true);
+        adapter.play();
     }
 
     public void pause() {
-        mExoPlayer.setPlayWhenReady(false);
+        adapter.pause();
     }
 
     public void stopPlayback() {
-        if (mExoPlayer != null) {
-            mExoPlayer.stop();
+        if (isInitialized()) {
+            adapter.stop();
 
             mExoPlayer.setTrackSelectionParameters(mExoPlayer.getTrackSelectionParameters()
                     .buildUpon()
@@ -332,7 +356,7 @@ public class VideoManager {
             return -1;
 
         Timber.i("Exo length in seek is: %d", getDuration());
-        mExoPlayer.seekTo(pos);
+        adapter.seek(pos);
         return pos;
     }
 
@@ -343,11 +367,14 @@ public class VideoManager {
         return flags;
     }
 
-    public void setMediaStreamInfo(ApiClient api, StreamInfo streamInfo) {
+    public boolean setMediaStreamInfo(ApiClient api, StreamInfo streamInfo) {
+        diagnosticGeneration++;
+        lastDiagnosticFormat = null;
+        diagnostics.source(streamInfo);
         String path = streamInfo.getMediaUrl();
         if (path == null) {
             Timber.w("Video path is null cannot continue");
-            return;
+            return false;
         }
         Timber.i("Video path set to: %s", path);
 
@@ -376,10 +403,12 @@ public class VideoManager {
                     .setSubtitleConfigurations(subtitleConfigurations)
                     .build();
 
-            mExoPlayer.setMediaItem(mediaItem);
-            mExoPlayer.prepare();
+            engine.prepare(mediaItem);
+            return true;
         } catch (IllegalStateException e) {
-            Timber.e(e, "Unable to set video path.  Probably backing out.");
+            diagnostics.initializationFailure(e);
+            Timber.e("Unable to prepare playback engine: %s", e.getClass().getSimpleName());
+            return false;
         }
     }
 
@@ -529,14 +558,16 @@ public class VideoManager {
             return false;
 
         try {
-            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
-            mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
-            mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
+            for (int groupIndex = 0; groupIndex < exoTracks.getGroups().size(); groupIndex++) {
+                if (exoTracks.getGroups().get(groupIndex).getMediaTrackGroup().equals(matchedGroup)) {
+                    return adapter.selectTrack(chosenTrackType, groupIndex, 0);
+                }
+            }
+            return false;
         } catch (Exception e) {
             Timber.w("Error setting track selection");
             return false;
         }
-        return true;
     }
 
     public float getPlaybackSpeed() {
@@ -566,8 +597,10 @@ public class VideoManager {
     private void releasePlayer() {
         _helper.setScreensaverLock(false);
         if (mExoPlayer != null) {
+            diagnosticGeneration++;
+            diagnostics.release();
             mExoPlayerView.setPlayer(null);
-            mExoPlayer.release();
+            engine.release();
             mExoPlayer = null;
         }
     }

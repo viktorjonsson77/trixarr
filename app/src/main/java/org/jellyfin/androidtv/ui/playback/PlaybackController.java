@@ -71,6 +71,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
+    private final org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGate attemptGate = new org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGate();
     int mCurrentIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -109,6 +110,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private Display.Mode[] mDisplayModes;
     private RefreshRateSwitchingBehavior refreshRateSwitchingBehavior = RefreshRateSwitchingBehavior.DISABLED;
 
+    public void showDiagnostics() { if (mVideoManager != null) mVideoManager.showDiagnostics(); }
+
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
         this(items, fragment, 0);
     }
@@ -140,6 +143,11 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public void init(@NonNull VideoManager mgr, @NonNull CustomPlaybackOverlayFragment fragment) {
         mVideoManager = mgr;
+        mFragment = fragment;
+        if (!mgr.isInitialized()) {
+            mPlaybackState = PlaybackState.ERROR;
+            return;
+        }
         mVideoManager.subscribe(this);
         mVideoManager.setZoom(userPreferences.getValue().get(UserPreferences.Companion.getPlayerZoomMode()));
         mFragment = fragment;
@@ -544,6 +552,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions internalOptions) {
+        final long attempt = attemptGate.begin();
         if (isLiveTv) {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
@@ -552,16 +561,17 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo response) {
-                    if (!isActive()) return;
+                    if (!isActive() || !attemptGate.isCurrent(attempt)) return;
                     if (mVideoManager == null)
                         return;
+                    if (!attemptGate.claimPreparation(attempt)) return;
                     mCurrentOptions = internalOptions;
-                    startItem(item, position, response);
+                    startItem(item, position, response, attempt);
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    if (!isActive()) return;
+                    if (!isActive() || !attemptGate.isCurrent(attempt)) return;
                     handlePlaybackInfoError(exception);
                 }
             });
@@ -569,18 +579,19 @@ public class PlaybackController implements PlaybackControllerNotifiable {
             playbackManager.getValue().getVideoStreamInfo(mFragment, internalOptions, position * 10000, new Response<StreamInfo>(mFragment.getLifecycle()) {
                 @Override
                 public void onResponse(StreamInfo internalResponse) {
-                    if (!isActive()) return;
+                    if (!isActive() || !attemptGate.isCurrent(attempt)) return;
                     Timber.i("Internal player would %s", internalResponse.getPlayMethod().equals(PlayMethod.TRANSCODE) ? "transcode" : "direct stream");
                     if (mVideoManager == null)
                         return;
+                    if (!attemptGate.claimPreparation(attempt)) return;
                     mCurrentOptions = internalOptions;
                     if (internalOptions.getSubtitleStreamIndex() == null) burningSubs = internalResponse.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE;
-                    startItem(item, position, internalResponse);
+                    startItem(item, position, internalResponse, attempt);
                 }
 
                 @Override
                 public void onError(Exception exception) {
-                    if (!isActive()) return;
+                    if (!isActive() || !attemptGate.isCurrent(attempt)) return;
                     Timber.e(exception, "Unable to get stream info for internal player");
                     if (mVideoManager == null)
                         return;
@@ -611,7 +622,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         if (mFragment != null) mFragment.closePlayer();
     }
 
-    private void startItem(BaseItemDto item, long position, StreamInfo response) {
+    private void startItem(BaseItemDto item, long position, StreamInfo response, long attempt) {
         if (!hasInitializedVideoManager() || !hasFragment()) {
             Timber.w("Error - attempting to play without:%s%s", hasInitializedVideoManager() ? "" : " [videoManager]", hasFragment() ? "" : " [overlay fragment]");
             return;
@@ -654,18 +665,21 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
         if (mFragment != null) mFragment.updateDisplay();
 
-        if (mVideoManager != null) {
-            mVideoManager.setMediaStreamInfo(api.getValue(), response);
+        if (mVideoManager == null || !mVideoManager.setMediaStreamInfo(api.getValue(), response)) {
+            mPlaybackState = PlaybackState.ERROR;
+            if (mFragment != null) mFragment.closePlayer();
+            return;
         }
 
         PlaybackControllerHelperKt.applyMediaSegments(this, item, () -> {
+            if (!attemptGate.claimStart(attempt) || mVideoManager == null) return null;
             // Set video start delay
             long videoStartDelay = userPreferences.getValue().get(UserPreferences.Companion.getVideoStartDelay());
             if (videoStartDelay > 0) {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mVideoManager != null) {
+                        if (mVideoManager != null && attemptGate.isCurrent(attempt)) {
                             mVideoManager.start();
                         }
                     }
@@ -842,14 +856,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void stop() {
+        boolean reportStop = attemptGate.stop();
         refreshCurrentPosition();
         Timber.i("stop called at %s", mCurrentPosition);
         stopReportLoop();
         if (mPlaybackState != PlaybackState.IDLE && mPlaybackState != PlaybackState.UNDEFINED) {
             mPlaybackState = PlaybackState.IDLE;
 
-            if (mVideoManager != null && mVideoManager.isPlaying()) mVideoManager.stopPlayback();
-            if (getCurrentlyPlayingItem() != null && mCurrentStreamInfo != null) {
+            if (hasInitializedVideoManager()) mVideoManager.stopPlayback();
+            if (reportStop && getCurrentlyPlayingItem() != null && mCurrentStreamInfo != null) {
                 Long mbPos = mCurrentPosition * 10000;
                 reportingHelper.getValue().reportStopped(mFragment, getCurrentlyPlayingItem(), mCurrentStreamInfo, mbPos);
             }
@@ -987,8 +1002,12 @@ public class PlaybackController implements PlaybackControllerNotifiable {
                     if (!isActive()) return;
                     mCurrentStreamInfo = response;
                     if (mVideoManager != null) {
-                        mVideoManager.setMediaStreamInfo(api.getValue(), response);
-                        mVideoManager.start();
+                        if (mVideoManager.setMediaStreamInfo(api.getValue(), response)) {
+                            mVideoManager.start();
+                        } else {
+                            mPlaybackState = PlaybackState.ERROR;
+                            if (mFragment != null) mFragment.closePlayer();
+                        }
                     }
                 }
 

@@ -186,7 +186,11 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
         return rowPresenter;
     }
 
+    private Action diagnosticsAction;
+
     private void initActions(Context context) {
+        diagnosticsAction = new Action(0x415252, "Playback diagnostics");
+        diagnosticsAction.setIcon(androidx.core.content.ContextCompat.getDrawable(context, android.R.drawable.ic_menu_info_details));
         playPauseAction = new PlayPauseAction(context);
         rewindAction = new RewindAction(context);
         fastForwardAction = new FastForwardAction(context);
@@ -256,6 +260,8 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
             primaryActionsAdapter.add(guideAction);
         }
 
+        secondaryActionsAdapter.add(diagnosticsAction);
+
         // Secondary Items
         if (playerAdapter.isLiveTv()) {
             secondaryActionsAdapter.add(previousLiveTvChannelAction);
@@ -287,6 +293,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
 
     @Override
     public void onActionClicked(Action action) {
+        if (action == diagnosticsAction) playbackController.showDiagnostics();
         if (action instanceof AndroidAction) {
             ((AndroidAction) action).onActionClicked(getPlayerAdapter());
         }
@@ -294,6 +301,7 @@ public class CustomPlaybackTransportControlGlue extends PlaybackTransportControl
     }
 
     public void onCustomActionClicked(Action action, View view) {
+        if (action == diagnosticsAction) playbackController.showDiagnostics();
         // Handle custom action clicks which require a popup menu
         if (action instanceof CustomAction) {
             ((CustomAction) action).handleClickAction(playbackController, getPlayerAdapter(), getContext(), view);

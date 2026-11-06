@@ -476,6 +476,10 @@ public class CustomPlaybackOverlayFragment extends Fragment implements LiveTvGui
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                if (keyCode == KeyEvent.KEYCODE_INFO || (keyCode == KeyEvent.KEYCODE_MENU && !playbackControllerContainer.getValue().getPlaybackController().isLiveTv())) {
+                    playbackControllerContainer.getValue().getPlaybackController().showDiagnostics();
+                    return true;
+                }
                 if (!mGuideVisible)
                     leanbackOverlayFragment.setShouldShowOverlay(true);
                 else {

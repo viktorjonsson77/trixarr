@@ -3,7 +3,6 @@ package org.jellyfin.androidtv.ui.playback
 import androidx.annotation.OptIn
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.C
-import androidx.media3.common.TrackSelectionOverride
 import androidx.media3.common.util.UnstableApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,12 +42,7 @@ fun PlaybackController.getLiveTvChannel(
 fun PlaybackController.disableDefaultSubtitles() {
 	Timber.i("Disabling non-baked subtitles")
 
-	with(mVideoManager.mExoPlayer.trackSelector!!) {
-		parameters = parameters.buildUpon()
-			.clearOverridesOfType(C.TRACK_TYPE_TEXT)
-			.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, true)
-			.build()
-	}
+	mVideoManager.selectEngineTrack(C.TRACK_TYPE_TEXT, -1, 0)
 }
 
 @OptIn(UnstableApi::class)
@@ -135,13 +129,9 @@ fun PlaybackController.setSubtitleIndex(index: Int, force: Boolean = false) {
 				}
 
 				Timber.i("Enabling subtitle group $index via method ${stream.deliveryMethod}")
-				mCurrentOptions.subtitleStreamIndex = index
-				with(mVideoManager.mExoPlayer.trackSelector!!) {
-					parameters = parameters.buildUpon()
-						.clearOverridesOfType(C.TRACK_TYPE_TEXT)
-						.addOverride(TrackSelectionOverride(group, 0))
-						.setTrackTypeDisabled(C.TRACK_TYPE_TEXT, false)
-						.build()
+				val groupIndex = mVideoManager.mExoPlayer.currentTracks.groups.indexOfFirst { it.mediaTrackGroup == group }
+				if (mVideoManager.selectEngineTrack(C.TRACK_TYPE_TEXT, groupIndex, 0)) {
+					mCurrentOptions.subtitleStreamIndex = index
 				}
 			}
 
