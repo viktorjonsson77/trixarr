@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnosticsTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-06T21:43:13.684Z" hostname="DevServer" time="1.946">
+  <properties/>
+  <testcase name="source DV metadata remains separate and URLs never enter view" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnosticsTests" time="1.815"/>
+  <testcase name="audio initialization observation is not HDMI verification" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnosticsTests" time="0.066"/>
+  <testcase name="decoder failure contains category without private exception message" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnosticsTests" time="0.062"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

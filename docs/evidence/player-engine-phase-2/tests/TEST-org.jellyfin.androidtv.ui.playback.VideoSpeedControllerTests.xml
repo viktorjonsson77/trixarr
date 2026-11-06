@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-06T21:43:11.916Z" hostname="DevServer" time="1.734">
+  <properties/>
+  <testcase name="VideoSpeedController SpeedSteps uses intervals of 0 25" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="1.407"/>
+  <testcase name="VideoSpeedController speed is 1 by default" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.205"/>
+  <testcase name="VideoSpeedController currentSpeed getter returns set value" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.019"/>
+  <testcase name="VideoSpeedController currentSpeed updates the speed in the controller" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.01"/>
+  <testcase name="VideoSpeedController resetSpeedToDefault() works correctly" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.011"/>
+  <testcase name="VideoSpeedController remembers previous instance speed value" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.045"/>
+  <testcase name="VideoSpeedController currentSpeed always sets the speed to 1 for LiveTV" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.013"/>
+  <testcase name="VideoSpeedController currentSpeed always sets the requested speed when LiveTV is off" classname="org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests" time="0.011"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/root/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.15.11/a38b16385e867f59a641330f0362ebe742788ed8/byte-buddy-agent-1.15.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>

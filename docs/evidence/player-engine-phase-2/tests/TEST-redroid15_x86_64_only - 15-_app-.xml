@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest" tests="2" failures="0" errors="0" skipped="0" time="1.451" timestamp="2026-11-06T21:43:46" hostname="localhost">
+  <properties>
+    <property name="device" value="redroid15_x86_64_only - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":app" />
+  </properties>
+  <testcase name="packagedFfmpegExtensionLoads" classname="org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest" time="0.042" />
+  <testcase name="realMedia3LifecycleAndDiagnosticSnapshotWithoutServer" classname="org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest" time="0.032" />
+</testsuite>

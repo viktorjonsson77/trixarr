@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.jellyfin.androidtv.ui.playback.overlay.CustomSeekProviderTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-06T21:43:15.722Z" hostname="DevServer" time="0.547">
+  <properties/>
+  <testcase name="CustomSeekProvider seekPositions with simple duration" classname="org.jellyfin.androidtv.ui.playback.overlay.CustomSeekProviderTests" time="0.509"/>
+  <testcase name="CustomSeekProvider seekPositions with odd duration" classname="org.jellyfin.androidtv.ui.playback.overlay.CustomSeekProviderTests" time="0.029"/>
+  <testcase name="CustomSeekProvider seekPositions with seek disabled" classname="org.jellyfin.androidtv.ui.playback.overlay.CustomSeekProviderTests" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

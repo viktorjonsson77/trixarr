@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" tests="15" skipped="0" failures="0" errors="0" timestamp="2026-11-06T21:43:15.646Z" hostname="DevServer" time="0.068">
+  <properties/>
+  <testcase name="lifecycle and resume preserve milliseconds and paused seek" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.003"/>
+  <testcase name="initialized engine is released even before first prepare" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.003"/>
+  <testcase name="default selection creates exactly one engine and reuses it" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.003"/>
+  <testcase name="unsupported candidate is released without preparation" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.003"/>
+  <testcase name="initialization failure releases before bounded fallback with same resume request" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.002"/>
+  <testcase name="cleanup failure forbids another engine" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.001"/>
+  <testcase name="failed candidates exhausted once" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.002"/>
+  <testcase name="factory failure can fall back without a session or resource" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.001"/>
+  <testcase name="active session failure never rotates engines or repeats a start" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.002"/>
+  <testcase name="no candidates means unavailable, never an imaginary native engine" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.001"/>
+  <testcase name="negative seeks rejected before reaching engine" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.001"/>
+  <testcase name="DV profile requires explicit codec metadata" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.007"/>
+  <testcase name="HDR classification never equates PQ alone with HDR10 plus" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.02"/>
+  <testcase name="missing values stay unknown" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.001"/>
+  <testcase name="AudioTrack diagnostics cannot verify HDMI Atmos or DTS X" classname="org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

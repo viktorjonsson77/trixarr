@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGateTests" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-06T21:43:13.665Z" hostname="DevServer" time="0.009">
+  <properties/>
+  <testcase name="duplicate server and segment callbacks cannot prepare or report start twice" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGateTests" time="0.002"/>
+  <testcase name="stop while initializing invalidates callbacks and sends no stop for unstarted session" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGateTests" time="0.001"/>
+  <testcase name="retry ignores old response and delayed start while new attempt reports once" classname="org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGateTests" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
