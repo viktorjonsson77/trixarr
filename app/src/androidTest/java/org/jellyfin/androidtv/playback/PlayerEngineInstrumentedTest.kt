@@ -11,6 +11,35 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PlayerEngineInstrumentedTest {
+    @Test fun pinnedMedia3DoesNotTreatP5OrP7AsGenericHevc() {
+        for (profile in listOf("05", "07")) {
+            val format = androidx.media3.common.Format.Builder().setSampleMimeType("video/dolby-vision")
+                .setCodecs("dvhe.$profile.06").build()
+            assertNull(androidx.media3.exoplayer.mediacodec.MediaCodecUtil.getAlternativeCodecMimeType(format))
+        }
+    }
+
+    @Test fun realAdapterSessionCleanupAndDiagnostics() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.runOnMainSync {
+            val engine = Media3PlayerEngine(ExoPlayer.Builder(instrumentation.targetContext).build())
+            val owner = org.jellyfin.playback.core.engine.PlaybackSessionOwner()
+            val generation = owner.begin("synthetic", 12345)
+            owner.bindEngine(generation, engine.id, Runnable { engine.release() })
+            val diagnostics = PlaybackDiagnostics(engine.player, engine)
+            diagnostics.session(owner)
+            try {
+                engine.seek(12345)
+                assertEquals(12345L, engine.positionMs)
+                assertTrue(diagnostics.snapshot().contains(owner.snapshot!!.id))
+                owner.finish("RECREATED")
+                assertFalse(owner.isCurrent(generation))
+                assertEquals("RELEASED", engine.state)
+                owner.finish("DUPLICATE")
+            } finally { diagnostics.release(); engine.release() }
+        }
+    }
+
 	@Test fun packagedFfmpegExtensionLoads() {
 		assertTrue(androidx.media3.decoder.ffmpeg.FfmpegLibrary.isAvailable())
 		assertNotNull(androidx.media3.decoder.ffmpeg.FfmpegLibrary.getVersion())

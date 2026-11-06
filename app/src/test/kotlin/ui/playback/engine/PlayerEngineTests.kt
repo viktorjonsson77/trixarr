@@ -1,5 +1,7 @@
 package org.jellyfin.androidtv.ui.playback.engine
 
+import org.jellyfin.playback.core.engine.PlayerEngine
+import org.jellyfin.playback.core.engine.PlayerEngineManager
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -10,7 +12,7 @@ private inline fun <reified T : Throwable> expectFailure(block: () -> Unit): T {
 }
 
 private class FakeEngine(private val fail: Boolean = false, private val supported: Boolean = true) : PlayerEngine<Long> {
-	override val id = "fake"
+	override val id = java.util.UUID.randomUUID().toString()
 	override var state = "IDLE"
 	override var positionMs = 0L
 	var releases = 0

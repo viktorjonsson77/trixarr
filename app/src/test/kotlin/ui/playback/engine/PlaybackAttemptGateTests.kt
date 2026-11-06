@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 
 class PlaybackAttemptGateTests : FunSpec({
 	test("duplicate server and segment callbacks cannot prepare or report start twice") {
-		val gate = PlaybackAttemptGate()
+		val gate = org.jellyfin.playback.core.engine.PlaybackSessionOwner()
 		val attempt = gate.begin()
 		gate.claimPreparation(attempt) shouldBe true
 		gate.claimPreparation(attempt) shouldBe false
@@ -15,7 +15,7 @@ class PlaybackAttemptGateTests : FunSpec({
 		gate.stop() shouldBe false
 	}
 	test("stop while initializing invalidates callbacks and sends no stop for unstarted session") {
-		val gate = PlaybackAttemptGate()
+		val gate = org.jellyfin.playback.core.engine.PlaybackSessionOwner()
 		val attempt = gate.begin()
 		gate.claimPreparation(attempt) shouldBe true
 		gate.stop() shouldBe false
@@ -23,7 +23,7 @@ class PlaybackAttemptGateTests : FunSpec({
 		gate.isCurrent(attempt) shouldBe false
 	}
 	test("retry ignores old response and delayed start while new attempt reports once") {
-		val gate = PlaybackAttemptGate()
+		val gate = org.jellyfin.playback.core.engine.PlaybackSessionOwner()
 		val old = gate.begin()
 		gate.claimPreparation(old)
 		gate.claimStart(old)
