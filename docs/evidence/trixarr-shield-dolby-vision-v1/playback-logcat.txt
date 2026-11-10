@@ -1,0 +1,19 @@
+Filtered target-process logcat; host UTC 2026-11-10T18:38:19.234826+00:00
+--------- beginning of main
+11-10 19:37:28.735 18558 18558 I ExoPlayerImpl: Init 5bdb519 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 19:37:31.041 18558 19546 I OMXClient: IOmx service obtained
+11-10 19:37:31.080 18558 19545 D MediaCodec: flushMediametrics
+11-10 19:37:31.081 18558 19545 D SurfaceUtils: connecting to surface 0x22101b74b0, reason connectToSurface
+11-10 19:37:31.081 18558 19545 I MediaCodec: [OMX.Nvidia.DOVI.decode] setting surface generation to 19003393
+11-10 19:37:31.081 18558 19545 D SurfaceUtils: disconnecting from surface 0x22101b74b0, reason connectToSurface(reconnect)
+11-10 19:37:31.082 18558 19545 D SurfaceUtils: connecting to surface 0x22101b74b0, reason connectToSurface(reconnect)
+11-10 19:37:31.115 18558 19546 I ACodec  : Enable timestamp filtering for Video Decoder
+11-10 19:37:31.115 18558 19546 I ACodec  : Setting Dolby Vision Specific attributes to Video Decoder
+11-10 19:37:31.120 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.120 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600
+11-10 19:37:31.157 18558 19546 D SurfaceUtils: set up nativeWindow 0x22101b74b0 for 3832x1600, color 0x106, rotation 0, usage 0x2900
+11-10 19:37:31.243 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.243 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600
+11-10 19:37:31.246 18558 19546 D SurfaceUtils: set up nativeWindow 0x22101b74b0 for 3832x1600, color 0x12b, rotation 0, usage 0x2900
+11-10 19:37:31.696 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.696 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600

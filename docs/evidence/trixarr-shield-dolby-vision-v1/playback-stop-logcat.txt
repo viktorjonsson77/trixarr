@@ -1,0 +1,42 @@
+Filtered target process logs, device local time UTC+1. Sensitive URL/path/credential lines excluded.
+--------- beginning of main
+11-10 19:37:28.735 18558 18558 I ExoPlayerImpl: Init 5bdb519 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 19:37:28.786 18558 18558 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: null
+11-10 19:37:29.157 18558 18558 I PlaybackController: Internal player would direct stream
+11-10 19:37:29.158 18558 18558 D PlaybackController: default audio index set to 1
+11-10 19:37:29.158 18558 18558 I PlaybackController: default audio index set to 1 remote default 1
+11-10 19:37:29.159 18558 18558 I PlaybackController: default sub index set to -1 remote default -1
+11-10 19:37:29.159 18558 18558 D VideoManager: Setting playback speed: 1,000000
+11-10 19:37:29.222 18558 18558 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-10 19:37:29.224 18558 18558 D VideoManager: Player is buffering
+11-10 19:37:29.283 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 19:37:30.930 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 19:37:31.013 18558 18558 D VideoManager: Tracks changed
+11-10 19:37:31.080 18558 19545 D MediaCodec: flushMediametrics
+11-10 19:37:31.081 18558 19545 D SurfaceUtils: connecting to surface 0x22101b74b0, reason connectToSurface
+11-10 19:37:31.081 18558 19545 I MediaCodec: [OMX.Nvidia.DOVI.decode] setting surface generation to 19003393
+11-10 19:37:31.081 18558 19545 D SurfaceUtils: disconnecting from surface 0x22101b74b0, reason connectToSurface(reconnect)
+11-10 19:37:31.082 18558 19545 D SurfaceUtils: connecting to surface 0x22101b74b0, reason connectToSurface(reconnect)
+11-10 19:37:31.115 18558 19546 I ACodec  : Enable timestamp filtering for Video Decoder
+11-10 19:37:31.115 18558 19546 I ACodec  : Setting Dolby Vision Specific attributes to Video Decoder
+11-10 19:37:31.120 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.120 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600
+11-10 19:37:31.157 18558 19546 D SurfaceUtils: set up nativeWindow 0x22101b74b0 for 3832x1600, color 0x106, rotation 0, usage 0x2900
+11-10 19:37:31.243 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.243 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600
+11-10 19:37:31.246 18558 19546 D SurfaceUtils: set up nativeWindow 0x22101b74b0 for 3832x1600, color 0x12b, rotation 0, usage 0x2900
+11-10 19:37:31.696 18558 19546 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:37:31.696 18558 19546 I ACodec  : Scaled Width is 3832, height is 1600
+11-10 19:37:31.818 18558 18558 D VideoManager: re-retrieved exoplayer track index 1
+11-10 19:37:31.830 18558 18558 I PlaybackController: Play method: Direct
+11-10 19:37:31.841 18558 18558 D VideoManager: re-retrieved exoplayer track index 1
+11-10 19:37:31.842 18558 18558 I PlaybackController: trying to switch audio stream from 1 to 1
+11-10 19:37:31.843 18558 18558 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-10 19:37:31.843 18558 18558 I PlaybackController: setting mCurrentOptions audio stream index from null to 1
+11-10 19:37:31.899 18558 18558 D VideoManager: Tracks changed
+11-10 19:39:27.656 18558 18558 I PlaybackController: pause called at 115345
+11-10 19:39:46.815 18558 18558 I PlaybackController: stop called at 115751
+11-10 19:39:46.839 18558 19545 D SurfaceUtils: disconnecting from surface 0x22101b74b0, reason disconnectFromSurface
+11-10 19:39:46.844 18558 19545 D MediaCodec: flushMediametrics
+11-10 19:39:46.844 18558 19545 D MediaCodec: flushMediametrics
+11-10 19:39:46.848 18558 18558 I ExoPlayerImpl: Release 5bdb519 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor]

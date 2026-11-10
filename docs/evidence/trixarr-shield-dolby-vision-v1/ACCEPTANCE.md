@@ -1,7 +1,10 @@
-# TRIXARR_SHIELD_DV_DIAGNOSTIC_BLOCKED
+# TRIXARR_SHIELD_DV_DIAGNOSTIC_PARTIAL
 
 Datum: 2026-11-10. Kontrollerad fysisk förkontroll via enbart `adb -s 100.91.172.18:5555`.
-Uppdatering godkänd av användaren och installerad. Appstart VERIFIED; inloggning och bibliotek VERIFIED efter användaråtgärd; uppspelning BLOCKED av ännu inte entydigt identifierad film/version. Inget DIAGNOSTIC_PASS.
+Godkänd debuguppdatering, appstart, inloggning, bibliotek, fysisk Shield-uppspelning,
+diagnostikvy och decoderloggar är VERIFIED. Kärnkraven för DIAGNOSTIC_PASS i avsnitt 15
+är uppfyllda. Uppdragets samlade status är PARTIAL eftersom faktisk TV/AVR-output och
+samma-fil-jämförelse i Kodi återstår; ingen Dolby Vision-fix eller slutlig rotorsak hävdas.
 
 ## Baslinje och bevisnivå
 
@@ -107,67 +110,132 @@ ADB `device`, SHIELD Android TV/mdarcy, målappens MainActivity i förgrunden oc
 18558. Visuell kontroll visar startsidan med bibliotekskort och innehållsmetadata.
 Autentiserad UI-/biblioteksåtkomst är VERIFIED; ingen credentials-inspektion eller
 serverändring gjord. Kontoväljarens tidigare login-blockerare är därmed löst.
-Ingen media startad. Användaren anger "Resident evil"; exakt film/år/version återstår.
+Detta var observationen före playback. Användaren angav sedan "Resident evil" och bekräftade att endast en sådan titel finns i biblioteket; objektet identifierades därefter enligt nedan.
 Den tillfälliga UI-bilden sparas inte i evidensen eftersom den visar personligt bibliotek.
 
-## Playback, decoder, audio and Kodi — BLOCKED / NOT VERIFIED
+## Controlled playback — VERIFIED
 
-| Bevisområde | Resultat |
+Användaren identifierade bibliotekets enda "Resident Evil" som mål. Sökningen visade
+ett spelbart bibliotekskort och andra katalogträffar med "Begär". Den spelbara postens
+detaljsida kontrollerades före Play: Resident Evil, 93 minuter, angivet premiärdatum
+2026-09-16, tillgänglig. Ingen versionsväljare observerades. En oavsiktligt öppnad
+"Welcome to Raccoon City"-katalogträff var ej tillgänglig och lämnades utan begäran/uppspelning.
+Bakgrundsbilden för målposten tycks höra till en annan del i serien; metadata kan vara
+felmatchad. Årtal/artwork används därför inte som bevis för filmfilens riktiga identitet.
+
+Efter start extraherades endast item-ID från målprocessens playback-URL i minnet:
+`dae676fc-22d2-a272-784e-30b9ff521ab8`. Hela URL:en sparades/visades inte.
+Källfilhash, MediaSourceId och exakt filnamn är NOT VERIFIED. Vid Kodi-jämförelse måste
+källfilen matchas; titellikhet ensam räcker inte.
+
+| Bevisnivå | Observation |
 | --- | --- |
-| Trixarr launch / respons / fjärrnavigation | VERIFIED start och svar på ADB DPAD_CENTER; fysisk fjärrkontroll NOT VERIFIED |
-| Jellyfin auth / bibliotek | VERIFIED efter användarinloggning: MainActivity visar startsida och bibliotekskort |
-| Diagnostikvy på Shield | NOT VERIFIED; källkoppling finns |
-| Exakt medieobjekt | BLOCKED: användaren anger Resident evil; exakt film/år, item-ID och källversion ännu ej fastställda |
-| SOURCE METADATA | NOT VERIFIED: container, codec, DV profile/level, compatibility-ID/HDR10-baslager, primärer, transfer, bitdjup och ljudcodec |
-| DEVICE CAPABILITY | VERIFIED enhets-/display-/vendor-deklarationer enligt ovan; runtime codec-profiler NOT VERIFIED |
-| SELECTED DECODER | NOT VERIFIED; ingen decoder initierad i testet |
-| ACTUAL PLAYER STATE | NOT VERIFIED; ingen uppspelning startad |
-| HDMI OUTPUT | NOT VERIFIED; displaykapabilitet bevisar inte aktiv DV/HDR |
-| Media3 version | 1.8.0 enligt granskad baslinje; aktiv runtime-version NOT VERIFIED |
-| MediaFormat, DV-konfiguration, CSD, HDR-metadata, Surface | NOT VERIFIED |
-| Decoderfel, dropped frames, underruns | NOT VERIFIED; inget genomfört test |
-| Playback method, valda ljud-/textspår | NOT VERIFIED |
-| Audio decoder, passthrough requested/selected, encoding, kanaler, AudioTrack/fel | NOT VERIFIED |
-| Yamaha Atmos/DTS:X-indikering | NOT VERIFIED; separat fysisk observation krävs |
-| Kodi | VERIFIED installerad 21.2; jämförande uppspelning BLOCKED |
+| SOURCE METADATA | Jellyfin: MKV, HEVC Main 10, 3832×1600, 23.976025 fps, 24,197,784 bit/s, 10 bit, DOVI profil 5 / level 6 |
+| SOURCE COLOR | Primärer, transfer och matris UNKNOWN i Jellyfin och Media3 ColorInfo UNKNOWN |
+| HDR10 compatibility | Policy UNSUPPORTED för P5; ingen generisk HEVC/HDR10-baslagerfallback tillåten |
+| DEVICE CAPABILITY | Policy ALLOWED; DV/HEVC-decoder och annonserat display-HDR-stöd SUPPORTED; runtime MIME-lista innehåller video/dolby-vision och video/hevc |
+| DELIVERY | Dialog: DirectPlay över HTTP; slutlogg Play method: Direct. Tidig logg "Internal player would direct stream" är en preliminär bedömning, inte bevis för slutlig remux. Ingen servertranscode eller motorfallback observerad |
+| SELECTED DECODER | OMX.Nvidia.DOVI.decode, Android hardware acceleration=true |
+| DECODER INPUT | video/dolby-vision, dvhe.05.06, profil/level (5,6), 3832×1600 |
+| ACTUAL PLAYER STATE | PLAYING → READY / PAUSED → kontrollerat stopp/release |
+| MEDIA3 | Jellyfin Media3, AndroidX Media3 1.8.0 bekräftad både i dialog och Init/Release-logg |
+| OUTPUT MEDIAFORMAT | video/raw, 3832×1600, color-standard=1, color-transfer=3, color-range=1, profil/level UNKNOWN |
+| HDR metadata | MediaCodec output: hdr-static-info finns, hdr10-plus-info finns inte. Rå metadata/CSD/RPU ej fångade |
+| HDMI OUTPUT | NOT VERIFIED; varken output-MIME, DV-codecval eller displayens stödlista bevisar TV:ns aktiva signal |
+| DISPLAY MODE | Före/under test: Android mode 49, 3840×2160, 59.94006 Hz; ingen refreshväxling observerad |
 
-Ingen automatisk codec-override eller ändring av decoder-/Kodi-policy gjord.
-Kodi loggar, konfiguration och privata bibliotek lästes inte. Inga interna Kodi-beslut härleds.
+[Första diagnostiksnapshot](playback-diagnostics.txt) fångades ur dialogens UI-text.
+[Snapshot i paus](playback-diagnostics-paused.txt) fångades efter cirka 116 sekunder.
+Dialogen öppnades med INFO (165), stängdes med Back och blockerade inte playback.
+ADB DPAD-navigation, sökinmatning, Play, Pause och Stop fungerade. Fysisk fjärrkontroll
+och fysisk TV-läsbarhet är NOT VERIFIED. En senare UI-dump under rörlig uppspelning
+misslyckades med `could not get idle state`; inget resultat härleddes från den.
 
-## Logs and timestamps
+Första snapshot: engine position 6951 ms, session position 6642 ms, PLAYING,
+PROGRESS_SENT, buffered 58780 ms, 50 dropped frames. Paussnapshot: engine 115759 ms,
+session 115751 ms, PAUSED, buffered 37552 ms, 61 dropped frames. Detta är kumulativa
+räknare, inte en mätning av tappade frames per sekund. Inga namngivna playback-/codec-/
+audiosink-fel registrerades i snapshoten; felraderna stod UNKNOWN. Underrun-antal och
+felfri långvarig uppspelning är NOT VERIFIED. Ingen automatiserad seek gjord.
 
-Enhetsklockan avlästes till `Tue Nov 10 18:24:15 UTC 2026` under förkontrollen.
-[device-observations.txt](device-observations.txt) har hostens UTC-insamlingstid.
-App launch är VERIFIED enligt tiderna ovan. Playback start, decoder init, first frame,
-playback errors och playback stop: NOT APPLICABLE för körningen eftersom ingen media startades.
-Se [installations-/startobservationer](install-launch-observations.txt) för sanerad kontroll
-av AndroidRuntime:E efter start: inga FATAL EXCEPTION-markörer eller målpaketomnämnanden.
-Detta utesluter inte nativefel eller andra orsaker till den observerade aktivitetsväxlingen.
-En första logcat-fråga avvisades på grund av tidsargumentets quoting; endast den korrigerade
-frågans lyckade resultat används. Relevanta playback-logcat-loggar är BLOCKED, inte fångade. Ingen fullständig logcat-dump
-eller logcat-rensning utförd. De sparade observationerna är begränsade till tekniska
-identitets-/kapabilitetsuppgifter och manifest; inga credentials eller känsliga URL:er.
+ADB-skärmbilden från filmens videoyta såg rosa/lila ut. Detta är en observation av
+screen capture, inte verifierat färgfel på HDMI/TV. Screen capture kan återge DV-färg
+annorlunda än TV-utmatningen; Användaren återkopplade efter testet "Det ser bra ut". Detta dokumenteras som
+**användarverifierad korrekt synlig bild på TV:n** för denna körning. Den rosa/lila
+ADB-skärmbilden reproducerar därmed inte det påstådda TV-färgfelet. TV:ns uttryckliga
+DV-indikering och Yamahas inkommande ljudformat är fortfarande NOT VERIFIED.
+Ingen filmframe sparas i repositoryt. SurfaceUtils-loggen visar nativeWindow 3832×1600,
+rotation 0, usage 0x2900 och färgformat 0x106 → 0x12b. Dessa vendorvärden tolkas inte
+som bevis för DV-utmatning eller ett specifikt fel.
+
+### Audio — configured state VERIFIED; HDMI NOT VERIFIED
+
+Källans audio #1: EAC3, profilsträng "Dolby Digital Plus + Dolby Atmos", 768000 bit/s,
+6 kanaler/5.1, 48000 Hz. Vald Media3-track id 2: audio/eac3, 6 kanaler, 48000 Hz.
+Media3 track-id och Jellyfin-index är olika namnrymder; ingen gissad direkt indexlikhet.
+AudioTrack encoding 6 (EAC3), channel mask 252, 48000 Hz, buffer 192000 bytes,
+offload=false. Encoded AudioTrack vald; passthrough requested UNKNOWN (automatic policy).
+Ljuddecoder UNKNOWN, vilket inte bevisar ett fel vid encoded output. AudioTrack-värdena
+bevisar inte AVR-mottagning eller Atmos. Yamaha-ingångsformat/Atmos/DTS:X NOT VERIFIED.
+
+### Kodi comparison — BLOCKED pending manual navigation
+
+Kodi 21.2 är installerad. Ingen Kodi-konfiguration ändrad eller privat bibliotek läst.
+Användaren har ombetts starta exakt samma fil i Kodi efter Trixarr-stoppet. Kodi playback
+method, decoder, DV-hantering, HDR-output, refresh och audio är tills dess NOT VERIFIED.
+Kodis interna decoderbeslut härleds inte från Trixarrs eller generella Android-loggar.
+
+## Sanitized logs and event times
+
+[Codec-/Surface-loggar](playback-logcat.txt), [playback/stopp-loggar](playback-stop-logcat.txt)
+och [install/startobservationer](install-launch-observations.txt) är begränsade till
+målprocess och relevanta tags. URL-/token-/credential-/privata sökvägsrader filtrerades
+före lagring; inga fullständiga logcat-dumpar eller logcat-rensningar gjordes.
+Android-loggarnas lokaltid motsvarar UTC+1 under körningen.
+
+| Händelse | Tid / bevis |
+| --- | --- |
+| App launch | Enhets-UTC 18:31:09, am start Status ok; tidigare avsnitt |
+| Playback Play begärd | Enhets-UTC 18:37:27 via DPAD_CENTER på Spela upp |
+| ExoPlayer Init | Lokal 19:37:28.735 (UTC 18:37:28.735) |
+| Buffering | Lokal 19:37:29.224 |
+| Decoder / Surface init | Lokal 19:37:31.081 OMX.Nvidia.DOVI.decode |
+| DV configuration | Lokal 19:37:31.115: Setting Dolby Vision Specific attributes to Video Decoder |
+| First frame | NOT VERIFIED exakt eventtid; outputformat/PLAYING-snapshot och senare videobild observerade |
+| Pause begärd | Enhets-UTC 18:39:27 via MEDIA_PAUSE; snapshot PAUSED |
+| Playback error | Ingen namngiven händelse i insamlade snapshots/loggar; frånvaro bevisar inte fullständig felfrihet |
+| Stop | Lokal 19:39:46.815: stop called at 115751 |
+| Release | Lokal 19:39:46.848: ExoPlayer Release |
+
+Efter MEDIA_STOP återgick UI till samma films detaljsida. Stoppets fjärr-HTTP-mottagning
+på Jellyfin är NOT VERIFIED; PROGRESS_SENT avser klientens rapporteringstillstånd.
+MainActivity observerades även under playback eftersom spelaren ligger i aktivitetens
+fragment. Ett tidigt antagande att aktivitetsnamnet betydde stopp korrigerades genom
+skärmkontroll och loggar; ingen sådan stopp-/kraschhändelse hävdas.
 
 ## Root cause hypothesis and remaining tests
 
-Orsak är NOT VERIFIED. Befintlig baslinje anger hypoteserna DV-profil-/baslagerhantering,
-förlorad DV-konfiguration vid demux/remux, annan serverleverans och displaykedjans signalering.
-Inga nya fysiska playbackdata finns som rangordnar dessa. Deklarerad DV-decoder och HDR-stöd
-visar endast att DV annonseras. De bevisar inte att DV används eller att HEVC valts fel.
+**Verifierad avgränsning:** den nya debugkörningen använder DV MIME, dvhe.05.06 och
+NVIDIAs DV-decoder med uttrycklig DV-konfiguration. Hypotesen "P5 behandlas som vanlig
+HEVC" stöds alltså inte för denna körning. Källans DV-profil finns kvar i decoder-input.
+Det bevisar inte att den äldre Jellyfin-installationen valde samma decoder eller att
+DV-konfiguration/RPU och HDMI-signalering blev korrekta hela vägen.
 
-1. Inloggningen är slutförd av användaren och verifierad i UI. Den godkända uppdateringen är genomförd; ingen ytterligare installation behövs.
-2. Användaren har angett Resident evil; exakt film/år och källversion behöver bekräftas, helst genom vald detaljsida eller Jellyfin item-ID.
-3. Efter användarinloggning: bibliotek, fysisk D-pad och diagnostikvy.
-   Saknad inloggning kräver användaråtgärd utan att credentials loggas.
-4. Kontrollerad uppspelning: källmetadata → leveransmetod → decoder MIME/CSD/format → player state,
-   inklusive tidsstämplade sanerade loggar, bildfel, dropped frames och underruns.
-5. Ljudspår/AudioTrack/passthrough samt faktisk TV-DV/HDR och Yamaha-ingångsindikering.
-6. Samma källversion/spår i Kodi utan konfigurationsändring; användarnavigering vid behov.
-7. Refresh före/under/efter och kontrollerat stopp; inga HDMI-slutsatser från hosttester.
+**Öppna hypoteser:** skillnader i äldre klientens demux/codecval, saknad eller annorlunda
+DV-konfiguration/CSD/RPU, vendor-output/Surface-färghantering och DV-signalering i
+Shield→Yamaha→TCL. Output-färgfälten 1/3/1 är en kontrollpunkt men inte ensamma diagnos
+av förlorad DV; DV-vendorpipeline kan ha annan semantik. Ingen kodändring föreslås utan
+jämförelse. Dolby Vision är inte rapporterat fixat.
+
+1. Korrekt synlig bild är bekräftad av användaren. TCL:s uttryckliga Dolby Vision-indikering och inkommande ljudindikering på Yamaha återstår.
+2. Samma fil/spår i Kodi: kontrollera källidentitet och samla uttrycklig decoder-/outputdiagnostik.
+3. Vid behov äldre Jellyfin-klient med samma item, fil, spår och leveransmetod; ingen automatisk ominstallation.
+4. CSD/DV configuration record/RPU, raw HDR-metadata och exakt first-frame-tid saknas i befintlig instrumentering.
+5. Längre bitrate-/frame-drop-/underrun-test, seek/resume, fysisk D-pad och refresh före/under/efter.
+6. Inga hosttester räknas som fysisk HDMI-verifiering. Ingen policy-/server-/Kodi-/nätverksändring gjord.
 
 ## Git
 
 Endast detta uppdrags evidenskatalog tillkommer. Ingen spelarmotor eller annan kod ändrad.
 Ingen push eller tag; enda deployment är uttryckligt godkänd debug-APK på rätt Shield. Lokal evidenscommit får bara innehålla denna katalog;
-befintlig smutsig arbetskatalog ska förbli oförändrad. Rapporten är färdig för den blockerade
-förkontrollens omfattning; den utgör inte färdig uppspelningsacceptans.
+befintlig smutsig arbetskatalog ska förbli oförändrad. Rapporten dokumenterar genomfört test och kvarvarande fysiska jämförelser; den utgör inte bevis för korrekt DV-/Atmos-utmatning.
