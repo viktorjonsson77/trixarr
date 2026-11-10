@@ -1,0 +1,51 @@
+Read-only device observations; host UTC 2026-11-10T18:24:40.335388+00:00
+ADB state: device
+ro.product.model=SHIELD Android TV
+ro.product.manufacturer=NVIDIA
+ro.build.version.release=11
+ro.build.version.sdk=30
+ro.product.cpu.abi=arm64-v8a
+ro.product.cpu.abilist=arm64-v8a,armeabi-v7a,armeabi
+ro.build.fingerprint=NVIDIA/mdarcy/mdarcy:11/RQ1A.210105.003/7825230_4387.0822:user/release-keys
+ro.product.device=mdarcy
+ro.product.name=mdarcy
+PACKAGE se.viktorjonsson.jellyfintv.debug
+versionCode=1 minSdk=21 targetSdk=36
+versionName=0.0.0-dev.1
+dataDir=/data/user/0/se.viktorjonsson.jellyfintv.debug
+firstInstallTime=2026-09-02 23:52:47
+lastUpdateTime=2026-09-28 23:17:53
+User 0: ceDataInode=652903 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false
+PACKAGE org.jellyfin.androidtv
+versionCode=191099 minSdk=21 targetSdk=36
+versionName=0.19.10
+dataDir=/data/user/0/org.jellyfin.androidtv
+firstInstallTime=2026-01-28 21:49:04
+lastUpdateTime=2026-09-16 22:49:37
+User 0: ceDataInode=409886 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false
+PACKAGE org.xbmc.kodi
+versionCode=2102000 minSdk=21 targetSdk=34
+versionName=21.2
+dataDir=/data/user/0/org.xbmc.kodi
+firstInstallTime=2026-11-04 22:41:13
+lastUpdateTime=2026-11-04 22:41:13
+User 0: ceDataInode=522522 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false
+DisplayDeviceInfo{"Inbyggd skärm": uniqueId="local:0", 3840 x 2160, modeId 49, defaultModeId 49, supportedModes [{id=17, width=1280, height=720, fps=60.000004}, {id=20, width=1920, height=1080, fps=59.94006}, {id=25, width=1280, height=720, fps=59.94006}, {id=26, width=1920, height=1080, fps=60.000004}, {id=27, width=720, height=480, fps=60.000004}, {id=28, width=1280, height=720, fps=50.0}, {id=31, width=1920, height=1080, fps=50.0}, {id=38, width=1920, height=1080, fps=23.976025}, {id=39, width=1920, height=1080, fps=29.97003}, {id=40, width=3840, height=2160, fps=23.976025}, {id=41, width=3840, height=2160, fps=29.97003}, {id=42, width=1920, height=1080, fps=24.000002}, {id=43, width=1920, height=1080, fps=30.000002}, {id=44, width=3840, height=2160, fps=24.000002}, {id=45, width=3840, height=2160, fps=25.0}, {id=46, width=3840, height=2160, fps=30.000002}, {id=47, width=3840, height=2160, fps=50.0}, {id=48, width=3840, height=2160, fps=60.000004}, {id=49, width=3840, height=2160, fps=59.94006}], colorMode 0, supportedColorModes [0, 5, 7, 9, 11], HdrCapabilities HdrCapabilities{mSupportedHdrTypes=[1, 2], mMaxLuminance=500.0, mMaxAverageLuminance=500.0, mMinLuminance=0.0}, allmSupported false, gameContentTypeSupported false, density 320, 213.0 x 213.0 dpi, appVsyncOff 100000, presDeadline 17583333, touch INTERNAL, rotation 0, type INTERNAL, address {port=0}, deviceProductInfo null, state ON, FLAG_DEFAULT_DISPLAY, FLAG_ROTATES_WITH_CONTENT, FLAG_SECURE, FLAG_SUPPORTS_PROTECTED_BUFFERS}
+mActiveModeId=49
+Vendor XML decoder declarations (not runtime selection):
+OMX.Nvidia.mp4.decode video/mp4v-es
+OMX.Nvidia.h263.decode video/3gpp
+OMX.Nvidia.h264.decode video/avc
+OMX.Nvidia.h264.decode.secure video/avc
+OMX.Nvidia.vp8.decode video/x-vnd.on2.vp8
+OMX.Nvidia.vp9.decode video/x-vnd.on2.vp9
+OMX.Nvidia.vp9.decode.secure video/x-vnd.on2.vp9
+OMX.Nvidia.h265.decode video/hevc
+OMX.Nvidia.h265.decode.secure video/hevc
+OMX.Nvidia.mpeg2v.decode video/mpeg2
+OMX.Nvidia.mp2.decoder audio/mpeg-L2
+OMX.Nvidia.wma.decoder audio/x-ms-wma
+OMX.Nvidia.vc1.decode  video/x-ms-wmv video/wvc1
+OMX.Nvidia.mjpeg.decoder video/x-motion-jpeg
+OMX.Nvidia.DOVI.decode video/dolby-vision
+OMX.Nvidia.DOVI.decode.secure video/dolby-vision
