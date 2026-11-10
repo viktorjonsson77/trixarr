@@ -1,0 +1,9 @@
+Host UTC 2026-11-10T20:10:26.704144+00:00
+ADB target: 100.91.172.18:5555
+ro.product.model=SHIELD Android TV
+ro.product.manufacturer=NVIDIA
+ro.product.device=mdarcy
+ro.build.version.release=11
+ro.build.version.sdk=30
+ro.product.cpu.abi=arm64-v8a
+ro.build.fingerprint=NVIDIA/mdarcy/mdarcy:11/RQ1A.210105.003/7825230_4387.0822:user/release-keys

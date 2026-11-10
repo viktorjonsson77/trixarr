@@ -1,0 +1,9 @@
+{
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "observation": "Read-only UI; no setting changed",
+  "bitstream_dolby_digital_ui_checked": true,
+  "refresh_switching_ui": "Skala p\u00e5 enheten",
+  "max_streaming_bitrate_ui": "200 Mbit/s",
+  "video_start_delay_ui": "0.0s",
+  "host_observation_utc": "2026-11-10T20:09:35.994266+00:00"
+}

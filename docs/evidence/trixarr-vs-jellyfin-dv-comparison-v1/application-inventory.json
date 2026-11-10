@@ -1,0 +1,53 @@
+[
+  {
+    "package": "se.viktorjonsson.jellyfintv.debug",
+    "package_manager": [
+      "versionCode=1 minSdk=21 targetSdk=36",
+      "versionName=0.0.0-dev.1",
+      "dataDir=/data/user/0/se.viktorjonsson.jellyfintv.debug",
+      "firstInstallTime=2026-09-02 23:52:47",
+      "lastUpdateTime=2026-11-10 19:31:00",
+      "User 0: ceDataInode=652903 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false"
+    ],
+    "apk_sha256": "1e7eeb00ecc832f39b4542fd81251f59e91e03967bce612ff657e7ae91922526",
+    "signer": [
+      "Signer #1 certificate DN: C=US, O=Android, CN=Android Debug",
+      "Signer #1 certificate SHA-256 digest: f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c"
+    ],
+    "media3_version_files": {}
+  },
+  {
+    "package": "org.jellyfin.androidtv",
+    "package_manager": [
+      "versionCode=191099 minSdk=21 targetSdk=36",
+      "versionName=0.19.10",
+      "dataDir=/data/user/0/org.jellyfin.androidtv",
+      "firstInstallTime=2026-01-28 21:49:04",
+      "lastUpdateTime=2026-09-16 22:49:37",
+      "User 0: ceDataInode=409886 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false"
+    ],
+    "apk_sha256": "dbc7a0ea8d757815e9619fac5e128391e37d501083f7c8b0ee5f25a5a33eee0c",
+    "signer": [
+      "Signer #1 certificate DN: CN=Android, OU=Android, O=Google Inc., L=Mountain View, ST=California, C=US",
+      "Signer #1 certificate SHA-256 digest: 2eca5acd52d4f718a178361a3489cd1322392b2ca62e8d72a3c4027af94a3d8c"
+    ],
+    "media3_version_files": {}
+  },
+  {
+    "package": "org.xbmc.kodi",
+    "package_manager": [
+      "versionCode=2102000 minSdk=21 targetSdk=34",
+      "versionName=21.2",
+      "dataDir=/data/user/0/org.xbmc.kodi",
+      "firstInstallTime=2026-11-04 22:41:13",
+      "lastUpdateTime=2026-11-04 22:41:13",
+      "User 0: ceDataInode=522522 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false"
+    ],
+    "apk_sha256": "e4c84bf738cac846ec4b4c6b58cc4a3ee669320d3061b6e80cf14fa61bc2c465",
+    "signer": [
+      "Signer #1 certificate DN: CN=XBMC Foundation, OU=Android platform, O=XBMC Foundation, L=US, ST=US, C=us",
+      "Signer #1 certificate SHA-256 digest: f517b44b5db5e62a6c1ec55ba47526db7de0d61f6ba26a7987520e293499b8d5"
+    ],
+    "media3_version_files": {}
+  }
+]

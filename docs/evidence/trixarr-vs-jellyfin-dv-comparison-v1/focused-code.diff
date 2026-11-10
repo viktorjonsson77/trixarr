@@ -1,0 +1,399 @@
+diff --git a/app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java b/app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java
+index 1b6a28137..725fec2b2 100644
+--- a/app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java
++++ b/app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java
+@@ -28 +27,0 @@ import androidx.media3.common.TrackGroup;
+-import androidx.media3.common.TrackSelectionOverride;
+@@ -64,0 +64,21 @@ public class VideoManager {
++    private org.jellyfin.playback.core.engine.PlayerEngineManager<MediaItem> engine;
++    private org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine adapter;
++    private org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics diagnostics;
++    private volatile android.media.MediaFormat lastDiagnosticFormat;
++    private volatile long diagnosticGeneration;
++    private org.jellyfin.playback.core.engine.PlaybackSessionOwner sessionOwner;
++    private long sessionGeneration;
++    private final org.jellyfin.androidtv.ui.playback.engine.CapabilityCodecSelector capabilityCodecSelector = new org.jellyfin.androidtv.ui.playback.engine.CapabilityCodecSelector();
++    public void bindSession(org.jellyfin.playback.core.engine.PlaybackSessionOwner owner, long generation) {
++        sessionOwner = owner;
++        sessionGeneration = generation;
++        diagnostics.session(owner);
++        owner.bindEngine(generation, adapter.getId(), () -> stopPlayback());
++    }
++    private boolean acceptEvent(AnalyticsListener.EventTime time) {
++        if (sessionOwner == null || !sessionOwner.isCurrent(sessionGeneration)) return false;
++        if (time.timeline.isEmpty()) return false;
++        return time.timeline.getWindow(time.windowIndex, new Timeline.Window()).mediaItem.mediaId.equals(sessionOwner.getSnapshot().getId());
++    }
++    public void showDiagnostics() { if (diagnostics != null) diagnostics.show(mActivity); }
++    public boolean selectEngineTrack(int type, int group, int track) { return adapter.selectTrack(type, group, track); }
+@@ -90 +110,24 @@ public class VideoManager {
+-        mExoPlayer = configureExoplayerBuilder(activity).build();
++        engine = new org.jellyfin.playback.core.engine.PlayerEngineManager<>(Collections.singletonList(
++                () -> new org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine(configureExoplayerBuilder(activity).build())));
++        try {
++            adapter = (org.jellyfin.androidtv.ui.playback.engine.Media3PlayerEngine) engine.initialize();
++            mExoPlayer = adapter.getPlayer();
++        } catch (IllegalStateException error) {
++            Timber.e("Playback engine initialization failed: %s", error.getClass().getSimpleName());
++            mHandler.post(() -> new android.app.AlertDialog.Builder(activity)
++                    .setTitle("Playback initialization failed")
++                    .setMessage("Engine: Jellyfin Media3\nState: ERROR\nReason: " + error.getClass().getSimpleName()
++                            + "\nCapability: UNKNOWN\nDecoder: UNKNOWN\nHDMI OUTPUT NOT VERIFIED")
++                    .setPositiveButton("Close", (dialog, which) -> _helper.getFragment().closePlayer())
++                    .setOnCancelListener(dialog -> _helper.getFragment().closePlayer()).show());
++            return;
++        }
++        diagnostics = new org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnostics(mExoPlayer, adapter);
++        mExoPlayer.addAnalyticsListener(diagnostics);
++        mExoPlayer.setVideoFrameMetadataListener((presentationTimeUs, releaseTimeNs, format, mediaFormat) -> {
++            if (mediaFormat != lastDiagnosticFormat) {
++                lastDiagnosticFormat = mediaFormat;
++                long generation = diagnosticGeneration;
++                mHandler.post(() -> { if (mExoPlayer != null && generation == diagnosticGeneration) diagnostics.mediaFormat(mediaFormat); });
++            }
++        });
+@@ -122 +165 @@ public class VideoManager {
+-        mExoPlayer.addListener(new Player.Listener() {
++        mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
+@@ -124 +167,2 @@ public class VideoManager {
+-            public void onPlayerError(@NonNull PlaybackException error) {
++            public void onPlayerError(AnalyticsListener.EventTime time, @NonNull PlaybackException error) {
++                if (!acceptEvent(time)) return;
+@@ -131 +175,2 @@ public class VideoManager {
+-            public void onIsPlayingChanged(boolean isPlaying) {
++            public void onIsPlayingChanged(AnalyticsListener.EventTime time, boolean isPlaying) {
++                if (!acceptEvent(time)) return;
+@@ -143 +188,2 @@ public class VideoManager {
+-            public void onPlaybackStateChanged(int playbackState) {
++            public void onPlaybackStateChanged(AnalyticsListener.EventTime time, int playbackState) {
++                if (!acceptEvent(time)) return;
+@@ -153,0 +200,2 @@ public class VideoManager {
++        });
++        mExoPlayer.addListener(new Player.Listener() {
+@@ -203,0 +252 @@ public class VideoManager {
++        defaultRendererFactory.setMediaCodecSelector(capabilityCodecSelector);
+@@ -233 +282 @@ public class VideoManager {
+-        return mExoPlayer != null;
++        return mExoPlayer != null && !"RELEASED".equals(adapter.getState());
+@@ -276,7 +325,3 @@ public class VideoManager {
+-        if (mExoPlayer == null || !isPlaying()) {
+-            return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
+-        } else {
+-            long mExoPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+-            lastExoPlayerPosition = mExoPlayerCurrentPosition;
+-            return mExoPlayerCurrentPosition;
+-        }
++        if (!isInitialized()) return lastExoPlayerPosition == -1 ? 0 : lastExoPlayerPosition;
++        lastExoPlayerPosition = adapter.getPositionMs();
++        return lastExoPlayerPosition;
+@@ -286 +331 @@ public class VideoManager {
+-        return mExoPlayer.isPlaying();
++        return isInitialized() && mExoPlayer.isPlaying();
+@@ -295 +340 @@ public class VideoManager {
+-        mExoPlayer.setPlayWhenReady(true);
++        adapter.play();
+@@ -301 +346 @@ public class VideoManager {
+-        mExoPlayer.setPlayWhenReady(true);
++        adapter.play();
+@@ -305 +350 @@ public class VideoManager {
+-        mExoPlayer.setPlayWhenReady(false);
++        adapter.pause();
+@@ -309,2 +354,2 @@ public class VideoManager {
+-        if (mExoPlayer != null) {
+-            mExoPlayer.stop();
++        if (isInitialized()) {
++            adapter.stop();
+@@ -335 +380 @@ public class VideoManager {
+-        mExoPlayer.seekTo(pos);
++        adapter.seek(pos);
+@@ -346 +391,9 @@ public class VideoManager {
+-    public void setMediaStreamInfo(ApiClient api, StreamInfo streamInfo) {
++    public boolean setMediaStreamInfo(ApiClient api, StreamInfo streamInfo) {
++        diagnosticGeneration++;
++        lastDiagnosticFormat = null;
++        diagnostics.source(streamInfo);
++        org.jellyfin.playback.core.engine.MediaCapabilityInput media = org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.media(streamInfo);
++        org.jellyfin.playback.core.engine.CapabilityDecision decision = engine.evaluate(media, org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.device(mActivity, media));
++        capabilityCodecSelector.configure(media, decision);
++        diagnostics.policy(decision, engine.getSelectionReason(), engine.getFallbackReason());
++        if (!decision.getCanAttempt()) return false;
+@@ -350 +403 @@ public class VideoManager {
+-            return;
++            return false;
+@@ -374,0 +428 @@ public class VideoManager {
++                    .setMediaId(sessionOwner != null ? sessionOwner.getSnapshot().getId() : "unowned")
+@@ -379,2 +433,3 @@ public class VideoManager {
+-            mExoPlayer.setMediaItem(mediaItem);
+-            mExoPlayer.prepare();
++            engine.prepare(mediaItem);
++            if (sessionOwner != null) sessionOwner.selectedEngine(sessionGeneration, engine.getActive().getId());
++            return true;
+@@ -382 +437,3 @@ public class VideoManager {
+-            Timber.e(e, "Unable to set video path.  Probably backing out.");
++            diagnostics.initializationFailure(e);
++            Timber.e("Unable to prepare playback engine: %s", e.getClass().getSimpleName());
++            return false;
+@@ -532,3 +589,6 @@ public class VideoManager {
+-            TrackSelectionParameters.Builder mExoPlayerSelectionParams = mExoPlayer.getTrackSelectionParameters().buildUpon();
+-            mExoPlayerSelectionParams.setOverrideForType(new TrackSelectionOverride(matchedGroup, 0));
+-            mExoPlayer.setTrackSelectionParameters(mExoPlayerSelectionParams.build());
++            for (int groupIndex = 0; groupIndex < exoTracks.getGroups().size(); groupIndex++) {
++                if (exoTracks.getGroups().get(groupIndex).getMediaTrackGroup().equals(matchedGroup)) {
++                    return adapter.selectTrack(chosenTrackType, groupIndex, 0);
++                }
++            }
++            return false;
+@@ -539 +598,0 @@ public class VideoManager {
+-        return true;
+@@ -568,0 +628,2 @@ public class VideoManager {
++            diagnosticGeneration++;
++            diagnostics.release();
+@@ -570 +631 @@ public class VideoManager {
+-            mExoPlayer.release();
++            engine.release();
+diff --git a/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidCapabilityProbe.kt b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidCapabilityProbe.kt
+new file mode 100644
+index 000000000..d2e5ab8d1
+--- /dev/null
++++ b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidCapabilityProbe.kt
+@@ -0,0 +1,64 @@
++package org.jellyfin.androidtv.ui.playback.engine
++
++import android.app.Activity
++import android.media.MediaCodecInfo.CodecProfileLevel
++import android.media.MediaCodecList
++import android.os.Build
++import org.jellyfin.androidtv.data.compat.StreamInfo
++import org.jellyfin.playback.core.engine.*
++import org.jellyfin.sdk.model.api.MediaStreamType
++import org.jellyfin.sdk.model.api.PlayMethod
++
++/** Collects declarations only. Never promotes a declaration to HDMI verification. */
++object AndroidCapabilityProbe {
++	private fun codec(value: String?) = when (value?.lowercase()) { "h265" -> "hevc"; "avc" -> "h264"; else -> value?.lowercase() }
++	private fun mime(codec: String?) = when (codec) {
++		"hevc" -> "video/hevc"; "h264" -> "video/avc"; "av1" -> "video/av01"; "vp9" -> "video/x-vnd.on2.vp9"
++		"vp8" -> "video/x-vnd.on2.vp8"; "mpeg2video" -> "video/mpeg2"; "mpeg4" -> "video/mp4v-es"
++		"ac3" -> "audio/ac3"; "eac3" -> "audio/eac3"; "truehd" -> "audio/true-hd"; "dts" -> "audio/vnd.dts"
++		"aac" -> "audio/mp4a-latm"; "flac" -> "audio/flac"; "opus" -> "audio/opus"; "mp3" -> "audio/mpeg"
++		else -> null
++	}
++	@JvmStatic fun media(info: StreamInfo): MediaCapabilityInput {
++		val streams = info.mediaSource?.mediaStreams.orEmpty()
++		val video = streams.firstOrNull { it.type == MediaStreamType.VIDEO }
++		val audio = streams.firstOrNull { it.type == MediaStreamType.AUDIO && it.index == info.mediaSource?.defaultAudioStreamIndex }
++			?: streams.firstOrNull { it.type == MediaStreamType.AUDIO }
++		val hdr = video?.videoRangeType?.toString()?.uppercase()
++		return MediaCapabilityInput(info.container ?: info.mediaSource?.container, codec(video?.codec), video?.dvProfile, video?.dvLevel,
++			video?.dvBlSignalCompatibilityId, when { video?.dvProfile != null || hdr?.contains("DOVI") == true -> "DV"; hdr?.contains("HDR10PLUS") == true -> "HDR10+"; hdr?.contains("HDR10") == true -> "HDR10"; hdr?.contains("HLG") == true -> "HLG"; hdr == "SDR" -> "SDR"; else -> hdr },
++			video?.bitDepth, video?.width, video?.height, (video?.realFrameRate ?: video?.averageFrameRate)?.toDouble(),
++			codec(audio?.codec), audio?.channels, audio?.channelLayout, audio?.sampleRate, info.playMethod == PlayMethod.TRANSCODE)
++	}
++	@JvmStatic fun device(activity: Activity, media: MediaCapabilityInput): DeviceCapabilitySnapshot {
++		val codecs = runCatching { MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos.filter { !it.isEncoder } }.getOrNull()
++		val decoders = mutableListOf<DecoderCapability>()
++		for (codec in codecs.orEmpty()) {
++			for (type in codec.supportedTypes.filter { it.startsWith("video/") }) {
++				val name = if (type == "video/dolby-vision") "dolby-vision" else listOf("hevc", "h264", "av1", "vp9", "vp8", "mpeg2video", "mpeg4").firstOrNull { mime(it) == type } ?: type
++				val caps = runCatching { codec.getCapabilitiesForType(type) }.getOrNull()
++				val profiles = mutableMapOf<Int, Int>()
++				if (type == "video/dolby-vision") for (level in caps?.profileLevels.orEmpty()) {
++					val profile = when (level.profile) { CodecProfileLevel.DolbyVisionProfileDvheStn -> 5; CodecProfileLevel.DolbyVisionProfileDvheDtb -> 7; CodecProfileLevel.DolbyVisionProfileDvheSt -> 8; else -> null }
++					if (profile != null && level.level > 0) profiles[profile] = maxOf(profiles[profile] ?: 0, Integer.numberOfTrailingZeros(level.level) + 1)
++				}
++				val geometry = if (media.width != null && media.height != null && media.frameRate != null) runCatching {
++					caps?.videoCapabilities?.areSizeAndRateSupported(media.width!!, media.height!!, media.frameRate!!)
++				}.getOrNull() else null
++				val depth = when { media.bitDepth == null -> null; media.bitDepth == 8 -> true; media.bitDepth == 10 && name == "hevc" -> caps?.profileLevels?.any { it.profile == CodecProfileLevel.HEVCProfileMain10 || it.profile == CodecProfileLevel.HEVCProfileMain10HDR10 || it.profile == CodecProfileLevel.HEVCProfileMain10HDR10Plus }; name == "dolby-vision" && media.bitDepth == 10 -> true; else -> null }
++				decoders += DecoderCapability(name, profiles, when { geometry == false || depth == false -> Capability.UNSUPPORTED; geometry == true && depth == true -> Capability.SUPPORTED; else -> Capability.UNKNOWN })
++			}
++		}
++		val audioMime = mime(media.audioCodec)
++		val audioSupport = if (audioMime == null) Capability.UNKNOWN else {
++			val native = codecs.orEmpty().any { codec -> audioMime in codec.supportedTypes && runCatching {
++				val caps = codec.getCapabilitiesForType(audioMime).audioCapabilities
++				(media.channels == null || caps.maxInputChannelCount >= media.channels!!) && (media.sampleRate == null || caps.isSampleRateSupported(media.sampleRate!!))
++			}.getOrDefault(false) }
++			val ffmpeg = runCatching { androidx.media3.decoder.ffmpeg.FfmpegLibrary.supportsFormat(audioMime) }.getOrDefault(false)
++			if (native || ffmpeg) Capability.SUPPORTED else Capability.UNKNOWN // Passthrough may work without an audio decoder.
++		}
++		val hdr = if (Build.VERSION.SDK_INT >= 24) runCatching { activity.windowManager.defaultDisplay.hdrCapabilities.supportedHdrTypes.toList().mapNotNull { when (it) { 1 -> "DV"; 2 -> "HDR10"; 3 -> "HLG"; 4 -> "HDR10+"; else -> null } }.toSet() }.getOrNull() else null
++		return DeviceCapabilitySnapshot(Build.VERSION.SDK_INT, decoders, codecs != null, hdr, audioSupport)
++	}
++}
+diff --git a/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/CapabilityCodecSelector.kt b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/CapabilityCodecSelector.kt
+new file mode 100644
+index 000000000..2c2f88dbe
+--- /dev/null
++++ b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/CapabilityCodecSelector.kt
+@@ -0,0 +1,16 @@
++package org.jellyfin.androidtv.ui.playback.engine
++
++import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
++import org.jellyfin.playback.core.engine.CapabilityDecision
++import org.jellyfin.playback.core.engine.MediaCapabilityInput
++
++/** Only restricts unsafe DV base-layer fallback; codec order and other MIME queries are unchanged. */
++class CapabilityCodecSelector(private val delegate: MediaCodecSelector = MediaCodecSelector.DEFAULT) : MediaCodecSelector {
++	@Volatile private var blockHevc = false
++	fun configure(media: MediaCapabilityInput, decision: CapabilityDecision) {
++		blockHevc = !media.converted && (media.dvProfile != null || media.hdr == "DV") && !decision.hevcFallbackPermitted
++	}
++	override fun getDecoderInfos(mimeType: String, requiresSecureDecoder: Boolean, requiresTunnelingDecoder: Boolean) =
++		if (blockHevc && mimeType == "video/hevc") emptyList()
++		else delegate.getDecoderInfos(mimeType, requiresSecureDecoder, requiresTunnelingDecoder)
++}
+diff --git a/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/Media3PlayerEngine.kt b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/Media3PlayerEngine.kt
+new file mode 100644
+index 000000000..ccf4ad89b
+--- /dev/null
++++ b/app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/Media3PlayerEngine.kt
+@@ -0,0 +1,46 @@
++package org.jellyfin.androidtv.ui.playback.engine
++
++import org.jellyfin.playback.core.engine.PlayerEngine
++import org.jellyfin.playback.core.engine.PlayerEngineManager
++import androidx.media3.common.C
++import androidx.media3.common.MediaItem
++import androidx.media3.common.Player
++import androidx.media3.common.TrackSelectionOverride
++import androidx.media3.exoplayer.ExoPlayer
++
++/** Adapts the existing configured player without changing renderers, surfaces or server policy. */
++class Media3PlayerEngine(val player: ExoPlayer) : PlayerEngine<MediaItem> {
++	override val id = "Jellyfin Media3"
++	private var released = false
++	override val error get() = player.playerError?.errorCodeName
++	override val positionMs get() = player.currentPosition
++	override val state get() = when {
++		released -> "RELEASED"
++		player.playerError != null -> "ERROR"
++		player.playbackState == Player.STATE_BUFFERING -> "BUFFERING"
++		player.playbackState == Player.STATE_ENDED -> "ENDED"
++		player.isPlaying -> "PLAYING"
++		player.playbackState == Player.STATE_READY -> "READY / PAUSED"
++		else -> "IDLE"
++	}
++	override fun supports(request: MediaItem) = request.localConfiguration != null
++	override fun prepare(request: MediaItem) { check(!released); player.setMediaItem(request); player.prepare() }
++	override fun play() = player.play()
++	override fun pause() = player.pause()
++	override fun stop() = player.stop()
++	override fun seek(positionMs: Long) = player.seekTo(positionMs)
++	override fun selectTrack(type: Int, group: Int, track: Int): Boolean {
++		if (type != C.TRACK_TYPE_AUDIO && type != C.TRACK_TYPE_TEXT) return false
++		val parameters = player.trackSelectionParameters.buildUpon()
++		if (type == C.TRACK_TYPE_TEXT && group == -1) {
++			player.trackSelectionParameters = parameters.clearOverridesOfType(type).setTrackTypeDisabled(type, true).build()
++			return true
++		}
++		val selected = player.currentTracks.groups.getOrNull(group) ?: return false
++		if (selected.type != type || track !in 0 until selected.length || !selected.isTrackSupported(track)) return false
++		player.trackSelectionParameters = parameters.setTrackTypeDisabled(type, false)
++			.setOverrideForType(TrackSelectionOverride(selected.mediaTrackGroup, track)).build()
++		return true
++	}
++	override fun release() { if (!released) { released = true; player.release() } }
++}
+diff --git a/playback/core/src/main/kotlin/engine/PlayerCapabilityPolicy.kt b/playback/core/src/main/kotlin/engine/PlayerCapabilityPolicy.kt
+new file mode 100644
+index 000000000..601058e12
+--- /dev/null
++++ b/playback/core/src/main/kotlin/engine/PlayerCapabilityPolicy.kt
+@@ -0,0 +1,96 @@
++package org.jellyfin.playback.core.engine
++
++/** Evidence is deliberately separate from the permission to attempt playback. */
++enum class Capability { SUPPORTED, UNSUPPORTED, UNKNOWN, NOT_VERIFIED }
++enum class PlaybackPermission { ALLOWED, UNSUPPORTED, REQUIRES_VERIFICATION }
++data class MediaCapabilityInput(
++	val container: String? = null, val videoCodec: String? = null,
++	val dvProfile: Int? = null, val dvLevel: Int? = null, val dvCompatibilityId: Int? = null,
++	val hdr: String? = null, val bitDepth: Int? = null, val width: Int? = null, val height: Int? = null,
++	val frameRate: Double? = null, val audioCodec: String? = null, val channels: Int? = null,
++	val channelLayout: String? = null, val sampleRate: Int? = null,
++	val converted: Boolean = false,
++)
++data class DecoderCapability(
++	val codec: String, val profiles: Map<Int, Int> = emptyMap(),
++	val format: Capability = Capability.UNKNOWN,
++)
++data class DeviceCapabilitySnapshot(
++	val androidApi: Int?, val decoders: List<DecoderCapability>, val codecListComplete: Boolean,
++	val displayHdr: Set<String>?, val audioDecoding: Capability = Capability.UNKNOWN,
++)
++data class CapabilityDecision(
++	val permission: PlaybackPermission, val evidence: Map<String, Capability>, val reasons: List<String>,
++	val hevcFallbackPermitted: Boolean = false,
++) {
++	val canAttempt get() = permission != PlaybackPermission.UNSUPPORTED
++}
++
++/** No server transcode request and no decoder mutation occurs here. Unknown stays visible. */
++class PlayerCapabilityPolicy {
++	fun evaluate(media: MediaCapabilityInput, device: DeviceCapabilitySnapshot, available: Boolean): CapabilityDecision {
++		val facts = linkedMapOf<String, Capability>()
++		val reasons = mutableListOf<String>()
++		fun fact(key: String, evidence: Capability, reason: String) { facts[key] = evidence; if (evidence != Capability.SUPPORTED) reasons += reason }
++		fact("engine", if (available) Capability.SUPPORTED else Capability.UNSUPPORTED, "Engine is not available")
++		fact("android", when { device.androidApi == null -> Capability.UNKNOWN; device.androidApi < 21 -> Capability.UNSUPPORTED; else -> Capability.SUPPORTED }, "Android API unavailable or below minimum")
++		val containers = setOf("mkv", "matroska", "mp4", "mov", "webm", "ts", "mpegts", "m3u8", "hls", "mpeg", "avi")
++		fact("container", if (media.container?.lowercase() in containers) Capability.SUPPORTED else Capability.UNKNOWN, "Container requires extractor verification")
++		val codec = media.videoCodec?.lowercase()
++		val known = setOf("h264", "avc", "hevc", "h265", "av1", "vp9", "vp8", "mpeg2video", "mpeg4")
++		val dv = media.hdr == "DV" || media.dvProfile != null || media.hdr?.uppercase()?.contains("DOVI") == true || media.hdr?.uppercase()?.contains("DOLBY") == true
++		val matching = device.decoders.filter { it.codec == if (dv) "dolby-vision" else codec }
++		val decoder = when {
++			matching.isNotEmpty() -> Capability.SUPPORTED
++			device.codecListComplete && (codec in known || dv) -> Capability.UNSUPPORTED
++			else -> Capability.UNKNOWN
++		}
++		fact("videoDecoder", decoder, "No confirmed decoder for delivered video format")
++		fact("resolutionFrameRateBitDepth", when {
++			media.width == null || media.height == null || media.frameRate == null || media.bitDepth == null -> Capability.UNKNOWN
++			matching.any { it.format == Capability.SUPPORTED } -> Capability.SUPPORTED
++			matching.isNotEmpty() && matching.all { it.format == Capability.UNSUPPORTED } -> Capability.UNSUPPORTED
++			else -> Capability.UNKNOWN
++		}, "Resolution, frame rate or bit depth is not confirmed for this decoder")
++		val hevc = device.decoders.any { it.codec == "hevc" }
++		fact("hevcDecoder", if (hevc) Capability.SUPPORTED else if (device.codecListComplete) Capability.UNSUPPORTED else Capability.UNKNOWN, "HEVC base-layer decoder unavailable")
++		var safeFallback = false
++		if (dv) {
++			fact("dolbyVisionDecoder", decoder, "DV decoding requires a DV decoder; MIME support is not HDMI evidence")
++			fact("dolbyVisionProfileLevel", when {
++				media.dvProfile == null || media.dvLevel == null -> Capability.UNKNOWN
++				matching.any { (it.profiles[media.dvProfile] ?: -1) >= media.dvLevel } -> Capability.SUPPORTED
++				else -> Capability.UNKNOWN // Under-declared vendor profiles are not a reason to transcode.
++			}, "DV profile/level requires verification")
++			val hdr10 = when {
++				media.dvProfile == 5 -> Capability.UNSUPPORTED
++				media.dvCompatibilityId == 1 && media.dvProfile in setOf(7, 8) -> Capability.SUPPORTED
++				else -> Capability.UNKNOWN
++			}
++			facts["hdr10Compatibility"] = hdr10
++			safeFallback = hdr10 == Capability.SUPPORTED && hevc
++			if (media.dvProfile == 5) reasons += "P5: no generic HEVC/HDR10 fallback; colour conversion is not verified"
++			if (media.dvProfile == 7) reasons += "P7: no P7-to-P8 conversion or FEL reconstruction in this engine"
++		}
++		val hdr = if (dv) "DV" else media.hdr?.uppercase()
++		fact("displayHdr", when {
++			hdr == "SDR" -> Capability.SUPPORTED
++			hdr == null || device.displayHdr == null -> Capability.UNKNOWN
++			hdr in device.displayHdr -> Capability.SUPPORTED
++			else -> Capability.NOT_VERIFIED
++		}, "Display HDR support/output needs verification; no automatic tone mapping assumed")
++		fact("audio", device.audioDecoding, "Audio codec/channel configuration needs verification")
++		fact("channelLayout", if (media.channelLayout != null && media.channels != null) Capability.SUPPORTED else Capability.UNKNOWN, "Channel layout is unknown")
++		facts["hdmiOutput"] = Capability.NOT_VERIFIED
++		// Source metadata cannot describe a server-converted stream. Probe delivered tracks instead.
++		if (media.converted) {
++			facts.keys.filter { it !in setOf("engine", "android", "hdmiOutput") }.forEach { facts[it] = Capability.UNKNOWN }
++			reasons += "Server converted delivery: source profile is not delivered format; await player format"
++			safeFallback = false
++		}
++		val blocked = facts["engine"] == Capability.UNSUPPORTED || facts["android"] == Capability.UNSUPPORTED ||
++			(!media.converted && (decoder == Capability.UNSUPPORTED || facts["resolutionFrameRateBitDepth"] == Capability.UNSUPPORTED || facts["audio"] == Capability.UNSUPPORTED))
++		val uncertain = facts.filterKeys { it !in setOf("hdmiOutput", "hevcDecoder", "hdr10Compatibility") }.values.any { it != Capability.SUPPORTED }
++		return CapabilityDecision(when { blocked -> PlaybackPermission.UNSUPPORTED; uncertain -> PlaybackPermission.REQUIRES_VERIFICATION; else -> PlaybackPermission.ALLOWED }, facts, reasons.ifEmpty { listOf("Declared format support; HDMI output remains unverified") }, safeFallback)
++	}
++}

@@ -1,0 +1,18 @@
+Sanitized excerpts preserved from earlier device/tool captures for PID30796, org.jellyfin.androidtv.
+A later re-read of this interval returned empty and overwrote the first file; these exact already-captured lines were recovered from the tool transcript. This is not a complete continuous log.
+Device-local timestamps UTC+1.
+11-10 20:57:20.024 30796 30796 I ExoPlayerImpl: Init e8726a4 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 20:57:20.119 30796 30796 D PlaybackController: default audio index set to 1
+11-10 20:57:20.119 30796 30796 I PlaybackController: default audio index set to 1 remote default 1
+11-10 20:57:20.123 30796 30796 I PlaybackController: *** Best refresh mode is: 40 - 3840x2160/23,976025
+11-10 20:57:20.123 30796 30796 I PlaybackController: *** Attempting to change refresh rate from: 49 - 3840x2160@59,940060
+11-10 20:57:20.768 30796 31125 I MediaCodec: [OMX.Nvidia.h265.decode] setting surface generation to 31535105
+11-10 20:57:20.783 30796 31126 D SurfaceUtils: set up nativeWindow 0x22101b0e80 for 3832x1600, color 0x106, rotation 0, usage 0x2900
+11-10 20:57:20.810 30796 31126 D SurfaceUtils: set up nativeWindow 0x22101b0e80 for 3832x1600, color 0x10b, rotation 0, usage 0x2900
+11-10 20:57:21.112 30796 30796 I PlaybackController: Play method: Trans
+11-10 20:57:21.114 30796 30796 I PlaybackController: trying to switch audio stream from 1 to 1
+11-10 20:57:21.114 30796 30796 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-10 20:57:21.422 30796 31107 W AudioTrack: restoreTrack_l(2083): dead IAudioTrack, PCM, creating a new one from getPosition()
+11-10 20:59:02.517 30796 30796 I PlaybackController: Play method: Trans
+11-10 20:59:12.865 30796 30796 I PlaybackController: stop called at 94371
+11-10 20:59:12.886 30796 30796 I ExoPlayerImpl: Release e8726a4 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.exoplayer.hls, media3.datasource, media3.datasource.okhttp, media3.decoder.ffmpeg, media3.extractor]

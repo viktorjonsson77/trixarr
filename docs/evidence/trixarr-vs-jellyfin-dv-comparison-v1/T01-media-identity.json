@@ -1,0 +1,13 @@
+[
+  {
+    "item_id": "dae676fc-22d2-a272-784e-30b9ff521ab8",
+    "server_origin_sha256": "fa6a38f6dd8c8e9924bbcdbcf36f1e757a3a25c4f0403429b9185576859eb0b6",
+    "server_base_sha256": "fa6a38f6dd8c8e9924bbcdbcf36f1e757a3a25c4f0403429b9185576859eb0b6",
+    "static": [
+      "true"
+    ],
+    "mediaSourceId": [
+      "dae676fc22d2a272784e30b9ff521ab8"
+    ]
+  }
+]

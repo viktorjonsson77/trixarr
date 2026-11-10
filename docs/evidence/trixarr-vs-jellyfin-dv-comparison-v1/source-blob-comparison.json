@@ -1,0 +1,66 @@
+{
+  "upstream_commit": "984181a3d6ab14e9a6d2dcc850c582e1c138bd95",
+  "trixarr_frozen_commit": "69e5a6f381c0a20db73417cbd98b31546c60160b",
+  "files": [
+    {
+      "path": "gradle/libs.versions.toml",
+      "upstream_blob": "59e5e6f3444c9fb2e4db9e2a088658bf36f99b77",
+      "frozen_trixarr_blob": "b5ad007adb760d1adf0a598a0f8d6449b19b0ea0",
+      "identical": false
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java",
+      "upstream_blob": "1b6a281373ae65ede1bc4969087c051e779e721c",
+      "frozen_trixarr_blob": "725fec2b205bf16091adc4dd7b303f2f57dc52e5",
+      "identical": false
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/PlaybackManager.kt",
+      "upstream_blob": "d89583b5b7eb4ca7b27d764bf9b445ccc2e665a9",
+      "frozen_trixarr_blob": "d89583b5b7eb4ca7b27d764bf9b445ccc2e665a9",
+      "identical": true
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/util/profile/deviceProfile.kt",
+      "upstream_blob": "eb6286012580653ca3cb547674cde358872da4a4",
+      "frozen_trixarr_blob": "eb6286012580653ca3cb547674cde358872da4a4",
+      "identical": true
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/util/profile/MediaCodecCapabilitiesTest.kt",
+      "upstream_blob": "6a724822596791b0d489a1bd55734cb7d74f7815",
+      "frozen_trixarr_blob": "6a724822596791b0d489a1bd55734cb7d74f7815",
+      "identical": true
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManagerHelper.kt",
+      "upstream_blob": "930fdd9cdce7feaf879c1ed8e8d7bd6acaa6b5e7",
+      "frozen_trixarr_blob": "930fdd9cdce7feaf879c1ed8e8d7bd6acaa6b5e7",
+      "identical": true
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/PlaybackController.java",
+      "upstream_blob": "c35534975bab478b6c0c1d30c1bdaf883dafd64e",
+      "frozen_trixarr_blob": "ebf4f22c9bde4a6f03a517b504dc7ed2d2fa066f",
+      "identical": false
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/CustomPlaybackOverlayFragment.java",
+      "upstream_blob": "94918f19558b111b102f5b528a9dd4e6c887c522",
+      "frozen_trixarr_blob": "91ae5d8d3dffd1019ed084d5cc0cf46faf11d50f",
+      "identical": false
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/preference/UserPreferences.kt",
+      "upstream_blob": "3224f0cc11edf8064ba2c88941aad130151f2950",
+      "frozen_trixarr_blob": "3224f0cc11edf8064ba2c88941aad130151f2950",
+      "identical": true
+    },
+    {
+      "path": "app/src/main/java/org/jellyfin/androidtv/ui/preference/screen/PlaybackAdvancedPreferencesScreen.kt",
+      "upstream_blob": "bbe5ed462350dfd7ac071a1b81120bc92f785250",
+      "frozen_trixarr_blob": "bbe5ed462350dfd7ac071a1b81120bc92f785250",
+      "identical": true
+    }
+  ]
+}

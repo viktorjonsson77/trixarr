@@ -1,0 +1,11 @@
+{
+  "package": "org.jellyfin.androidtv",
+  "observation": "Read-only UI inspection; no setting changed",
+  "audio_output_ui": "Direkt",
+  "bitstream_dolby_digital_ui_checked": false,
+  "automatic_night_mode_ui_checked": false,
+  "refresh_switching_ui": "Skala p\u00e5 enheten",
+  "max_streaming_bitrate_ui": "200 Mbit/s",
+  "video_start_delay_ui": "0.0s",
+  "host_observation_utc": "2026-11-10T20:02:32.175659+00:00"
+}

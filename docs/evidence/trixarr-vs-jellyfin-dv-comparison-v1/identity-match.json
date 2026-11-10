@@ -1,0 +1,10 @@
+{
+  "item_id_equal": true,
+  "server_origin_hash_equal": true,
+  "media_source_id_equal": true,
+  "source_audio_index": 1,
+  "audio_match_evidence": "J01 request/default index1; T01 default/selected index1 in controller logs",
+  "independent_original_source_video_index": "NOT VERIFIED",
+  "raw_source_file_hash": "NOT VERIFIED",
+  "physical_current_color_HDMI_comparison": "INCONCLUSIVE"
+}
