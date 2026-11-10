@@ -1,0 +1,11 @@
+DEVICE VERIFIED; manual transcription of ADB screenshot, not an XML snapshot.
+Source DV profile: 5
+Selected source: dae676fc22d2a272784e30b9ff521ab8
+Requested preference: Original video; conversion requires verified DV signaling
+Server-selected method: DirectPlay
+Server DirectPlay: true
+Server DirectStream: true
+Server Transcoding: true
+Source audio selection: 1
+Container signaling verified: false (no independent converted-stream proof)
+UIAutomator failed to obtain idle state; no full diagnostics export obtained.

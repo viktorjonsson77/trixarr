@@ -1,0 +1,17 @@
+{
+  "ro.product.model": "SHIELD Android TV",
+  "ro.product.manufacturer": "NVIDIA",
+  "ro.build.version.release": "11",
+  "ro.build.version.sdk": "30",
+  "ro.product.cpu.abi": "arm64-v8a",
+  "ro.build.fingerprint": "NVIDIA/mdarcy/mdarcy:11/RQ1A.210105.003/7825230_4387.0822:user/release-keys",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "installed_apk_sha256": "84de4c7922d9bf6a8f26885bd7dadfe3727b82e2ea7a4978aa773310e3bfd44d",
+  "package_metadata": [
+    "versionCode=1 minSdk=21 targetSdk=36",
+    "versionName=0.0.0-dev.1",
+    "firstInstallTime=2026-09-02 23:52:47",
+    "lastUpdateTime=2026-11-10 21:47:15",
+    "User 0: ceDataInode=652903 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 instant=false virtual=false"
+  ]
+}

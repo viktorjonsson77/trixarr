@@ -1,0 +1,99 @@
+{
+  "playback/core": [
+    {
+      "name": "org.jellyfin.playback.core.engine.BackendOwnershipTests",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.playback.core.engine.DolbyVisionSafeNegotiationTests",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.playback.core.engine.CapabilityPolicyTests",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "playback/jellyfin": [
+    {
+      "name": "org.jellyfin.playback.jellyfin.negotiation.DolbyVisionDeliveryTests",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "app": [
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.CapabilityCodecSelectorTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.engine.PlaybackAttemptGateTests",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.overlay.CustomSeekProviderTests",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.VideoSpeedControllerTests",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.ControllerChainTests",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.engine.PlaybackDiagnosticsTests",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.SafeNegotiationIntegrationTests",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.VideoQueueManagerTests",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "name": "org.jellyfin.androidtv.ui.playback.engine.PlayerEngineTests",
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}
