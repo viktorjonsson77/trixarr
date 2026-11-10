@@ -1,7 +1,7 @@
 # TRIXARR_SHIELD_DV_DIAGNOSTIC_BLOCKED
 
 Datum: 2026-11-10. Kontrollerad fysisk förkontroll via enbart `adb -s 100.91.172.18:5555`.
-Uppdatering godkänd av användaren och installerad. Appstart VERIFIED; uppspelning BLOCKED av ny inloggning och oidentifierad film. Inget DIAGNOSTIC_PASS.
+Uppdatering godkänd av användaren och installerad. Appstart VERIFIED; inloggning och bibliotek VERIFIED efter användaråtgärd; uppspelning BLOCKED av ännu inte entydigt identifierad film/version. Inget DIAGNOSTIC_PASS.
 
 ## Baslinje och bevisnivå
 
@@ -100,14 +100,24 @@ Installationen pausades först enligt avsnitt 4. Användaren gav sedan uttryckli
 - Skärmbilder granskades tillfälligt på hosten men sparas inte i repositoryt eftersom
   de innehåller server-/konto-/Quick Connect-uppgifter.
 
+### Login gate resolved by user
+
+Användaren meddelade att inloggningen slutförts. Vid enhets-UTC 2026-11-10 18:34:00:
+ADB `device`, SHIELD Android TV/mdarcy, målappens MainActivity i förgrunden och process
+18558. Visuell kontroll visar startsidan med bibliotekskort och innehållsmetadata.
+Autentiserad UI-/biblioteksåtkomst är VERIFIED; ingen credentials-inspektion eller
+serverändring gjord. Kontoväljarens tidigare login-blockerare är därmed löst.
+Ingen media startad. Användaren anger "Resident evil"; exakt film/år/version återstår.
+Den tillfälliga UI-bilden sparas inte i evidensen eftersom den visar personligt bibliotek.
+
 ## Playback, decoder, audio and Kodi — BLOCKED / NOT VERIFIED
 
 | Bevisområde | Resultat |
 | --- | --- |
 | Trixarr launch / respons / fjärrnavigation | VERIFIED start och svar på ADB DPAD_CENTER; fysisk fjärrkontroll NOT VERIFIED |
-| Jellyfin auth / bibliotek | BLOCKED: ny inloggning/Quick Connect krävs; bibliotek NOT VERIFIED |
+| Jellyfin auth / bibliotek | VERIFIED efter användarinloggning: MainActivity visar startsida och bibliotekskort |
 | Diagnostikvy på Shield | NOT VERIFIED; källkoppling finns |
-| Exakt medieobjekt | BLOCKED: titel, item-ID och källversion saknas |
+| Exakt medieobjekt | BLOCKED: användaren anger Resident evil; exakt film/år, item-ID och källversion ännu ej fastställda |
 | SOURCE METADATA | NOT VERIFIED: container, codec, DV profile/level, compatibility-ID/HDR10-baslager, primärer, transfer, bitdjup och ljudcodec |
 | DEVICE CAPABILITY | VERIFIED enhets-/display-/vendor-deklarationer enligt ovan; runtime codec-profiler NOT VERIFIED |
 | SELECTED DECODER | NOT VERIFIED; ingen decoder initierad i testet |
@@ -145,8 +155,8 @@ förlorad DV-konfiguration vid demux/remux, annan serverleverans och displaykedj
 Inga nya fysiska playbackdata finns som rangordnar dessa. Deklarerad DV-decoder och HDR-stöd
 visar endast att DV annonseras. De bevisar inte att DV används eller att HEVC valts fel.
 
-1. Användaren behöver slutföra inloggning direkt på Shield. Den godkända uppdateringen är genomförd; ingen ytterligare installation behövs.
-2. Användaren behöver identifiera exakt felande film/version, helst Jellyfin item-ID.
+1. Inloggningen är slutförd av användaren och verifierad i UI. Den godkända uppdateringen är genomförd; ingen ytterligare installation behövs.
+2. Användaren har angett Resident evil; exakt film/år och källversion behöver bekräftas, helst genom vald detaljsida eller Jellyfin item-ID.
 3. Efter användarinloggning: bibliotek, fysisk D-pad och diagnostikvy.
    Saknad inloggning kräver användaråtgärd utan att credentials loggas.
 4. Kontrollerad uppspelning: källmetadata → leveransmetod → decoder MIME/CSD/format → player state,
