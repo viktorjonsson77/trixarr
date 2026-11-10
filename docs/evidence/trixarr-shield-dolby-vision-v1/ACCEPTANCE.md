@@ -1,7 +1,7 @@
 # TRIXARR_SHIELD_DV_DIAGNOSTIC_BLOCKED
 
 Datum: 2026-11-10. Kontrollerad fysisk förkontroll via enbart `adb -s 100.91.172.18:5555`.
-Installation och uppspelningssekvens stoppade vid befintlig installation; inget DIAGNOSTIC_PASS.
+Uppdatering godkänd av användaren och installerad. Appstart VERIFIED; uppspelning BLOCKED av ny inloggning och oidentifierad film. Inget DIAGNOSTIC_PASS.
 
 ## Baslinje och bevisnivå
 
@@ -51,7 +51,7 @@ Artefakt: `/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreame
 
 Se [signatur och manifest](apk-verification.txt).
 
-## Existing installation / installation gate — BLOCKED
+## Existing installation / installation gate — VERIFIED after approval
 
 | Paket | Version (code) | Första installation | Senaste uppdatering | Appdata |
 | --- | --- | --- | --- | --- |
@@ -72,18 +72,40 @@ Installerade base.apk hämtades skrivskyddat till tillfälliga hostfiler och sig
 | Jellyfin | dbc7a0ea8d757815e9619fac5e128391e37d501083f7c8b0ee5f25a5a33eee0c | 2eca5acd52d4f718a178361a3489cd1322392b2ca62e8d72a3c4027af94a3d8c |
 | Kodi | e4c84bf738cac846ec4b4c6b58cc4a3ee669320d3061b6e80cf14fa61bc2c465 | f517b44b5db5e62a6c1ec55ba47526db7de0d61f6ba26a7987520e293499b8d5 |
 
-Paket, signer och versionskod matchar testartefakten för debugappen, men APK-hashen skiljer sig.
-En uppdatering skulle ersätta befintlig appkod med samma versionskod. Databas-/inställningskompatibilitet
-med den befintliga installationen är inte belagd. Enligt uppdragets avsnitt 4 stoppas
-installationen före påverkan på befintlig installation, i väntan på uttryckligt godkännande.
-Ingen install, uninstall, pm clear, reset, launch, nätverksändring eller serverändring utförd.
+Paket, signer och versionskod matchade testartefakten; den tidigare APK-hashen skilde sig.
+Installationen pausades först enligt avsnitt 4. Användaren gav sedan uttryckligt godkännande
+("ja, jag godkänner det") till den föreslagna uppdateringen med bevarade data.
+
+### Approved physical installation and launch
+
+- Device identity och artefaktens SHA-256 kontrollerades igen före installation.
+- `adb -s 100.91.172.18:5555 install -r <verified artifact>`: `Performing Streamed Install`, `Success`.
+- Ingen uninstall, pm clear, reset, nätverksändring eller serverkonfigurationsändring.
+- Installerad base.apk lästes tillbaka och SHA-256 matchar exakt den godkända artefakten.
+- Efter installation: version 0.0.0-dev.1 (1), firstInstallTime fortsatt 2026-09-02 23:52:47,
+  lastUpdateTime 2026-11-10 19:31:00 (PackageManager lokal tid; enhetsklockan motsvarar UTC+1).
+- CE inode fortsatt 652903; shared_prefs och databases finns kvar. Detta verifierar bevarad
+  datakatalog, inte att varje databaspost eller tidigare autentisering är användbar.
+- Appstart begärd vid enhets-UTC 18:31:09: `am start -W` gav Status ok, WARM,
+  TotalTime 2221 ms, WaitTime 2243 ms. Process 18144 observerades.
+- Skärmbilden visade kontoväljaren "Vem tittar?" och befintligt konto/server.
+- Under navigering observerades Androids RecentsTvActivity i förgrunden. Orsak okänd;
+  inget verifierat appkraschbevis. Appen togs tillbaka med samma explicita aktivitet,
+  Status ok, COLD, TotalTime 2839 ms, WaitTime 2840 ms.
+- DPAD_CENTER (23) från kontoväljaren gav login/Quick Connect-vyn, observerad senast
+  vid enhets-UTC 18:32:04. UI svarar på ADB-injicerad fjärrknapp; fysisk fjärrkontroll NOT VERIFIED.
+- **Autentiserad Jellyfin-anslutning BLOCKED:** appen visar "Vänligen logga in".
+  Uppdragets avsnitt 7 kräver stopp och användarinloggning. Inga credentials hämtade,
+  inga inloggningskoder sparade i evidensen och inga automatiska autentiseringsförsök gjorda.
+- Skärmbilder granskades tillfälligt på hosten men sparas inte i repositoryt eftersom
+  de innehåller server-/konto-/Quick Connect-uppgifter.
 
 ## Playback, decoder, audio and Kodi — BLOCKED / NOT VERIFIED
 
 | Bevisområde | Resultat |
 | --- | --- |
-| Trixarr launch / respons / fjärrnavigation | BLOCKED av installationsgrinden |
-| Jellyfin auth / bibliotek | NOT VERIFIED; inga credentials lästa |
+| Trixarr launch / respons / fjärrnavigation | VERIFIED start och svar på ADB DPAD_CENTER; fysisk fjärrkontroll NOT VERIFIED |
+| Jellyfin auth / bibliotek | BLOCKED: ny inloggning/Quick Connect krävs; bibliotek NOT VERIFIED |
 | Diagnostikvy på Shield | NOT VERIFIED; källkoppling finns |
 | Exakt medieobjekt | BLOCKED: titel, item-ID och källversion saknas |
 | SOURCE METADATA | NOT VERIFIED: container, codec, DV profile/level, compatibility-ID/HDR10-baslager, primärer, transfer, bitdjup och ljudcodec |
@@ -106,9 +128,13 @@ Kodi loggar, konfiguration och privata bibliotek lästes inte. Inga interna Kodi
 
 Enhetsklockan avlästes till `Tue Nov 10 18:24:15 UTC 2026` under förkontrollen.
 [device-observations.txt](device-observations.txt) har hostens UTC-insamlingstid.
-App launch, playback start, decoder init, first frame, playback errors och playback stop:
-NOT APPLICABLE för denna förkontroll eftersom sekvensen aldrig startade.
-Relevanta playback-logcat-loggar är BLOCKED, inte fångade. Ingen fullständig logcat-dump
+App launch är VERIFIED enligt tiderna ovan. Playback start, decoder init, first frame,
+playback errors och playback stop: NOT APPLICABLE för körningen eftersom ingen media startades.
+Se [installations-/startobservationer](install-launch-observations.txt) för sanerad kontroll
+av AndroidRuntime:E efter start: inga FATAL EXCEPTION-markörer eller målpaketomnämnanden.
+Detta utesluter inte nativefel eller andra orsaker till den observerade aktivitetsväxlingen.
+En första logcat-fråga avvisades på grund av tidsargumentets quoting; endast den korrigerade
+frågans lyckade resultat används. Relevanta playback-logcat-loggar är BLOCKED, inte fångade. Ingen fullständig logcat-dump
 eller logcat-rensning utförd. De sparade observationerna är begränsade till tekniska
 identitets-/kapabilitetsuppgifter och manifest; inga credentials eller känsliga URL:er.
 
@@ -119,9 +145,9 @@ förlorad DV-konfiguration vid demux/remux, annan serverleverans och displaykedj
 Inga nya fysiska playbackdata finns som rangordnar dessa. Deklarerad DV-decoder och HDR-stöd
 visar endast att DV annonseras. De bevisar inte att DV används eller att HEVC valts fel.
 
-1. Användaren behöver godkänna konkret uppdatering av befintligt debugpaket utan avinstallation/data clear.
+1. Användaren behöver slutföra inloggning direkt på Shield. Den godkända uppdateringen är genomförd; ingen ytterligare installation behövs.
 2. Användaren behöver identifiera exakt felande film/version, helst Jellyfin item-ID.
-3. Efter godkänd installation: launch, befintlig inloggning, bibliotek, D-pad och diagnostikvy.
+3. Efter användarinloggning: bibliotek, fysisk D-pad och diagnostikvy.
    Saknad inloggning kräver användaråtgärd utan att credentials loggas.
 4. Kontrollerad uppspelning: källmetadata → leveransmetod → decoder MIME/CSD/format → player state,
    inklusive tidsstämplade sanerade loggar, bildfel, dropped frames och underruns.
@@ -132,6 +158,6 @@ visar endast att DV annonseras. De bevisar inte att DV används eller att HEVC v
 ## Git
 
 Endast detta uppdrags evidenskatalog tillkommer. Ingen spelarmotor eller annan kod ändrad.
-Ingen push, tag eller deployment. Slutlig lokal evidenscommit får bara innehålla denna katalog;
+Ingen push eller tag; enda deployment är uttryckligt godkänd debug-APK på rätt Shield. Lokal evidenscommit får bara innehålla denna katalog;
 befintlig smutsig arbetskatalog ska förbli oförändrad. Rapporten är färdig för den blockerade
 förkontrollens omfattning; den utgör inte färdig uppspelningsacceptans.

@@ -1,0 +1,9 @@
+Host UTC 2026-11-10T18:33:01.060012+00:00
+Filtered logcat: AndroidRuntime:E only; device local lower bound 2026-11-10 19:31:09
+Exit code: 0
+FATAL EXCEPTION markers: 0
+Target package mentioned: False
+Raw messages omitted; no credentials, exception messages or URLs retained.
+This filtered Java crash check does not exclude native crashes, process recreation, or other errors.
+Installation: Performing Streamed Install / Success
+Installed base.apk SHA-256: 1e7eeb00ecc832f39b4542fd81251f59e91e03967bce612ff657e7ae91922526
