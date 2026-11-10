@@ -1,0 +1,184 @@
+Host UTC 2026-11-10T19:13:37.965649+00:00
+ERRORS / Previous attempt: UNKNOWN
+
+PLAYER / Delivery: Transcode
+
+PLAYER / URL type: http
+
+SOURCE FORMAT / Container (Jellyfin): mkv
+
+SOURCE FORMAT / Video #0 (Jellyfin) codec: hevc
+
+SOURCE FORMAT / Video #0 (Jellyfin) profile: Main 10
+
+SOURCE FORMAT / Video #0 (Jellyfin) bitrate: 56542785
+
+SOURCE FORMAT / Video #0 (Jellyfin) resolution: 3840 × 2160
+
+SOURCE FORMAT / Video #0 (Jellyfin) fps: 23.976025
+
+SOURCE FORMAT / Video #0 (Jellyfin) HDR: Unknown
+
+SOURCE FORMAT / Video #0 (Jellyfin) DV profile: 7
+
+SOURCE FORMAT / Video #0 (Jellyfin) DV level: 6
+
+SOURCE FORMAT / Video #0 (Jellyfin) primaries: bt2020
+
+SOURCE FORMAT / Video #0 (Jellyfin) transfer: smpte2084
+
+SOURCE FORMAT / Video #0 (Jellyfin) matrix: bt2020nc
+
+SOURCE FORMAT / Video #0 (Jellyfin) bit depth: 10
+
+SOURCE FORMAT / Audio #1 (Jellyfin) codec: truehd
+
+SOURCE FORMAT / Audio #1 (Jellyfin) profile: Dolby TrueHD + Dolby Atmos
+
+SOURCE FORMAT / Audio #1 (Jellyfin) bitrate: 2838805
+
+SOURCE FORMAT / Audio #1 (Jellyfin) channels: 8
+
+SOURCE FORMAT / Audio #1 (Jellyfin) layout: 7.1
+
+SOURCE FORMAT / Audio #1 (Jellyfin) sample rate: 48000
+
+SOURCE FORMAT / Audio #2 (Jellyfin) codec: ac3
+
+SOURCE FORMAT / Audio #2 (Jellyfin) profile: UNKNOWN
+
+SOURCE FORMAT / Audio #2 (Jellyfin) bitrate: 640000
+
+SOURCE FORMAT / Audio #2 (Jellyfin) channels: 6
+
+SOURCE FORMAT / Audio #2 (Jellyfin) layout: 5.1
+
+SOURCE FORMAT / Audio #2 (Jellyfin) sample rate: 48000
+
+DEVICE CAPABILITY / Policy: REQUIRES_VERIFICATION
+
+DEVICE CAPABILITY / engine: SUPPORTED
+
+DEVICE CAPABILITY / android: SUPPORTED
+
+DEVICE CAPABILITY / container: UNKNOWN
+
+DEVICE CAPABILITY / videoDecoder: UNKNOWN
+
+DEVICE CAPABILITY / resolutionFrameRateBitDepth: UNKNOWN
+
+DEVICE CAPABILITY / hevcDecoder: UNKNOWN
+
+DEVICE CAPABILITY / dolbyVisionDecoder: UNKNOWN
+
+DEVICE CAPABILITY / dolbyVisionProfileLevel: UNKNOWN
+
+DEVICE CAPABILITY / hdr10Compatibility: UNKNOWN
+
+DEVICE CAPABILITY / displayHdr: UNKNOWN
+
+DEVICE CAPABILITY / audio: UNKNOWN
+
+DEVICE CAPABILITY / channelLayout: UNKNOWN
+
+DEVICE CAPABILITY / hdmiOutput: NOT_VERIFIED
+
+PLAYER / Engine selection reason: Jellyfin Media3: REQUIRES_VERIFICATION; DV profile/level requires verification, P7: no P7-to-P8 conversion or FEL reconstruction in this engine, Server converted delivery: source profile is not delivered format; await player format
+
+ERRORS / Fallback: NONE
+
+SELECTED DECODER / Selection reason: Media3 default ordering; policy blocks unverified DV HEVC fallback; see actual decoder events
+
+VIDEO / Android decoder MIME support: audio/mp4a-latm, audio/3gpp, audio/amr-wb, audio/flac, audio/g711-alaw, audio/g711-mlaw, audio/mpeg, audio/opus, audio/raw, audio/vorbis, audio/mpeg-L2, audio/x-ms-wma, video/avc, video/dolby-vision, video/3gpp, video/hevc, video/x-motion-jpeg, video/mpeg2, video/mp4v-es, video/wvc1, video/x-ms-wmv, video/x-vnd.on2.vp8, video/x-vnd.on2.vp9
+
+DEVICE / Android: 11 / API 30
+
+DEVICE / Model: NVIDIA SHIELD Android TV
+
+AUDIO / Android advertised output encodings (not active route): , 2, 5, 6, 18, 7, 8, 13, 14
+
+DEVICE / Refresh rate: 59.94006
+
+DEVICE / Display mode: {id=49, width=3840, height=2160, fps=59.94006}
+
+DEVICE / Supported HDR types (Android; 1=DV 2=HDR10 3=HLG 4=HDR10+): 1, 2
+
+SESSION / ID: 56a1f79c-5306-4e41-9dfa-3e3e5b26714c
+
+SESSION / Generation: 1
+
+SESSION / Reporting: START_SENT
+
+SESSION / Resume ms: 0
+
+SESSION / Position ms: 0
+
+SESSION / Terminal reason: UNKNOWN
+
+ACTUAL PLAYER STATE / Session: PLAYING
+
+VIDEO / Selected stream codec: UNKNOWN
+
+VIDEO / Selected stream codecs: UNKNOWN
+
+VIDEO / Selected stream bitrate: UNKNOWN
+
+VIDEO / Selected stream resolution: UNKNOWN
+
+VIDEO / Selected stream fps: UNKNOWN
+
+VIDEO / Selected stream color (Media3): UNKNOWN
+
+VIDEO / Selected stream HDR: UNKNOWN
+
+VIDEO / Selected stream DV profile / level: UNKNOWN
+
+AUDIO / Selected stream codec: UNKNOWN
+
+AUDIO / Selected stream codecs: UNKNOWN
+
+AUDIO / Selected stream bitrate: UNKNOWN
+
+AUDIO / Selected stream track id: UNKNOWN
+
+AUDIO / Selected stream channels: UNKNOWN
+
+AUDIO / Selected stream sample rate: UNKNOWN
+
+PLAYER / Active engine: Jellyfin Media3
+
+PLAYER / Engine version: 1.8.0
+
+PLAYER / State: BUFFERING
+
+PLAYER / Position ms (engine timeline): 0
+
+PLAYER / Buffered ms: 0
+
+PLAYER / Dropped frames: 0
+
+PLAYER / Unsupported tracks (Media3): 0
+
+VIDEO / TV activated HDR: NOT VERIFIED
+
+AUDIO / HDMI output / Atmos / DTS:X active: NOT VERIFIED
+
+VIDEO / Decoder: UNKNOWN
+
+VIDEO / Hardware acceleration (Android): UNKNOWN
+
+AUDIO / Decoder: UNKNOWN
+
+ERRORS / Video decoder: UNKNOWN
+
+ERRORS / Audio decoder: UNKNOWN
+
+ERRORS / Audio sink: UNKNOWN
+
+ERRORS / Playback: UNKNOWN
+
+AUDIO / Passthrough requested: UNKNOWN (automatic Media3 policy)
+
+AUDIO / Passthrough selected: UNKNOWN
+
+AUDIO / Output encoding (AudioTrack): UNKNOWN

@@ -1,0 +1,5 @@
+Kodi startup technical lines only; no controlled media playback yet
+2026-11-10 20:13:57.937 T:25855    info <general>: Starting Kodi (21.2 (21.2.0) Git:20250201-cc4e1fedda). Platform: Android ARM 64-bit
+2026-11-10 20:13:57.937 T:25855    info <general>: Running on NVIDIA SHIELD Android TV with Android TV 11.0.0 API level 30, kernel: Linux ARM 64-bit version 4.9.141-tegra-gb6e5605a
+2026-11-10 20:13:59.964 T:25883    info <general>: CActiveAESink::OpenSink - initialize sink
+2026-11-10 20:13:59.972 T:25883    info <general>: CAESinkAUDIOTRACK::Initializing with: m_sampleRate: 44100 format: AE_FMT_FLOAT (AE) method: PCM stream-type: PCM-STREAM min_buffer_size: 45376 m_frames: 1418 m_frameSize: 8 channels: 2

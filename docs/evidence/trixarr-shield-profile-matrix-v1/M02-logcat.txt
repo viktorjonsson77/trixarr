@@ -1,0 +1,41 @@
+Host UTC 2026-11-10T18:57:38.451205+00:00
+Filtered target process logcat; device local time UTC+1
+Item IDs (URL omitted): e8d34ccd-2a41-6e72-e208-845c8251697f
+--------- beginning of main
+11-10 19:55:30.933 18558 18558 I PlaybackController: stop called at 60926
+11-10 19:55:31.051 18558 18558 I ExoPlayerImpl: Init b7fefc4 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 19:55:31.075 18558 18558 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: eng
+11-10 19:55:31.173 18558 18558 I PlaybackController: Internal player would transcode
+11-10 19:55:31.174 18558 18558 D PlaybackController: default audio index set to 1
+11-10 19:55:31.174 18558 18558 I PlaybackController: default audio index set to 1 remote default 1
+11-10 19:55:31.174 18558 18558 I PlaybackController: default sub index set to 31 remote default 31
+11-10 19:55:31.175 18558 18558 D VideoManager: Setting playback speed: 1,000000
+11-10 19:55:31.188 18558 18558 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-10 19:55:31.189 18558 18558 D VideoManager: Player is buffering
+11-10 19:55:32.081 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 19:55:32.128 18558 18558 D VideoManager: Tracks changed
+11-10 19:55:38.203 18558 22367 I OMXClient: IOmx service obtained
+11-10 19:55:38.219 18558 22366 D MediaCodec: flushMediametrics
+11-10 19:55:38.219 18558 22366 D SurfaceUtils: connecting to surface 0x22101c6320, reason connectToSurface
+11-10 19:55:38.219 18558 22366 I MediaCodec: [OMX.Nvidia.h264.decode] setting surface generation to 19003402
+11-10 19:55:38.219 18558 22366 D SurfaceUtils: disconnecting from surface 0x22101c6320, reason connectToSurface(reconnect)
+11-10 19:55:38.219 18558 22366 D SurfaceUtils: connecting to surface 0x22101c6320, reason connectToSurface(reconnect)
+11-10 19:55:38.226 18558 22367 I ACodec  : Enable timestamp filtering for Video Decoder
+11-10 19:55:38.227 18558 22367 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:55:38.227 18558 22367 I ACodec  : Scaled Width is 3840, height is 2160
+11-10 19:55:38.234 18558 22367 D SurfaceUtils: set up nativeWindow 0x22101c6320 for 3840x2160, color 0x106, rotation 0, usage 0x2900
+11-10 19:55:38.270 18558 22367 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:55:38.270 18558 22367 I ACodec  : Scaled Width is 3840, height is 2160
+11-10 19:55:38.273 18558 22367 D SurfaceUtils: set up nativeWindow 0x22101c6320 for 3840x2160, color 0x146, rotation 0, usage 0x2900
+11-10 19:55:38.368 18558 22367 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 19:55:38.368 18558 22367 I ACodec  : Scaled Width is 3840, height is 2160
+11-10 19:55:38.610 18558 18558 I PlaybackController: Play method: Trans
+11-10 19:55:38.612 18558 18558 I PlaybackController: trying to switch audio stream from 1 to 1
+11-10 19:55:38.613 18558 18558 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-10 19:55:38.613 18558 18558 I PlaybackController: setting mCurrentOptions audio stream index from null to 1
+11-10 19:57:12.598 18558 18558 I PlaybackController: pause called at 93988
+11-10 19:57:34.807 18558 18558 I PlaybackController: stop called at 94087
+11-10 19:57:34.818 18558 22366 D SurfaceUtils: disconnecting from surface 0x22101c6320, reason disconnectFromSurface
+11-10 19:57:34.824 18558 22366 D MediaCodec: flushMediametrics
+11-10 19:57:34.824 18558 18558 I ExoPlayerImpl: Release b7fefc4 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor, media3.exoplayer.hls]
+11-10 19:57:34.825 18558 22366 D MediaCodec: flushMediametrics

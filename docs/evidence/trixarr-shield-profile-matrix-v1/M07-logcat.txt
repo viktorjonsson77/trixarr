@@ -1,0 +1,21 @@
+Host UTC 2026-11-10T19:13:44.662667+00:00
+Filtered target process logcat; device local time UTC+1
+Item IDs (URL omitted): a06d2851-93a8-e70f-63db-bd12ed84676a
+--------- beginning of main
+11-10 20:11:33.496 18558 18558 I PlaybackController: stop called at 93512
+11-10 20:11:33.593 18558 18558 I ExoPlayerImpl: Init 8dbd145 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 20:11:33.613 18558 18558 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: eng
+11-10 20:11:33.695 18558 18558 I PlaybackController: Internal player would transcode
+11-10 20:11:33.695 18558 18558 D PlaybackController: default audio index set to 1
+11-10 20:11:33.695 18558 18558 I PlaybackController: default audio index set to 1 remote default 1
+11-10 20:11:33.696 18558 18558 I PlaybackController: default sub index set to 54 remote default 54
+11-10 20:11:33.696 18558 18558 D VideoManager: Setting playback speed: 1,000000
+11-10 20:11:33.710 18558 18558 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-10 20:11:33.711 18558 18558 D VideoManager: Player is buffering
+11-10 20:11:34.705 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 20:11:34.751 18558 18558 D VideoManager: Tracks changed
+11-10 20:13:37.791 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 20:13:37.792 18558 18558 E VideoManager: ***** Got error from player
+11-10 20:13:37.798 18558 18558 E PlaybackController: Playback error - Kunde inte ladda videon
+11-10 20:13:37.886 18558 18558 I PlaybackController: stop called at 0
+11-10 20:13:37.905 18558 18558 I ExoPlayerImpl: Release 8dbd145 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor, media3.exoplayer.hls]

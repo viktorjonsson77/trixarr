@@ -1,0 +1,216 @@
+Host UTC 2026-11-10T19:08:47.102043+00:00
+ERRORS / Previous attempt: UNKNOWN
+
+PLAYER / Delivery: DirectPlay
+
+PLAYER / URL type: http
+
+SOURCE FORMAT / Container (Jellyfin): mkv
+
+SOURCE FORMAT / Video #1 (Jellyfin) codec: h264
+
+SOURCE FORMAT / Video #1 (Jellyfin) profile: Main
+
+SOURCE FORMAT / Video #1 (Jellyfin) bitrate: 9995642
+
+SOURCE FORMAT / Video #1 (Jellyfin) resolution: 1920 × 1080
+
+SOURCE FORMAT / Video #1 (Jellyfin) fps: 24.0
+
+SOURCE FORMAT / Video #1 (Jellyfin) HDR: SDR
+
+SOURCE FORMAT / Video #1 (Jellyfin) DV profile: UNKNOWN
+
+SOURCE FORMAT / Video #1 (Jellyfin) DV level: UNKNOWN
+
+SOURCE FORMAT / Video #1 (Jellyfin) primaries: bt709
+
+SOURCE FORMAT / Video #1 (Jellyfin) transfer: bt709
+
+SOURCE FORMAT / Video #1 (Jellyfin) matrix: bt709
+
+SOURCE FORMAT / Video #1 (Jellyfin) bit depth: 8
+
+SOURCE FORMAT / Audio #2 (Jellyfin) codec: ac3
+
+SOURCE FORMAT / Audio #2 (Jellyfin) profile: UNKNOWN
+
+SOURCE FORMAT / Audio #2 (Jellyfin) bitrate: 192000
+
+SOURCE FORMAT / Audio #2 (Jellyfin) channels: 2
+
+SOURCE FORMAT / Audio #2 (Jellyfin) layout: stereo
+
+SOURCE FORMAT / Audio #2 (Jellyfin) sample rate: 44100
+
+DEVICE CAPABILITY / Policy: ALLOWED
+
+DEVICE CAPABILITY / engine: SUPPORTED
+
+DEVICE CAPABILITY / android: SUPPORTED
+
+DEVICE CAPABILITY / container: SUPPORTED
+
+DEVICE CAPABILITY / videoDecoder: SUPPORTED
+
+DEVICE CAPABILITY / resolutionFrameRateBitDepth: SUPPORTED
+
+DEVICE CAPABILITY / hevcDecoder: SUPPORTED
+
+DEVICE CAPABILITY / displayHdr: SUPPORTED
+
+DEVICE CAPABILITY / audio: SUPPORTED
+
+DEVICE CAPABILITY / channelLayout: SUPPORTED
+
+DEVICE CAPABILITY / hdmiOutput: NOT_VERIFIED
+
+PLAYER / Engine selection reason: Jellyfin Media3: ALLOWED; Declared format support; HDMI output remains unverified
+
+ERRORS / Fallback: NONE
+
+SELECTED DECODER / Selection reason: Media3 default ordering; policy blocks unverified DV HEVC fallback; see actual decoder events
+
+VIDEO / Decoder: OMX.Nvidia.h264.decode
+
+VIDEO / Hardware acceleration (Android): true
+
+VIDEO / Decoder input codec: video/avc
+
+VIDEO / Decoder input codecs: avc1.4D0029
+
+VIDEO / Decoder input bitrate: UNKNOWN
+
+VIDEO / Decoder input resolution: 1920 × 1080
+
+VIDEO / Decoder input fps: UNKNOWN
+
+VIDEO / Decoder input color (Media3): ColorInfo(BT709, Limited range, SDR SMPTE 170M, false, NA, NA)
+
+VIDEO / Decoder input HDR: SDR
+
+VIDEO / Decoder input DV profile / level: UNKNOWN
+
+VIDEO / Decoder reuse result: UNKNOWN
+
+VIDEO / Decoder reuse discard reasons: UNKNOWN
+
+AUDIO / Output encoding (AudioTrack): 5
+
+AUDIO / Output encoding name: AC3
+
+AUDIO / AudioTrack sample rate: 44100
+
+AUDIO / AudioTrack channel mask: 12
+
+AUDIO / AudioTrack offload: false
+
+AUDIO / AudioTrack buffer bytes: 40000
+
+AUDIO / Passthrough selected: Encoded AudioTrack selected; HDMI NOT VERIFIED
+
+VIDEO / MediaCodec HDR10+ metadata present: false
+
+VIDEO / MediaCodec HDR static metadata present: true
+
+VIDEO / MediaCodec output mime: video/raw
+
+VIDEO / MediaCodec output width: 1920
+
+VIDEO / MediaCodec output height: 1080
+
+VIDEO / MediaCodec output color-standard: 1
+
+VIDEO / MediaCodec output color-transfer: 3
+
+VIDEO / MediaCodec output color-range: 2
+
+VIDEO / MediaCodec output profile: UNKNOWN
+
+VIDEO / MediaCodec output level: UNKNOWN
+
+VIDEO / Android decoder MIME support: audio/mp4a-latm, audio/3gpp, audio/amr-wb, audio/flac, audio/g711-alaw, audio/g711-mlaw, audio/mpeg, audio/opus, audio/raw, audio/vorbis, audio/mpeg-L2, audio/x-ms-wma, video/avc, video/dolby-vision, video/3gpp, video/hevc, video/x-motion-jpeg, video/mpeg2, video/mp4v-es, video/wvc1, video/x-ms-wmv, video/x-vnd.on2.vp8, video/x-vnd.on2.vp9
+
+DEVICE / Android: 11 / API 30
+
+DEVICE / Model: NVIDIA SHIELD Android TV
+
+AUDIO / Android advertised output encodings (not active route): , 2, 5, 6, 18, 7, 8, 13, 14
+
+DEVICE / Refresh rate: 59.94006
+
+DEVICE / Display mode: {id=49, width=3840, height=2160, fps=59.94006}
+
+DEVICE / Supported HDR types (Android; 1=DV 2=HDR10 3=HLG 4=HDR10+): 1, 2
+
+SESSION / ID: 7800e8ac-b7f6-41d3-9ad6-cbf30eb20b24
+
+SESSION / Generation: 1
+
+SESSION / Reporting: PROGRESS_SENT
+
+SESSION / Resume ms: 0
+
+SESSION / Position ms: 104755
+
+SESSION / Terminal reason: UNKNOWN
+
+ACTUAL PLAYER STATE / Session: PAUSED
+
+VIDEO / Selected stream codec: video/avc
+
+VIDEO / Selected stream codecs: avc1.4D0029
+
+VIDEO / Selected stream bitrate: UNKNOWN
+
+VIDEO / Selected stream resolution: 1920 × 1080
+
+VIDEO / Selected stream fps: UNKNOWN
+
+VIDEO / Selected stream color (Media3): ColorInfo(BT709, Limited range, SDR SMPTE 170M, false, NA, NA)
+
+VIDEO / Selected stream HDR: SDR
+
+VIDEO / Selected stream DV profile / level: UNKNOWN
+
+AUDIO / Selected stream codec: audio/ac3
+
+AUDIO / Selected stream codecs: UNKNOWN
+
+AUDIO / Selected stream bitrate: UNKNOWN
+
+AUDIO / Selected stream track id: 2
+
+AUDIO / Selected stream channels: 2
+
+AUDIO / Selected stream sample rate: 44100
+
+PLAYER / Active engine: Jellyfin Media3
+
+PLAYER / Engine version: 1.8.0
+
+PLAYER / State: READY / PAUSED
+
+PLAYER / Position ms (engine timeline): 104761
+
+PLAYER / Buffered ms: 50231
+
+PLAYER / Dropped frames: 0
+
+PLAYER / Unsupported tracks (Media3): 0
+
+VIDEO / TV activated HDR: NOT VERIFIED
+
+AUDIO / HDMI output / Atmos / DTS:X active: NOT VERIFIED
+
+AUDIO / Decoder: UNKNOWN
+
+ERRORS / Video decoder: UNKNOWN
+
+ERRORS / Audio decoder: UNKNOWN
+
+ERRORS / Audio sink: UNKNOWN
+
+ERRORS / Playback: UNKNOWN
+
+AUDIO / Passthrough requested: UNKNOWN (automatic Media3 policy)

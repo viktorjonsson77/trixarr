@@ -1,0 +1,44 @@
+Host UTC 2026-11-10T19:09:00.025553+00:00
+Filtered target process logcat; device local time UTC+1
+Item IDs (URL omitted): 81f02550-0d33-5853-ebd0-a2e92ce132cc
+--------- beginning of main
+11-10 20:06:55.565 18558 18558 I PlaybackController: stop called at 114199
+11-10 20:06:55.654 18558 18558 I ExoPlayerImpl: Init 9b4b27a [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 20:06:55.676 18558 18558 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: eng
+11-10 20:06:55.757 18558 18558 I PlaybackController: Internal player would direct stream
+11-10 20:06:55.757 18558 18558 D PlaybackController: default audio index set to 2
+11-10 20:06:55.758 18558 18558 I PlaybackController: default audio index set to 2 remote default 2
+11-10 20:06:55.758 18558 18558 I PlaybackController: default sub index set to 0 remote default 0
+11-10 20:06:55.758 18558 18558 D VideoManager: Setting playback speed: 1,000000
+11-10 20:06:55.770 18558 18558 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-10 20:06:55.771 18558 18558 D VideoManager: Player is buffering
+11-10 20:06:55.780 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 20:06:56.079 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 20:06:56.096 18558 18558 D VideoManager: Tracks changed
+11-10 20:06:56.100 18558 24520 I OMXClient: IOmx service obtained
+11-10 20:06:56.115 18558 24519 D MediaCodec: flushMediametrics
+11-10 20:06:56.115 18558 24519 D SurfaceUtils: connecting to surface 0x22101d2f80, reason connectToSurface
+11-10 20:06:56.116 18558 24519 I MediaCodec: [OMX.Nvidia.h264.decode] setting surface generation to 19003405
+11-10 20:06:56.116 18558 24519 D SurfaceUtils: disconnecting from surface 0x22101d2f80, reason connectToSurface(reconnect)
+11-10 20:06:56.116 18558 24519 D SurfaceUtils: connecting to surface 0x22101d2f80, reason connectToSurface(reconnect)
+11-10 20:06:56.131 18558 24520 I ACodec  : Enable timestamp filtering for Video Decoder
+11-10 20:06:56.132 18558 24520 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 20:06:56.132 18558 24520 I ACodec  : Scaled Width is 1920, height is 1080
+11-10 20:06:56.139 18558 24520 D SurfaceUtils: set up nativeWindow 0x22101d2f80 for 1920x1080, color 0x106, rotation 0, usage 0x2900
+11-10 20:06:56.206 18558 24520 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 20:06:56.206 18558 24520 I ACodec  : Scaled Width is 1920, height is 1080
+11-10 20:06:56.213 18558 24520 D SurfaceUtils: set up nativeWindow 0x22101d2f80 for 1920x1080, color 0x146, rotation 0, usage 0x2900
+11-10 20:06:56.234 18558 24520 I ACodec  : Get OMX_IndexConfigScale: 0x10000/0x10000
+11-10 20:06:56.234 18558 24520 I ACodec  : Scaled Width is 1920, height is 1080
+11-10 20:06:56.762 18558 18558 D VideoManager: re-retrieved exoplayer track index 2
+11-10 20:06:56.763 18558 18558 I PlaybackController: Play method: Direct
+11-10 20:06:56.765 18558 18558 D VideoManager: re-retrieved exoplayer track index 2
+11-10 20:06:56.766 18558 18558 I PlaybackController: trying to switch audio stream from 2 to 2
+11-10 20:06:56.766 18558 18558 D PlaybackController: skipping setting audio stream, already set to requested index 2
+11-10 20:06:56.766 18558 18558 I PlaybackController: setting mCurrentOptions audio stream index from null to 2
+11-10 20:08:41.077 18558 18558 I PlaybackController: pause called at 104386
+11-10 20:08:56.320 18558 18558 I PlaybackController: stop called at 104755
+11-10 20:08:56.328 18558 24519 D SurfaceUtils: disconnecting from surface 0x22101d2f80, reason disconnectFromSurface
+11-10 20:08:56.329 18558 24519 D MediaCodec: flushMediametrics
+11-10 20:08:56.329 18558 24519 D MediaCodec: flushMediametrics
+11-10 20:08:56.333 18558 18558 I ExoPlayerImpl: Release 9b4b27a [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor, media3.exoplayer.hls]

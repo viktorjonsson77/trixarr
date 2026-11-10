@@ -1,0 +1,22 @@
+[
+  {
+    "VideoCodec": [
+      "hevc,h264"
+    ],
+    "AudioCodec": [
+      "eac3"
+    ],
+    "AudioStreamIndex": [
+      "1"
+    ],
+    "VideoBitrate": [
+      "99232000"
+    ],
+    "AudioBitrate": [
+      "768000"
+    ],
+    "TranscodeReasons": [
+      "VideoCodecNotSupported,VideoProfileNotSupported,VideoResolutionNotSupported,VideoRangeTypeNotSupported"
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "VideoCodec": [
+      "hevc,h264"
+    ],
+    "AudioCodec": [
+      "aac,ac3,eac3,mp3"
+    ],
+    "AudioStreamIndex": [
+      "1"
+    ],
+    "SubtitleStreamIndex": [
+      "54"
+    ],
+    "VideoBitrate": [
+      "97161195"
+    ],
+    "AudioBitrate": [
+      "2838805"
+    ],
+    "SegmentContainer": [
+      "ts"
+    ],
+    "SubtitleMethod": [
+      "Encode"
+    ],
+    "TranscodeReasons": [
+      "AudioCodecNotSupported,VideoRangeTypeNotSupported"
+    ]
+  }
+]

@@ -1,0 +1,35 @@
+Host UTC 2026-11-10T19:04:04.723148+00:00
+Filtered target process logcat; device local time UTC+1
+Item IDs (URL omitted): 5b9433f5-4f27-d3bf-7879-592d6ed2460e
+--------- beginning of main
+11-10 19:58:16.112 18558 18558 I PlaybackController: stop called at 94087
+11-10 19:58:16.209 18558 18558 I ExoPlayerImpl: Init e3cfd4f [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-10 19:58:16.230 18558 18558 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: eng
+11-10 19:58:16.317 18558 18558 I PlaybackController: Internal player would transcode
+11-10 19:58:16.318 18558 18558 D PlaybackController: default audio index set to 2
+11-10 19:58:16.318 18558 18558 I PlaybackController: default audio index set to 2 remote default 2
+11-10 19:58:16.319 18558 18558 I PlaybackController: default sub index set to 0 remote default 0
+11-10 19:58:16.319 18558 18558 D VideoManager: Setting playback speed: 1,000000
+11-10 19:58:16.339 18558 18558 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-10 19:58:16.340 18558 18558 D VideoManager: Player is buffering
+11-10 19:58:16.571 18558 18558 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-10 19:58:16.605 18558 18558 D VideoManager: Tracks changed
+11-10 19:58:21.954 18558 22876 I OMXClient: IOmx service obtained
+11-10 20:03:38.747 18558 18558 I PlaybackController: pause called at 315157
+11-10 20:03:45.050 18558 18558 I PlaybackController: Skip amount requested was 30000. Calculated position is 345492
+11-10 20:03:45.050 18558 18558 I PlaybackController: Duration reported as: 6636768 current pos: 315492
+11-10 20:03:45.851 18558 18558 I PlaybackController: Trying to seek from 315492 to 345492
+11-10 20:03:45.852 18558 18558 D PlaybackController: Container: ts
+11-10 20:03:45.852 18558 18558 D VideoManager: current media item is seekable
+11-10 20:03:45.852 18558 18558 I VideoManager: Exo length in seek is: 6636768
+11-10 20:03:45.853 18558 18558 D VideoManager: Player is buffering
+11-10 20:03:54.161 18558 18558 I PlaybackController: Play called from state: PAUSED with pos: 345492, sub index: null and forced audio: eng
+11-10 20:03:54.164 18558 18558 I PlaybackController: Play method: Trans
+11-10 20:04:00.924 18558 18558 I PlaybackController: pause called at 352040
+11-10 20:04:00.949 18558 18558 I PlaybackController: stop called at 352233
+11-10 20:04:00.977 18558 22875 D SurfaceUtils: disconnecting from surface 0x22101aec70, reason disconnectFromSurface
+11-10 20:04:00.984 18558 22875 D MediaCodec: flushMediametrics
+11-10 20:04:00.984 18558 22875 D MediaCodec: flushMediametrics
+11-10 20:04:00.990 18558 18558 I ExoPlayerImpl: Release e3cfd4f [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor, media3.exoplayer.hls]
+11-10 20:04:01.010 18558 22882 D MediaCodec: flushMediametrics
+11-10 20:04:01.011 18558 22882 D MediaCodec: flushMediametrics
