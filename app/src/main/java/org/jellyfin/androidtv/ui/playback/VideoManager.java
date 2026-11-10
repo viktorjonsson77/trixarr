@@ -393,7 +393,7 @@ public class VideoManager {
         lastDiagnosticFormat = null;
         diagnostics.source(streamInfo);
         org.jellyfin.playback.core.engine.MediaCapabilityInput media = org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.media(streamInfo);
-        org.jellyfin.playback.core.engine.CapabilityDecision decision = engine.evaluate(media, org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.device(mActivity, media));
+        org.jellyfin.playback.core.engine.CapabilityDecision decision = engine.evaluate(media, org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.device(mActivity, media), streamInfo.getNegotiationDecision());
         capabilityCodecSelector.configure(media, decision);
         diagnostics.policy(decision, engine.getSelectionReason(), engine.getFallbackReason());
         if (!decision.getCanAttempt()) return false;
@@ -402,7 +402,7 @@ public class VideoManager {
             Timber.w("Video path is null cannot continue");
             return false;
         }
-        Timber.i("Video path set to: %s", path);
+        Timber.i("Video delivery selected: %s", streamInfo.getPlayMethod());
 
         try {
             // Add external subtitles

@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class StreamInfo {
+    private org.jellyfin.playback.core.engine.DolbyVisionNegotiationDecision negotiationDecision;
+
+    public org.jellyfin.playback.core.engine.DolbyVisionNegotiationDecision getNegotiationDecision() { return negotiationDecision; }
+    public void setNegotiationDecision(org.jellyfin.playback.core.engine.DolbyVisionNegotiationDecision value) { negotiationDecision = value; }
+
     private UUID ItemId;
 
     public final UUID getItemId() {

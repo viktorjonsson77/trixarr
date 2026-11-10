@@ -27,8 +27,15 @@ class PlayerEngineManager<T>(private val candidates: List<() -> PlayerEngine<T>>
 		private set
 	var capabilityDecision: CapabilityDecision? = null
 		private set
-	fun evaluate(media: MediaCapabilityInput, device: DeviceCapabilitySnapshot): CapabilityDecision {
-		val decision = PlayerCapabilityPolicy().evaluate(media, device, active != null || nextCandidate < candidates.size)
+	@JvmOverloads
+	fun evaluate(media: MediaCapabilityInput, device: DeviceCapabilitySnapshot, negotiation: DolbyVisionNegotiationDecision? = null): CapabilityDecision {
+		val capability = PlayerCapabilityPolicy().evaluate(media, device, active != null || nextCandidate < candidates.size)
+		val decision = if (negotiation == null) capability else capability.copy(
+			permission = if (negotiation.allowed) capability.permission else PlaybackPermission.UNSUPPORTED,
+			evidence = capability.evidence + ("dvDeliveryPreservation" to negotiation.preservation),
+			reasons = capability.reasons + negotiation.reason,
+			hevcFallbackPermitted = capability.hevcFallbackPermitted && negotiation.allowed,
+		)
 		capabilityDecision = decision
 		selectionReason = "${active?.id ?: "registered engine"}: ${decision.permission}; ${decision.reasons.joinToString()}"
 		return decision

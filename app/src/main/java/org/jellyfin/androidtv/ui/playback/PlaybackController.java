@@ -650,6 +650,15 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mCurrentStreamInfo = response;
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
+        if (response.getNegotiationDecision() != null && !response.getNegotiationDecision().getAllowed()) {
+            mVideoManager.bindSession(attemptGate, attempt);
+            mVideoManager.setMediaStreamInfo(api.getValue(), response);
+            finishSession("UNSAFE_DV_DELIVERY", org.jellyfin.playback.core.engine.SessionState.ERROR);
+            android.widget.Toast.makeText(mFragment.getContext(), response.getNegotiationDecision().getReason(), android.widget.Toast.LENGTH_LONG).show();
+            mVideoManager.showDiagnostics();
+            return;
+        }
+
         if (response.getMediaUrl() == null) {
             // If baking subtitles doesn't work (e.g. no permissions to transcode), disable them
             if (response.getSubtitleDeliveryMethod() == SubtitleDeliveryMethod.ENCODE && (response.getMediaSource().getDefaultSubtitleStreamIndex() == null || response.getMediaSource().getDefaultSubtitleStreamIndex() != -1)) {

@@ -14,6 +14,8 @@ import org.jellyfin.sdk.model.api.BaseItemDto
 import org.jellyfin.sdk.model.api.DeviceProfile
 import org.jellyfin.sdk.model.api.MediaProtocol
 import org.jellyfin.sdk.model.api.MediaType
+import org.jellyfin.playback.jellyfin.negotiation.assessDolbyVisionDelivery
+import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 
 class JellyfinMediaStreamResolver(
@@ -109,6 +111,16 @@ class JellyfinMediaStreamResolver(
 
 		requireNotNull(mediaSource) {
 			"Failed to get media info for item ${item.id} source ${mediaSourceId}: media source missing in response"
+		}
+
+		if (item.mediaType == MediaType.VIDEO) {
+			val method = when {
+				mediaSource.supportsDirectPlay -> PlayMethod.DIRECT_PLAY
+				mediaSource.supportsDirectStream -> PlayMethod.DIRECT_STREAM
+				else -> PlayMethod.TRANSCODE
+			}
+			val decision = assessDolbyVisionDelivery(mediaSource, profile, method, mediaSourceId, originalSource = item.mediaSources?.firstOrNull { it.id == mediaSource.id })
+			check(decision.allowed) { decision.reason }
 		}
 
 		return MediaInfo(

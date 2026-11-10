@@ -2,6 +2,9 @@ package org.jellyfin.androidtv.ui.playback
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.CancellationException
+import org.jellyfin.playback.jellyfin.negotiation.assessDolbyVisionDelivery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,21 +20,28 @@ import org.jellyfin.sdk.model.api.PlayMethod
 import org.jellyfin.sdk.model.api.PlaybackInfoDto
 import org.jellyfin.sdk.model.api.PlaybackInfoResponse
 
-private fun createStreamInfo(
+internal fun createStreamInfo(
 	api: ApiClient,
 	options: VideoOptions,
 	response: PlaybackInfoResponse,
 ): StreamInfo = StreamInfo().apply {
-	val source = response.mediaSources.firstOrNull {
-		options.mediaSourceId != null && it.id == options.mediaSourceId
-	} ?: response.mediaSources.firstOrNull()
+	val source = response.mediaSources.firstOrNull { options.mediaSourceId == null || it.id == options.mediaSourceId }
+		?: error("Requested media source is unavailable")
 
 	itemId = options.itemId
 	mediaSource = source
 	runTimeTicks = source?.runTimeTicks
 	playSessionId = response.playSessionId
 
-	if (source == null) return@apply
+	val method = when {
+		options.enableDirectPlay && source.supportsDirectPlay -> PlayMethod.DIRECT_PLAY
+		options.enableDirectStream && source.supportsDirectStream -> PlayMethod.DIRECT_STREAM
+		else -> PlayMethod.TRANSCODE
+	}
+	negotiationDecision = assessDolbyVisionDelivery(source, options.profile, method, options.mediaSourceId, options.audioStreamIndex,
+		options.mediaSources?.firstOrNull { it.id == source.id })
+	playMethod = method
+	if (!negotiationDecision.allowed) return@apply
 
 	if (options.enableDirectPlay && source.supportsDirectPlay) {
 		playMethod = PlayMethod.DIRECT_PLAY
@@ -121,6 +131,13 @@ class PlaybackManager(
 			}
 		}
 
-		createStreamInfo(api, options, response)
-	}
+		val stream = createStreamInfo(api, options, response)
+		if (stream.negotiationDecision?.allowed == false) {
+			// Playback never opens the delivery URL. Close only a server-opened live resource.
+			stream.mediaSource?.liveStreamId?.let { liveId ->
+				withContext(NonCancellable + Dispatchers.IO) { api.mediaInfoApi.closeLiveStream(liveId) }
+			}
+		}
+		stream
+	}.onFailure { if (it is CancellationException) throw it }
 }

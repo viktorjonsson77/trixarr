@@ -39,6 +39,25 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	}
 	fun source(info: StreamInfo) {
 		fields.keys.removeAll { it.startsWith("SOURCE FORMAT /") || it.startsWith("VIDEO / MediaCodec") || it.startsWith("VIDEO / Decoder input") || it.startsWith("ERRORS /") }
+		fields.keys.removeAll { it.startsWith("NEGOTIATION /") }
+		info.negotiationDecision?.let { decision ->
+			put("NEGOTIATION / Source DV profile", decision.evidence.profile)
+			put("NEGOTIATION / Selected source", info.mediaSourceId)
+			put("NEGOTIATION / Requested preference", "Original video; conversion requires verified DV signaling")
+			put("NEGOTIATION / Server-selected method", info.playMethod)
+			put("NEGOTIATION / Server DirectPlay", info.mediaSource?.supportsDirectPlay)
+			put("NEGOTIATION / Server DirectStream", info.mediaSource?.supportsDirectStream)
+			put("NEGOTIATION / Server Transcoding", info.mediaSource?.supportsTranscoding)
+			put("NEGOTIATION / Source audio selection", info.mediaSource?.defaultAudioStreamIndex)
+			put("NEGOTIATION / Container signaling verified", decision.evidence.containerSignalingVerified)
+			put("NEGOTIATION / Converted audio compatibility", decision.evidence.convertedAudioCompatible)
+			put("NEGOTIATION / Client audio declaration (not HDMI)", decision.evidence.audioCompatible)
+			put("NEGOTIATION / Server advertised", decision.evidence.serverAdvertised)
+			put("NEGOTIATION / Video copy verified", decision.evidence.videoCopyVerified)
+			put("NEGOTIATION / DV preservation", decision.preservation)
+			put("NEGOTIATION / Allowed", decision.allowed)
+			put("NEGOTIATION / Reason", decision.reason)
+		}
 		dropped = 0
 		put("ERRORS / Previous attempt", lastFailure)
 		put("PLAYER / Delivery", info.playMethod)
