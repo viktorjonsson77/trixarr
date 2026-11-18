@@ -116,7 +116,7 @@ public class VideoManager {
             Timber.e("Playback engine initialization failed: %s", error.getClass().getSimpleName());
             mHandler.post(() -> new android.app.AlertDialog.Builder(activity)
                     .setTitle("Playback initialization failed")
-                    .setMessage("Engine: Jellyfin Media3\nState: ERROR\nReason: " + error.getClass().getSimpleName()
+                    .setMessage("Engine: Trixarr Player Engine (Media3)\nState: ERROR\nReason: " + error.getClass().getSimpleName()
                             + "\nCapability: UNKNOWN\nDecoder: UNKNOWN\nHDMI OUTPUT NOT VERIFIED")
                     .setPositiveButton("Close", (dialog, which) -> _helper.getFragment().closePlayer())
                     .setOnCancelListener(dialog -> _helper.getFragment().closePlayer()).show());

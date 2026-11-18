@@ -203,7 +203,7 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 		if (Build.VERSION.SDK_INT >= 24) put("DEVICE / Supported HDR types (Android; 1=DV 2=HDR10 3=HLG 4=HDR10+)", display.hdrCapabilities.supportedHdrTypes.joinToString())
 		text = TextView(activity).apply { textSize = 18f; setTextColor(android.graphics.Color.WHITE); setBackgroundColor(android.graphics.Color.rgb(25, 25, 25)); setPadding(32, 24, 32, 24); text = snapshot() }
 		val scroll = ScrollView(activity).apply { addView(text); isFocusable = true }
-		dialog = AlertDialog.Builder(activity).setTitle("Playback diagnostics · D-pad to scroll")
+		dialog = AlertDialog.Builder(activity).setTitle(activity.getString(org.jellyfin.androidtv.R.string.player_diagnostics_title))
 			.setView(scroll).setPositiveButton("Close", null).create().also {
 				it.setOnDismissListener { text = null; dialog = null }
 				it.show()

@@ -1,11 +1,12 @@
-<h1 align="center">Jellyfin Android TV</h1>
-<h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
+<h1 align="center">Trixarr</h1>
+<h3 align="center">Your media. Your way.</h3>
 
 ---
 
 <p align="center">
-<img alt="Logo banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true"/>
 <br/><br/>
+The links below refer to the upstream Jellyfin project and its downloads, not Trixarr releases.
+<br/>
 <a href="https://github.com/jellyfin/jellyfin-androidtv">
 <img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-androidtv.svg"/>
 </a>
@@ -42,7 +43,8 @@
 <a href="https://repo.jellyfin.org/releases/client/androidtv/">Download archive</a>
 </p>
 
-Jellyfin Android TV is a Jellyfin client for Android TV, Nvidia Shield, and Amazon Fire TV devices.
+Trixarr is an independent Android TV media player for Nvidia Shield and other Android TV devices, based on Jellyfin Android TV. Jellyfin remains its media-server and API backend; Seerr provides discovery and requests.
+See the [current architecture](docs/architecture/TRIXARR_OVERVIEW.md) and [developer build guide](docs/BUILDING.md). Approved Trixarr logo assets are not yet available; legacy artwork is not presented here as a Trixarr logo.
 We welcome all contributions and pull requests! If you have a larger feature in mind please open an
 issue so we can discuss the implementation before you start. 
 
@@ -67,8 +69,8 @@ Look through the following graphic to see if your native language could use some
 1. Clone or download this repository
 
    ```sh
-   git clone https://github.com/jellyfin/jellyfin-androidtv.git
-   cd jellyfin-androidtv
+   git clone https://github.com/viktorjonsson77/jellyfintv.git
+   cd jellyfintv
    ```
 
 2. Open the project in Android Studio and run it from there or build an APK directly through Gradle:

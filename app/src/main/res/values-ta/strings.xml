@@ -311,7 +311,7 @@
     <string name="user_picker_disable_title">முடக்கு</string>
     <string name="auto_sign_in">தானியங்கு உள்நுழைவு</string>
     <string name="lbl_switch_user">கணக்கை மாற்றவும்</string>
-    <string name="no_network_permissions">ஜெல்லிஃபின் செயல்பட பிணைய அனுமதிகள் தேவை</string>
+    <string name="no_network_permissions">Trixarr செயல்பட பிணைய அனுமதிகள் தேவை</string>
     <string name="pref_theme_muted_purple">மழுங்கிய ஊதா</string>
     <string name="lbl_next_up_minimal">சிறுபடம் இல்லாமல்</string>
     <string name="lbl_next_up_extended">சிறுபடத்துடன்</string>
@@ -325,7 +325,7 @@
     <string name="no_user_warning">எங்களால் எந்த பயனர்களையும் கண்டுபிடிக்க முடிஎங்களால் எந்தக் கணக்குகளையும் கண்டுபிடிக்க முடியவில்லை!
 \n\"கணக்கைச் சேர்\" பொத்தானை அழுத்துவதன் மூலம் புதிய கணக்கைச் சேர்க்கவும்.</string>
     <string name="welcome_content">தொடங்க உங்கள் சேவையகத்துடன் இணைக்கவும்.</string>
-    <string name="welcome_title">ஜெல்லிஃபினுக்கு வருக!</string>
+    <string name="welcome_title">Trixarr வருக!</string>
     <string name="saved_servers">சேமிக்கப்பட்ட சேவையகங்கள்</string>
     <string name="press_to_close">மூட அழுத்தவும்</string>
     <string name="pref_next_up_behavior_title">அடுத்த வீடியோ தகவலைக் காட்டு</string>
@@ -356,11 +356,11 @@
     <string name="license_artifact">கலைப்பொருள்</string>
     <string name="license_version">பதிப்பு</string>
     <string name="license_description">விளக்கம்</string>
-    <string name="licenses_link_description">ஜெல்லிஃபின் ஆப்ஸ் பயன்படுத்தும் நூலகங்களின் உரிமங்களைப் பார்க்கவும்</string>
+    <string name="licenses_link_description">Trixarr ஆப்ஸ் பயன்படுத்தும் நூலகங்களின் உரிமங்களைப் பார்க்கவும்</string>
     <string name="licenses_link">உரிமங்கள்</string>
     <string name="select_version">பதிப்பு</string>
     <string name="searchable_settings_description">ஊடகம்</string>
-    <string name="searchable_hint">ஜெல்லிஃபினைத் தேடுங்கள்</string>
+    <string name="searchable_hint">Trixarr தேடுங்கள்</string>
     <string name="home_section_i">முகப்புப் பிரிவு %1$d</string>
     <string name="home_section_none">எதுவும் இல்லை</string>
     <string name="home_section_livetv">நேரலை தொலைக்காட்சி</string>
@@ -453,7 +453,7 @@
     <string name="lbl_latest_in">%1$s சமீபத்தில் சேர்க்கப்பட்டது</string>
     <string name="because_you_watched">நீங்கள் %1$sஐப் பார்த்ததால்</string>
     <string name="pref_screensaver">ஸ்கிரீன்சேவர்</string>
-    <string name="pref_screensaver_inapp_enabled_description">பயன்பாடு திறந்திருக்கும் போது ஜெல்லிஃபின் ஸ்கிரீன்சேவரைக் காட்டு</string>
+    <string name="pref_screensaver_inapp_enabled_description">பயன்பாடு திறந்திருக்கும் போது Trixarr ஸ்கிரீன்சேவரைக் காட்டு</string>
     <plurals name="episodes">
         <item quantity="one">%1$s அத்தியாயம்</item>
         <item quantity="other">%1$s அத்தியாயங்கள்</item>
@@ -470,7 +470,7 @@
     <string name="lbl_album_artists">ஆல்பம் கலைஞர்கள்</string>
     <string name="pref_enable_media_management">மீடியா நிர்வாகத்தை இயக்கு</string>
     <string name="item_delete_confirm_message">சேவையகத்திலிருந்து இந்த உருப்படியை நிச்சயமாக நீக்க விரும்புகிறீர்களா\? இந்தச் செயலைச் செயல்தவிர்க்க முடியாது.</string>
-    <string name="app_notification_beta">பயன்பாடு %1$s க்கு புதுப்பிக்கப்பட்டது\nஜெல்லிஃபின் பீட்டா திட்டத்தில் பங்கேற்றதற்கு நன்றி.</string>
+    <string name="app_notification_beta">பயன்பாடு %1$s க்கு புதுப்பிக்கப்பட்டது\nTrixarr பீட்டா திட்டத்தில் பங்கேற்றதற்கு நன்றி.</string>
     <string name="item_deleted">%1$s நீக்கப்பட்டது</string>
     <string name="item_deletion_failed">%1$sஐ நீக்க முடியவில்லை</string>
     <string name="pref_enable_media_management_description">உலாவும்போது மீடியாவை நிர்வகிப்பதற்கான விருப்பத்தைக் காட்டு</string>

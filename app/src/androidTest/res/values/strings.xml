@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Build-type app_name aliases are also generated for the test APK. -->
+    <string name="app_name_debug" translatable="false">Trixarr</string>
+    <string name="app_name_release" translatable="false">Trixarr</string>
+</resources>

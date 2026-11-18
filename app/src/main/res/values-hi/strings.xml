@@ -332,7 +332,7 @@
     <string name="pref_telemetry_description">क्रैश रिपोर्ट भेजें, लॉग शामिल करें</string>
     <string name="pref_crash_reports_enabled">क्रैश रिपोर्ट आपके अंतिम उपयोग किए गए सर्वर पर भेजी जाएंगी</string>
     <string name="server_setup_incomplete">इस सर्वर का सेटअप अभी पूरा नहीं हुआ है। साइन इन करने से पहले सेटअप पूरा करने के लिए वेब ब्राउज़र में जेलीफ़िन खोलें।</string>
-    <string name="app_notification_beta">ऐप को %1$s में अपडेट किया गया\nजेलीफ़िन बीटा प्रोग्राम में भाग लेने के लिए धन्यवाद।</string>
+    <string name="app_notification_beta">ऐप को %1$s में अपडेट किया गया\nTrixarr बीटा प्रोग्राम में भाग लेने के लिए धन्यवाद।</string>
     <string name="pref_subtitles_bold">बोल्ड टेक्स्ट</string>
     <string name="pref_watched_indicator">देखे गए संकेतक दिखाएँ</string>
     <string name="image_size_large">बड़ा</string>
@@ -346,7 +346,7 @@
     <string name="lbl_hidden">छिपा हुआ</string>
     <string name="login_help_title">मदद की ज़रूरत है?</string>
     <string name="lbl_hide_unwatched_count">जब आइटम देखा गया</string>
-    <string name="no_network_permissions">जेलीफिन को कार्य करने के लिए नेटवर्क उपयोग की अनुमति की आवश्यकता है</string>
+    <string name="no_network_permissions">Trixarr को कार्य करने के लिए नेटवर्क उपयोग की अनुमति की आवश्यकता है</string>
     <string name="lbl_special">विशेष</string>
     <string name="always_authenticate">हमेशा क्रेडेंशियल्स के लिए पूछें</string>
     <string name="license_artifact">विरूपण साक्ष्य</string>
@@ -376,12 +376,12 @@
     <string name="license_repository">रिपॉजिटरी</string>
     <string name="home_section_latest_media">हाल ही में जोड़ा गया मीडिया</string>
     <string name="home_section_library">मेरा मीडिया</string>
-    <string name="searchable_hint">जेलीफिन में खोजें</string>
+    <string name="searchable_hint">Trixarr में खोजें</string>
     <string name="home_section_i">गृह खंड %1$d</string>
     <string name="lbl_server">सर्वर</string>
     <string name="pref_developer_link">डेवलपर विकल्प</string>
     <string name="lbl_switch_user">दूसरे खाते में स्विच करें</string>
-    <string name="welcome_title">जेलीफिन में आपका स्वागत है!</string>
+    <string name="welcome_title">Trixarr में आपका स्वागत है!</string>
     <string name="lbl_on_channel">%1$s पर</string>
     <string name="lbl_name_date">%1$s (%2$s)</string>
     <string name="action_login">साइन इन</string>
@@ -440,7 +440,7 @@
     <string name="lbl_start_end_on_schedule">शेड्यूल पर शुरू हो रहा है और शेड्यूल पर समाप्त हो रहा है</string>
     <string name="lbl_record_only_new">केवल नए एपिसोड रिकॉर्ड करेंगे</string>
     <string name="alphabetical">वर्णानुक्रम</string>
-    <string name="licenses_link_description">जेलीफिन ऐप द्वारा उपयोग किए गए लाइब्रेरी के लाइसेंस देखें</string>
+    <string name="licenses_link_description">Trixarr ऐप द्वारा उपयोग किए गए लाइब्रेरी के लाइसेंस देखें</string>
     <string name="home_sections">गृह खंड</string>
     <string name="home_section_active_recordings">सक्रिय रिकॉर्डिंग</string>
     <string name="home_section_next_up">अगला आ रहा है</string>
@@ -528,7 +528,7 @@
     <string name="segment_type_preview">प्रीव्यू</string>
     <string name="segment_type_outro">आऊटरो</string>
     <string name="skip_forward_length">स्किप फॉरवर्ड लंबाई</string>
-    <string name="pref_screensaver_inapp_enabled_description">ऐप खुला होने पर जेलीफिन स्क्रीनसेवर दिखाएं</string>
+    <string name="pref_screensaver_inapp_enabled_description">ऐप खुला होने पर Trixarr स्क्रीनसेवर दिखाएं</string>
     <string name="dolby_vision">डॉल्बी विजन</string>
     <string name="pref_playback_advanced">उन्नत प्लेबैक विकल्प</string>
     <string name="pref_screensaver_ageratingrequired_enabled">केवल आयु रेटिंग सेट वाले आइटम दिखाए जा रहे हैं</string>
