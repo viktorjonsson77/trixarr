@@ -1,0 +1,6 @@
+org.jellyfin.androidtv.playback.LocalAudioDecodeInstrumentedTest:..
+org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest:....
+
+Time: 2,048
+
+OK (6 tests)

@@ -1,0 +1,14 @@
+{
+  "A_ON": {
+    "tcl_dolby_vision_indicator": "USER VERIFIED: ja in response to A prompt",
+    "correct_picture_colors": "USER VERIFIED: same response",
+    "yamaha": "USER VERIFIED: Yamaha visar DD+",
+    "unexpected_54s_stop_restart": "Asked whether remote was used; no answer yet"
+  },
+  "B_OFF": {
+    "tcl_dolby_vision_indicator": "PENDING",
+    "correct_picture_colors": "PENDING",
+    "yamaha": "PENDING",
+    "av_sync": "PENDING"
+  }
+}

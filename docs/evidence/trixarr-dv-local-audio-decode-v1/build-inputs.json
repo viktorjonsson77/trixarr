@@ -1,0 +1,36 @@
+{
+  "baseline_commit": "70929c016",
+  "branch": "feat/trixarr-dv-local-audio-decode-v1",
+  "initial_dirty_entries": 195,
+  "build_directory": "/opt/jellyfintv-local-audio-build",
+  "controlled_baseline_directory": "/opt/jellyfintv-dv-safe-build",
+  "baseline_manifest": "../trixarr-dv-safe-negotiation-v1/build-inputs.json",
+  "excluded_unfinished_previous_task_files": [
+    "app/src/test/kotlin/ui/playback/completion/ControllerChainTests.kt",
+    "playback/core/src/main/kotlin/engine/PlaybackSessionOwner.kt",
+    "app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidRefreshRateController.kt",
+    "playback/core/src/main/kotlin/engine/PlaybackStartup.kt",
+    "playback/core/src/main/kotlin/engine/RefreshRatePolicy.kt"
+  ],
+  "task_input_sha256": {
+    "playback/core/src/main/kotlin/engine/LocalAudioDecodePolicy.kt": "6645beffc4597457af46db478efd2ee3d2d468c8f2a740dbb1af8774d8298736",
+    "playback/media3/exoplayer/src/main/kotlin/LocalAudioSupport.kt": "81bd9ecce7a8c31224a05c9c18bd8851472ce33d3d5fc489afccd61f3d06fb2d",
+    "playback/media3/exoplayer/src/main/kotlin/LocalAudioRenderersFactory.kt": "b7402d95b7635ebe29220acf5209887ad8d14fa2a764f6ad6b65e9017a237907",
+    "playback/media3/exoplayer/src/main/kotlin/ExoPlayerOptions.kt": "7861be33447a168812271db33cf5ccf6398b80cdf7466702121164abd4959832",
+    "playback/media3/exoplayer/src/main/kotlin/ExoPlayerBackend.kt": "12cd9abe6141fd832ad38219dacc9dc0d5ca0fb76a3da227cad5430d2865a26d",
+    "app/src/main/java/org/jellyfin/androidtv/di/PlaybackModule.kt": "c1a4563c2449c582fcd5eb3adc9eb4c1fcfb2dab91bb1648230c933b3102b369",
+    "app/src/main/java/org/jellyfin/androidtv/util/profile/MediaCodecCapabilitiesTest.kt": "d46147aa6c6dcbf5478845d26f11324fbb36516fd330dff282209a6822cc0bd9",
+    "app/src/main/java/org/jellyfin/androidtv/util/profile/deviceProfile.kt": "3a60b709cf40f7a4f1f6de9052bcdeff432e9fa970578d08d41c4bd4ff2e5ebd",
+    "app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java": "4ff313a743efe4516c9e70621d1916119473af4e7163dae7d94bc0e9c0ac03ce",
+    "app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/PlaybackDiagnostics.kt": "a8884cf2a5006ce5c62dbcfb038dca080519ee912ef54b9422782231f462fa18",
+    "playback/core/src/test/kotlin/engine/LocalAudioDecodePolicyTests.kt": "bb137b4151488c7d91e78430451b9be19a173108f6d423866d3bfb126f49e6eb",
+    "app/src/test/kotlin/ui/playback/audio/LocalAudioIntegrationTests.kt": "1fb1ab555add72513710c6147896ce4c163fa80d36b3d62cbe4e0db8e76a92e3",
+    "app/src/androidTest/java/org/jellyfin/androidtv/playback/LocalAudioDecodeInstrumentedTest.kt": "5480571cdd76b539cc032e1ca2e83b45221e9cfaf35c471d76ae89f5d81df75a",
+    "playback/jellyfin/src/main/kotlin/negotiation/DolbyVisionNegotiation.kt": "b38286641fdb28df656763f737a84289e56df9c7eca2889fe634966cc26806a8"
+  },
+  "commands": [
+    "JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 ANDROID_HOME=/opt/android-sdk ./gradlew -I docs/evidence/player-engine-phase-2-completion/focused-tests.gradle :playback:core:testDebugUnitTest :playback:jellyfin:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest --console=plain"
+  ],
+  "results": "90 JVM tests pass; six Shield instrumented tests pass",
+  "implementation_commit": "d6a411e74"
+}

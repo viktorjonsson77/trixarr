@@ -1,0 +1,19 @@
+{
+  "original_stored_value": "ABSENT",
+  "original_effective_bitstream": true,
+  "temporary_stored_value": false,
+  "restored_stored_value": "ABSENT",
+  "restored_effective_bitstream": true,
+  "all_preferences_tree_equal": true,
+  "canonical_preference_tree_sha256": "dab4d922e1c1b5aba2d8a237c9dad762c8bf45448ec1bbfd4a44bb45c2610f46",
+  "independent_readback_after_relaunch": true,
+  "old_player_pids": [
+    20993,
+    22094
+  ],
+  "new_details_process_pid": 22689,
+  "B_normal_exoplayer_release": "22:08:29.533",
+  "B_audio_stop_destructor_status": 0,
+  "A_final_cleanup": "Paused at109086ms; process force-stopped before OFF mutation. Final normal ExoPlayer release not captured; OS process exit established. First ON session normal release captured.",
+  "restoration_status": "VERIFIED"
+}

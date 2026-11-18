@@ -1,0 +1,32 @@
+{
+  "device": {
+    "serial": "100.91.172.18:5555",
+    "manufacturer": "NVIDIA",
+    "model": "SHIELD Android TV",
+    "product": "mdarcy",
+    "android": "11",
+    "api": 30,
+    "abi": "arm64-v8a"
+  },
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "versionName": "0.0.0-dev.1",
+  "versionCode": 1,
+  "artifact": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+  "apk_sha256": "4091dc4e72557756cbc579fca53d189896fd6c80a535f951225a9ef7a488bcd9",
+  "installed_apk_sha256": "4091dc4e72557756cbc579fca53d189896fd6c80a535f951225a9ef7a488bcd9",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "installed_baseline_signer_matches": true,
+  "install": "adb -s 100.91.172.18:5555 install -r (Success)",
+  "first_install_unchanged": "2026-09-02 23:52:47",
+  "last_update_device_local": "2026-11-18 21:59:48",
+  "ce_data_inode_before": 652903,
+  "ce_data_inode_after": 652903,
+  "arm64_libraries": {
+    "libandroidx.graphics.path.so": "ELF64 AArch64",
+    "libffmpegJNI.so": "ELF64 AArch64"
+  },
+  "original_preference": {
+    "pref_bitstream_ac3": "ABSENT",
+    "effective_value": true
+  }
+}
