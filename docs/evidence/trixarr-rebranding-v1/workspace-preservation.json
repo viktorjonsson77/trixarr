@@ -1,0 +1,8 @@
+{
+  "initial_dirty_entries": 195,
+  "unrelated_files_hashed_and_preserved": 2128,
+  "unrelated_hash_mismatches": 0,
+  "related_prior_status_entries_absorbed_by_product_rename": 52,
+  "remaining_original_dirty_entries": 143,
+  "note": "About icon selection preserved unstaged; name/resource entries committed intentionally. New evidence directory is the extra untracked entry before its commit."
+}

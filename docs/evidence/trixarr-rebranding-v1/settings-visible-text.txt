@@ -1,0 +1,14 @@
+Preferenser
+Seerr
+Anslut till Seerr och hantera din säkra session
+Logga in
+Servrar, konton, automatisk inloggning
+Anpassning
+Skärmsläckare och fjärrkontroll
+Uppspelning
+Video, undertexter, direktsänd-TV, kommer härnäst
+Kraschrapportering
+Skicka kraschrapporter, inkludera loggar
+Utvecklarinställningar
+Avancerade och experimentiella funktioner
+Om

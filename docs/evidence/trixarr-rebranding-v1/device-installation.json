@@ -1,0 +1,23 @@
+{
+  "serial": "100.91.172.18:5555",
+  "model": "NVIDIA SHIELD Android TV / mdarcy",
+  "android": "11 / API30 / arm64-v8a",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "label": "Trixarr",
+  "versionName": "0.0.0-dev.1",
+  "versionCode": 1,
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "baseline_apk_sha256": "4091dc4e72557756cbc579fca53d189896fd6c80a535f951225a9ef7a488bcd9",
+  "apk_sha256": "eecf795d609e57afc1e895444caa5779fdc0934ea6e1f55914f940ac461f5652",
+  "installed_apk_sha256": "eecf795d609e57afc1e895444caa5779fdc0934ea6e1f55914f940ac461f5652",
+  "install_result": "adb install -r Success",
+  "first_install_unchanged": "2026-09-02 23:52:47",
+  "last_update": "2026-11-18 22:24:21 device local UTC+1",
+  "ce_inode_before": 652903,
+  "ce_inode_after": 652903,
+  "bitstream_before": "ABSENT / ON default",
+  "bitstream_after": "ABSENT / ON default",
+  "audio_display_settings_changed": false,
+  "login_preserved": "Authenticated library loaded without login flow",
+  "physical_tcl_yamaha": "Requested during regression; NOT VERIFIED"
+}

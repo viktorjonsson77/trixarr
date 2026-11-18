@@ -1,0 +1,13 @@
+Preferenser
+Video, undertexter, direktsänd-TV, kommer härnäst
+Kraschrapportering
+Skicka kraschrapporter, inkludera loggar
+Utvecklarinställningar
+Avancerade och experimentiella funktioner
+Om
+Trixarr app version
+Trixarr 0.0.0-dev.1 debug
+Enhetens modell
+NVIDIA SHIELD Android TV
+Licenser
+Se på alla de bibliotekslicenser som Trixarr använder

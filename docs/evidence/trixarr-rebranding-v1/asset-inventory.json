@@ -1,0 +1,39 @@
+{
+  "status": "BRAND_ASSETS_MISSING",
+  "approved_trixarr_assets_found": false,
+  "legacy_provenance": "docs/design/arrstreamer/README.md; preserved historical design material",
+  "retained_assets": {
+    "app/src/main/res/drawable-nodpi/app_logo.png": {
+      "size": [
+        1825,
+        530
+      ],
+      "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c",
+      "provenance": "Legacy ArrStreamer; not approved as Trixarr artwork"
+    },
+    "app/src/main/res/mipmap-xhdpi/app_icon.png": {
+      "size": [
+        144,
+        144
+      ],
+      "sha256": "e5289fe77475a9261f99ada3db9a239c14126abc006978156bda7e89bb8f8c5d",
+      "provenance": "Legacy ArrStreamer; not approved as Trixarr artwork"
+    },
+    "app/src/main/res/mipmap-xhdpi/app_banner.png": {
+      "size": [
+        640,
+        360
+      ],
+      "sha256": "cd1b628550e5423a588e5d28f5fae9703e26def31f6e7b8e5725aab5b95e9074",
+      "provenance": "Legacy ArrStreamer; not approved as Trixarr artwork"
+    },
+    "app/src/debug/res/mipmap-xhdpi/app_banner.png": {
+      "size": [
+        640,
+        360
+      ],
+      "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2",
+      "provenance": "Legacy ArrStreamer; not approved as Trixarr artwork"
+    }
+  }
+}

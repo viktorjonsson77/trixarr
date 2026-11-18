@@ -1,0 +1,23 @@
+[
+  {
+    "module": "playback/core",
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "playback/jellyfin",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "module": "app",
+    "tests": 59,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]
