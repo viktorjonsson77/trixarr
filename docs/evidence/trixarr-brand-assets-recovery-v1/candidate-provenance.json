@@ -1,0 +1,32 @@
+[
+  {
+    "path": "docs/design/ArrStreamer_logo.png",
+    "sha256": "9676232191059b817f9619d114f76a7a0e06d085e67ed6c3ef16a0ab28f222a4",
+    "classification": "Legacy ArrStreamer, not an approved Trixarr original",
+    "provenance": "docs/design/arrstreamer/README.md and source-metadata.json; originals left untouched"
+  },
+  {
+    "path": "docs/design/arrstreamer/ArrStreamer_logo_master.svg",
+    "sha256": "08dd692235581defe3f1b4857696da56227681bd6a9f513e385faff759598e5e",
+    "classification": "Legacy ArrStreamer, not an approved Trixarr original",
+    "provenance": "docs/design/arrstreamer/README.md and source-metadata.json; originals left untouched"
+  },
+  {
+    "path": "docs/design/arrstreamer/ArrStreamer_symbol.svg",
+    "sha256": "9c98d59fc4d71fe1b64d0d37c397a04564497aef437b315ae37e46e5da552bc2",
+    "classification": "Legacy ArrStreamer, not an approved Trixarr original",
+    "provenance": "docs/design/arrstreamer/README.md and source-metadata.json; originals left untouched"
+  },
+  {
+    "path": "docs/design/arrstreamer/ArrStreamer_wordmark.svg",
+    "sha256": "717490fb0e3c24885edd6a03e24b9b941618baf9b19ccf0a135bd3f29fdbf990",
+    "classification": "Legacy ArrStreamer, not an approved Trixarr original",
+    "provenance": "docs/design/arrstreamer/README.md and source-metadata.json; originals left untouched"
+  },
+  {
+    "path": "app/src/main/res/drawable-nodpi/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c",
+    "classification": "Legacy ArrStreamer, not an approved Trixarr original",
+    "provenance": "docs/design/arrstreamer/README.md and source-metadata.json; originals left untouched"
+  }
+]

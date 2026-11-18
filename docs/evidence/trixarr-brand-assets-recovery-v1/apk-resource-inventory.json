@@ -1,0 +1,602 @@
+[
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2/arrstreamer-player-engine-phase-2-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/player-engine-phase-2-completion/arrstreamer-player-engine-phase-2-completion-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/installed-baseline.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-local-audio-decode-v1/trixarr-dv-local-audio-decode-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug-r2.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-dv-safe-negotiation-v1/trixarr-dv-safe-negotiation-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/installed-before-rebranding.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_banner_foreground.png",
+    "sha256": "c965e0df824d881be3abdf392f0127c499d5b44d9bdbb5cdf3ac92afaaebd380"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_icon_foreground.png",
+    "sha256": "2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/drawable-nodpi-v4/app_logo.png",
+    "sha256": "72c924d1fece9d49b160d8b5505bb610e63ca578a9ab89d0232e3c29d940328c"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/drawable/app_banner.xml",
+    "sha256": "b92c1683ba4c73519c9656f82a344c518b07ed8a42d9212371b178ce3350bb36"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-anydpi-v26/app_icon.xml",
+    "sha256": "f8e454d9039b7f65775f9b28023301a9e6090aaea7428943b2d170621fc4ddea"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_banner.png",
+    "sha256": "d68d070e80fc2c54cc5bf205eb81cd461f28cd1a59cffc8a487bffe2921df00b"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-hdpi-v4/app_icon.png",
+    "sha256": "386442dec4d903e5fcc0597cdd35f2864228a5b06b0a7c366c763f5ddb293266"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_banner.png",
+    "sha256": "2833edecd892c017699659af42a7afecd2966d95ce74991c74d04cee39a19391"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-mdpi-v4/app_icon.png",
+    "sha256": "3e3d31f4bea44523dce4958f2d05f8832bfe7a53e5488d7ed603d81665da214e"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_banner.png",
+    "sha256": "12c2b3e069729ee84c40fcf02b9e922e5dac76fc3e45a1f302b0070fa7c308f2"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xhdpi-v4/app_icon.png",
+    "sha256": "24ae384a920fd87bc6108b7c2d553f6e294867e57054e92c172c3c0d4f70a7df"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_banner.png",
+    "sha256": "8560d295e99ef1e60fdd85be6a5101d03254b375973b8aaa25577fab15a6505a"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xxhdpi-v4/app_icon.png",
+    "sha256": "4b955e6b195f8ae85341ab543aed4b5472df0958ac2bb05e68eec6f891b7c59d"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_banner.png",
+    "sha256": "e29ed0a5572318e8234116963ca287c01ec59a85193c63f1287b988d03342858"
+  },
+  {
+    "apk": "/opt/jellyfintv-artifacts/trixarr-rebranding-v1/trixarr-rebranding-v1-debug.apk",
+    "resource": "res/mipmap-xxxhdpi-v4/app_icon.png",
+    "sha256": "00f1467eaecef16f1fa1aed846050f5f1ce235819085e23c0a56925d0cdadc91"
+  }
+]
