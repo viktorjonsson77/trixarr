@@ -37,6 +37,20 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 		lastFailure = error.javaClass.simpleName
 		put("ERRORS / Engine initialization", lastFailure)
 	}
+	fun audioPolicy(context: android.content.Context, passthroughEnabled: Boolean, info: StreamInfo) {
+		val audio = info.mediaSource?.mediaStreams.orEmpty().firstOrNull {
+			it.type == MediaStreamType.AUDIO && it.index == info.mediaSource?.defaultAudioStreamIndex
+		}
+		put("SOURCE AUDIO / Codec", audio?.codec)
+		put("DEVICE CAPABILITY / Passthrough enabled", passthroughEnabled)
+		val capability = audio?.codec?.takeIf { org.jellyfin.playback.media3.exoplayer.LocalAudioSupport.mime(it) != null }?.let { org.jellyfin.playback.media3.exoplayer.LocalAudioSupport.probe(context, it, audio.channels ?: -1, audio.sampleRate ?: -1) }
+		put("DEVICE CAPABILITY / Local native audio decoder", capability?.nativeDecoder)
+		put("DEVICE CAPABILITY / Local FFmpeg audio decoder", capability?.softwareDecoder)
+		put("DEVICE CAPABILITY / CAN_DECODE_AUDIO", capability?.canDecode)
+		put("DEVICE CAPABILITY / CAN_PASSTHROUGH_AUDIO", capability?.passthrough)
+		put("SELECTED AUDIO PATH / Requested mode", if (passthroughEnabled) "Encoded or local (Media3)" else "Local decode to PCM only")
+		put("PHYSICAL AVR VERIFICATION / Output", "NOT VERIFIED")
+	}
 	fun source(info: StreamInfo) {
 		fields.keys.removeAll { it.startsWith("SOURCE FORMAT /") || it.startsWith("VIDEO / MediaCodec") || it.startsWith("VIDEO / Decoder input") || it.startsWith("ERRORS /") }
 		fields.keys.removeAll { it.startsWith("NEGOTIATION /") }
@@ -112,7 +126,7 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	}
 	override fun onAudioDecoderReleased(time: AnalyticsListener.EventTime, name: String) { put("AUDIO / Decoder", null) }
 	override fun onAudioTrackReleased(time: AnalyticsListener.EventTime, config: AudioSink.AudioTrackConfig) {
-		fields.keys.filter { it.startsWith("AUDIO / AudioTrack") || it.startsWith("AUDIO / Output encoding") || it == "AUDIO / Passthrough selected" }.forEach { put(it, null) }
+		fields.keys.filter { it.startsWith("ACTUAL AUDIO OUTPUT /") || it.startsWith("AUDIO / AudioTrack") || it.startsWith("AUDIO / Output encoding") || it == "AUDIO / Passthrough selected" }.forEach { put(it, null) }
 	}
 	override fun onAudioDecoderInitialized(time: AnalyticsListener.EventTime, name: String, timestamp: Long, duration: Long) { put("AUDIO / Decoder", name) }
 	override fun onVideoInputFormatChanged(time: AnalyticsListener.EventTime, format: Format, reuse: androidx.media3.exoplayer.DecoderReuseEvaluation?) {
@@ -126,6 +140,8 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	override fun onAudioCodecError(time: AnalyticsListener.EventTime, error: Exception) { put("ERRORS / Audio decoder", error.javaClass.simpleName) }
 	override fun onAudioSinkError(time: AnalyticsListener.EventTime, error: Exception) { put("ERRORS / Audio sink", error.javaClass.simpleName) }
 	override fun onAudioTrackInitialized(time: AnalyticsListener.EventTime, config: AudioSink.AudioTrackConfig) {
+		put("ACTUAL AUDIO OUTPUT / Mode", DiagnosticValues.passthrough(config.encoding))
+		put("ACTUAL AUDIO OUTPUT / Channel count", Integer.bitCount(config.channelConfig))
 		put("AUDIO / Output encoding (AudioTrack)", config.encoding)
 		put("AUDIO / Output encoding name", DiagnosticValues.encodingName(config.encoding))
 		put("AUDIO / AudioTrack sample rate", config.sampleRate)

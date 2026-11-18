@@ -77,10 +77,13 @@ fun createDeviceProfile(
 	assDirectPlay: Boolean,
 	pgsDirectPlay: Boolean,
 	jellyfinTenEleven: Boolean,
+	localAudioProfiles: List<org.jellyfin.playback.media3.exoplayer.LocalAudioSupport.Profile> = if (isAC3Enabled || downMixAudio) emptyList() else mediaTest.localAudioProfiles(supportedAudioCodecs.toList()),
 ) = buildDeviceProfile {
 	val allowedAudioCodecs = when {
 		downMixAudio -> downmixSupportedAudioCodecs
-		!isAC3Enabled -> supportedAudioCodecs.filterNot { it == Codec.Audio.EAC3 || it == Codec.Audio.AC3 }.toTypedArray()
+		!isAC3Enabled -> supportedAudioCodecs.filter { codec ->
+			localAudioProfiles.any { it.codec == codec }
+		}.toTypedArray()
 		else -> supportedAudioCodecs
 	}
 
@@ -122,7 +125,7 @@ fun createDeviceProfile(
 
 	/// Transcoding profiles
 	// Video
-	transcodingProfile {
+	if (allowedAudioCodecs.isNotEmpty()) transcodingProfile {
 		type = DlnaProfileType.VIDEO
 		context = EncodingContext.STREAMING
 
@@ -139,7 +142,7 @@ fun createDeviceProfile(
 	}
 
 	// Audio
-	transcodingProfile {
+	if (Codec.Audio.AAC in allowedAudioCodecs) transcodingProfile {
 		type = DlnaProfileType.AUDIO
 		context = EncodingContext.STREAMING
 
@@ -151,7 +154,7 @@ fun createDeviceProfile(
 
 	/// Direct play profiles
 	// Video
-	directPlayProfile {
+	if (allowedAudioCodecs.isNotEmpty()) directPlayProfile {
 		type = DlnaProfileType.VIDEO
 
 		container(
@@ -185,7 +188,7 @@ fun createDeviceProfile(
 	}
 
 	// Audio
-	directPlayProfile {
+	if (allowedAudioCodecs.isNotEmpty()) directPlayProfile {
 		type = DlnaProfileType.AUDIO
 
 		audioCodec(*allowedAudioCodecs)
@@ -467,6 +470,16 @@ fun createDeviceProfile(
 
 		applyConditions {
 			ProfileConditionValue.VIDEO_RANGE_TYPE inCollection unsupportedRangeTypesHevc
+		}
+	}
+
+	// Local decode limits are independent of encoded HDMI support. Keep the existing video/container checks.
+	if (!isAC3Enabled && !downMixAudio) for (audio in localAudioProfiles) codecProfile {
+		type = CodecType.VIDEO_AUDIO
+		codec = audio.codec
+		conditions {
+			ProfileConditionValue.AUDIO_CHANNELS lowerThanOrEquals audio.maxChannels
+			ProfileConditionValue.AUDIO_SAMPLE_RATE inCollection audio.sampleRates.map(Int::toString)
 		}
 	}
 

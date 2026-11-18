@@ -77,7 +77,8 @@ class ExoPlayerBackend(
 		}
 
 		val mediaSourceFactory = DefaultMediaSourceFactory(dataSourceFactory, extractorsFactory)
-		val renderersFactory = DefaultRenderersFactory(context).apply {
+		val passthroughEnabled = exoPlayerOptions.passthroughEnabled()
+		val renderersFactory = LocalAudioRenderersFactory(context, passthroughEnabled).apply {
 			setEnableDecoderFallback(true)
 			setExtensionRendererMode(
 				when (exoPlayerOptions.preferFfmpeg) {
@@ -93,7 +94,7 @@ class ExoPlayerBackend(
 				setParameters(buildUponParameters().apply {
 					setAudioOffloadPreferences(
 						TrackSelectionParameters.AudioOffloadPreferences.DEFAULT.buildUpon().apply {
-							setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+							setAudioOffloadMode(if (passthroughEnabled) TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED else TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED)
 						}.build()
 					)
 					setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)

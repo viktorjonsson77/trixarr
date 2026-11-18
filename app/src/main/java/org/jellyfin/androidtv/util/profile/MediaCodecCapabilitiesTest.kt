@@ -97,6 +97,8 @@ class MediaCodecCapabilitiesTest(
 		CodecProfileLevel.HEVCMainTierLevel62 to 186,
 	)
 
+	fun localAudioProfiles(codecs: List<String>) = org.jellyfin.playback.media3.exoplayer.LocalAudioSupport.profiles(context, codecs)
+
 	fun supportsAV1(): Boolean = hasCodecForMime(MimeTypes.VIDEO_AV1)
 
 	fun supportsAV1Main10(): Boolean = hasDecoder(

@@ -5,6 +5,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 
 data class ExoPlayerOptions(
 	val preferFfmpeg: Boolean = false,
+	val passthroughEnabled: () -> Boolean = { true },
 	val enableDebugLogging: Boolean = false,
 	val baseDataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory(),
 )

@@ -71,6 +71,7 @@ fun Scope.createPlaybackManager() = playbackManager(androidContext()) {
 	val userPreferences = get<UserPreferences>()
 	val exoPlayerOptions = ExoPlayerOptions(
 		preferFfmpeg = userPreferences[UserPreferences.preferExoPlayerFfmpeg],
+		passthroughEnabled = { userPreferences[UserPreferences.ac3Enabled] },
 		enableDebugLogging = userPreferences[UserPreferences.debuggingEnabled],
 		baseDataSourceFactory = get<HttpDataSource.Factory>(),
 	)

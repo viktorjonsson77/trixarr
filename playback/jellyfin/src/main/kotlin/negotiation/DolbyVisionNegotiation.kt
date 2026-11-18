@@ -29,7 +29,8 @@ fun assessDolbyVisionDelivery(
 	val declared = profile?.directPlayProfiles?.filter { it.type == DlnaProfileType.VIDEO }
 	val audioCompatibility = when {
 		audio == null -> Capability.UNKNOWN
-		declared.isNullOrEmpty() -> Capability.UNKNOWN
+		declared == null -> Capability.UNKNOWN
+		declared.isEmpty() -> Capability.UNSUPPORTED
 		declared.any { entry ->
 			(entry.container.isNullOrBlank() || entry.container!!.split(',').any { it.equals(source.container, true) }) &&
 			(entry.audioCodec.isNullOrBlank() || entry.audioCodec!!.split(',').any { it.equals(audio.codec, true) })

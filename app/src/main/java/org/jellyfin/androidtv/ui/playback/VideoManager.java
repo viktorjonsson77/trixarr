@@ -247,7 +247,7 @@ public class VideoManager {
      */
     private ExoPlayer.Builder configureExoplayerBuilder(Context context) {
         ExoPlayer.Builder exoPlayerBuilder = new ExoPlayer.Builder(context);
-        DefaultRenderersFactory defaultRendererFactory = new DefaultRenderersFactory(context);
+        DefaultRenderersFactory defaultRendererFactory = new org.jellyfin.playback.media3.exoplayer.LocalAudioRenderersFactory(context, userPreferences.get(UserPreferences.Companion.getAc3Enabled()));
         defaultRendererFactory.setEnableDecoderFallback(true);
         defaultRendererFactory.setMediaCodecSelector(capabilityCodecSelector);
         defaultRendererFactory.setExtensionRendererMode(determineExoPlayerExtensionRendererMode());
@@ -255,7 +255,7 @@ public class VideoManager {
         DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
         trackSelector.setParameters(trackSelector.buildUponParameters()
                 .setAudioOffloadPreferences(new TrackSelectionParameters.AudioOffloadPreferences.Builder()
-                        .setAudioOffloadMode(TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED)
+                        .setAudioOffloadMode(userPreferences.get(UserPreferences.Companion.getAc3Enabled()) ? TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_ENABLED : TrackSelectionParameters.AudioOffloadPreferences.AUDIO_OFFLOAD_MODE_DISABLED)
                         .build()
                 )
                 .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
@@ -392,6 +392,7 @@ public class VideoManager {
         diagnosticGeneration++;
         lastDiagnosticFormat = null;
         diagnostics.source(streamInfo);
+        diagnostics.audioPolicy(mActivity, userPreferences.get(UserPreferences.Companion.getAc3Enabled()), streamInfo);
         org.jellyfin.playback.core.engine.MediaCapabilityInput media = org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.media(streamInfo);
         org.jellyfin.playback.core.engine.CapabilityDecision decision = engine.evaluate(media, org.jellyfin.androidtv.ui.playback.engine.AndroidCapabilityProbe.device(mActivity, media), streamInfo.getNegotiationDecision());
         capabilityCodecSelector.configure(media, decision);
