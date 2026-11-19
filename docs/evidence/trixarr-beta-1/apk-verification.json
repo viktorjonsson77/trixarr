@@ -1,0 +1,29 @@
+{
+  "artifact": "/opt/jellyfintv-artifacts/trixarr-beta-1/trixarr-0.1.0-beta.1-candidate2-debug.apk",
+  "apk_sha256": "e4a0bf09eb64823c8f90a73268e7914a074200768dd9d63aecacee8f9640e434",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "installed_signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "version_name": "0.1.0-beta.1",
+  "version_code": 10001,
+  "variant": "debug",
+  "release_signing": "RELEASE_SIGNING_BLOCKED: no configured release signing; release identity also differs from installed debug package",
+  "arm64_libraries": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/arm64-v8a/libffmpegJNI.so"
+  ],
+  "installed_before_sha256": "dc78768a3aaeddf25d14494c79709bb75bbf18fa9d0ce576b70bca6415491f3c",
+  "update_compatible": true,
+  "supersedes": "Candidate 1 retained; diagnostics release race fixed in candidate 2",
+  "native_library_comparison": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": {
+      "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+      "unchanged_from_branding_v2": true
+    },
+    "lib/arm64-v8a/libffmpegJNI.so": {
+      "sha256": "63d56c5fbd0f0b84dc607af3c3faed7befdea5e9fa5187bbcdb3ebc54782e929",
+      "unchanged_from_branding_v2": true
+    }
+  },
+  "installed_final_sha256": "e4a0bf09eb64823c8f90a73268e7914a074200768dd9d63aecacee8f9640e434"
+}

@@ -1,0 +1,45 @@
+Host UTC 2026-11-19T18:15:52.835950+00:00
+Package se.viktorjonsson.jellyfintv.debug; target PID 2114; timestamps device local UTC+1
+--------- beginning of main
+11-19 19:15:08.370  2114  2114 I PlaybackController: Internal player would direct stream
+11-19 19:15:08.371  2114  2114 D PlaybackController: default audio index set to 1
+11-19 19:15:08.371  2114  2114 I PlaybackController: default audio index set to 1 remote default 1
+11-19 19:15:08.372  2114  2114 I PlaybackController: default sub index set to -1 remote default -1
+11-19 19:15:08.373  2114  2114 D PlaybackController: trying to find display mode for video: 3832x1600@23,976025
+11-19 19:15:08.374  2114  2114 D PlaybackController: considering display mode: 1 - 1920x1080@59,940060
+11-19 19:15:08.374  2114  2114 D PlaybackController: considering display mode: 6 - 1280x720@59,940060
+11-19 19:15:08.375  2114  2114 D PlaybackController: considering display mode: 7 - 1920x1080@60,000004
+11-19 19:15:08.375  2114  2114 D PlaybackController: considering display mode: 8 - 720x480@60,000004
+11-19 19:15:08.376  2114  2114 D PlaybackController: considering display mode: 9 - 1280x720@50,000000
+11-19 19:15:08.376  2114  2114 D PlaybackController: considering display mode: 12 - 1920x1080@50,000000
+11-19 19:15:08.377  2114  2114 D PlaybackController: considering display mode: 17 - 1280x720@60,000004
+11-19 19:15:08.377  2114  2114 D PlaybackController: considering display mode: 20 - 1920x1080@23,976025
+11-19 19:15:08.378  2114  2114 D PlaybackController: considering display mode: 21 - 1920x1080@29,970030
+11-19 19:15:08.378  2114  2114 D PlaybackController: considering display mode: 22 - 3840x2160@23,976025
+11-19 19:15:08.379  2114  2114 I PlaybackController: qualifying display mode: 22 - 3840x2160@23,976025
+11-19 19:15:08.380  2114  2114 D PlaybackController: preferring mode: 22 - 3840x2160@23,976025
+11-19 19:15:08.380  2114  2114 D PlaybackController: considering display mode: 23 - 3840x2160@29,970030
+11-19 19:15:08.380  2114  2114 D PlaybackController: considering display mode: 24 - 1920x1080@24,000002
+11-19 19:15:08.380  2114  2114 D PlaybackController: considering display mode: 25 - 1920x1080@30,000002
+11-19 19:15:08.381  2114  2114 D PlaybackController: considering display mode: 26 - 3840x2160@24,000002
+11-19 19:15:08.381  2114  2114 D PlaybackController: considering display mode: 27 - 3840x2160@25,000000
+11-19 19:15:08.381  2114  2114 D PlaybackController: considering display mode: 28 - 3840x2160@30,000002
+11-19 19:15:08.382  2114  2114 D PlaybackController: considering display mode: 29 - 3840x2160@50,000000
+11-19 19:15:08.382  2114  2114 D PlaybackController: considering display mode: 30 - 3840x2160@60,000004
+11-19 19:15:08.382  2114  2114 D PlaybackController: considering display mode: 31 - 3840x2160@59,940060
+11-19 19:15:08.383  2114  2114 I PlaybackController: *** Best refresh mode is: 22 - 3840x2160/23,976025
+11-19 19:15:08.383  2114  2114 I PlaybackController: *** Attempting to change refresh rate from: 31 - 3840x2160@59,940060
+11-19 19:15:08.384  2114  2114 D VideoManager: Setting playback speed: 1,000000
+11-19 19:15:08.410  2114  2114 I VideoManager: Video delivery selected: DirectPlay
+11-19 19:15:08.413  2114  2114 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-19 19:15:08.415  2114  2114 D VideoManager: Player is buffering
+11-19 19:15:08.443  2114  2114 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-19 19:15:09.108  2114  2114 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-19 19:15:09.127  2114  2114 D VideoManager: Tracks changed
+11-19 19:15:09.132  2114  3006 I OMXClient: IOmx service obtained
+11-19 19:15:34.954  2114  2114 I PlaybackController: pause called at 25011
+11-19 19:15:46.680  2114  2114 I PlaybackController: stop called at 25255
+11-19 19:15:46.689  2114  3003 D SurfaceUtils: disconnecting from surface 0x30d6e0f430, reason disconnectFromSurface
+11-19 19:15:46.691  2114  3003 D MediaCodec: flushMediametrics
+11-19 19:15:46.691  2114  3003 D MediaCodec: flushMediametrics
+11-19 19:15:46.696  2114  2114 I ExoPlayerImpl: Release 2db3604 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor]

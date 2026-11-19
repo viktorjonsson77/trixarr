@@ -1,0 +1,30 @@
+Host UTC 2026-11-19T18:19:53.493426+00:00
+Package se.viktorjonsson.jellyfintv.debug; target PID 5064; timestamps device local UTC+1
+--------- beginning of main
+11-19 19:19:28.709  5064  5064 I PlaybackController: ** Available display refresh rates:
+11-19 19:19:28.711  5064  5064 I PlaybackController: display mode 1 - 1920x1080@59,940060
+11-19 19:19:28.712  5064  5064 I PlaybackController: display mode 6 - 1280x720@59,940060
+11-19 19:19:28.713  5064  5064 I PlaybackController: display mode 7 - 1920x1080@60,000004
+11-19 19:19:28.714  5064  5064 I PlaybackController: display mode 8 - 720x480@60,000004
+11-19 19:19:28.715  5064  5064 I PlaybackController: display mode 9 - 1280x720@50,000000
+11-19 19:19:28.716  5064  5064 I PlaybackController: display mode 12 - 1920x1080@50,000000
+11-19 19:19:28.716  5064  5064 I PlaybackController: display mode 17 - 1280x720@60,000004
+11-19 19:19:28.717  5064  5064 I PlaybackController: display mode 20 - 1920x1080@23,976025
+11-19 19:19:28.718  5064  5064 I PlaybackController: display mode 21 - 1920x1080@29,970030
+11-19 19:19:28.718  5064  5064 I PlaybackController: display mode 22 - 3840x2160@23,976025
+11-19 19:19:28.719  5064  5064 I PlaybackController: display mode 23 - 3840x2160@29,970030
+11-19 19:19:28.720  5064  5064 I PlaybackController: display mode 24 - 1920x1080@24,000002
+11-19 19:19:28.721  5064  5064 I PlaybackController: display mode 25 - 1920x1080@30,000002
+11-19 19:19:28.721  5064  5064 I PlaybackController: display mode 26 - 3840x2160@24,000002
+11-19 19:19:28.722  5064  5064 I PlaybackController: display mode 27 - 3840x2160@25,000000
+11-19 19:19:28.723  5064  5064 I PlaybackController: display mode 28 - 3840x2160@30,000002
+11-19 19:19:28.724  5064  5064 I PlaybackController: display mode 29 - 3840x2160@50,000000
+11-19 19:19:28.724  5064  5064 I PlaybackController: display mode 30 - 3840x2160@60,000004
+11-19 19:19:28.727  5064  5064 I PlaybackController: display mode 31 - 3840x2160@59,940060
+11-19 19:19:29.003  5064  5064 I ExoPlayerImpl: Init 6806b1d [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-19 19:19:29.004  5064  5064 I DefaultRenderersFactory: Loaded FfmpegVideoRenderer.
+11-19 19:19:29.006  5064  5064 I DefaultRenderersFactory: Loaded FfmpegAudioRenderer.
+11-19 19:19:29.045  5064  5064 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: null
+11-19 19:19:30.689  5064  5064 I PlaybackController: Internal player would transcode
+11-19 19:19:48.355  5064  5064 I PlaybackController: stop called at 0
+11-19 19:19:48.358  5064  5064 I ExoPlayerImpl: Release 6806b1d [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg]

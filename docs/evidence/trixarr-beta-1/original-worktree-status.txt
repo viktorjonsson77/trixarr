@@ -1,0 +1,117 @@
+ M app/build.gradle.kts
+ M app/src/debug/res/values/logo.xml
+ M app/src/main/AndroidManifest.xml
+ M app/src/main/java/org/jellyfin/androidtv/seerr/SeerrMediaMapper.kt
+ M app/src/main/java/org/jellyfin/androidtv/seerr/SeerrRepository.kt
+ M app/src/main/java/org/jellyfin/androidtv/seerr/model/SeerrModels.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/browsing/MainActivity.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/discover/DiscoverFragment.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/itemdetail/CinematicDetailsFragment.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/navigation/Destinations.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/preference/PreferencesActivity.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/preference/category/about.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/preference/screen/CustomizationPreferencesScreen.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/preference/screen/UserPreferencesScreen.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/seerr/SeerrDetailsFragment.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/seerr/SeerrUi.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/shared/toolbar/MainToolbar.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/shared/toolbar/Toolbar.kt
+ M app/src/main/java/org/jellyfin/androidtv/ui/startup/StartupActivity.kt
+ D app/src/main/java/org/jellyfin/androidtv/ui/startup/fragment/SplashFragment.kt
+ M app/src/main/res/values/logo.xml
+ M app/src/main/res/values/theme_jellyfin.xml
+ M app/src/test/kotlin/discover/DiscoverLayoutTests.kt
+ M app/src/test/kotlin/seerr/SeerrApiTests.kt
+ M app/src/test/kotlin/ui/playback/completion/ControllerChainTests.kt
+ D docs/design/jellyfin-tv-home-spec.md
+ D docs/design/jellyfin-tv-v2-design-system.md
+ D docs/design/jellyfin-tv-v2-screen-matrix.md
+ D docs/design/jellyfintv_activity.png
+ D docs/design/jellyfintv_add_to_list.png
+ D docs/design/jellyfintv_audio_subtitles.png
+ D docs/design/jellyfintv_collection_details.png
+ D docs/design/jellyfintv_connection_error.png
+ D docs/design/jellyfintv_context_menu.png
+ D docs/design/jellyfintv_continue_watching.png
+ D docs/design/jellyfintv_discover.png
+ D docs/design/jellyfintv_discovery_browsing.png
+ D docs/design/jellyfintv_discovery_floating_info.png
+ D docs/design/jellyfintv_discovery_setup.png
+ D docs/design/jellyfintv_episode_details.png
+ D docs/design/jellyfintv_for_you.png
+ D docs/design/jellyfintv_genre.png
+ D docs/design/jellyfintv_home.png
+ D docs/design/jellyfintv_home_scrolled.png
+ D docs/design/jellyfintv_kids_home.png
+ D docs/design/jellyfintv_latest.png
+ D docs/design/jellyfintv_library_filters.png
+ D docs/design/jellyfintv_live_tv.png
+ D docs/design/jellyfintv_movie_available.png
+ D docs/design/jellyfintv_movie_request.png
+ D docs/design/jellyfintv_movies.png
+ D docs/design/jellyfintv_my_list.png
+ D docs/design/jellyfintv_next_episode.png
+ D docs/design/jellyfintv_person_details.png
+ D docs/design/jellyfintv_playback_error.png
+ D docs/design/jellyfintv_player_controls.png
+ D docs/design/jellyfintv_profile_menu.png
+ D docs/design/jellyfintv_profile_pin.png
+ D docs/design/jellyfintv_profile_select.png
+ D docs/design/jellyfintv_recording_details.png
+ D docs/design/jellyfintv_recording_schedule.png
+ D docs/design/jellyfintv_recording_schedules.png
+ D docs/design/jellyfintv_recordings.png
+ D docs/design/jellyfintv_request_confirmation.png
+ D docs/design/jellyfintv_request_status.png
+ D docs/design/jellyfintv_requests.png
+ D docs/design/jellyfintv_screensaver.png
+ D docs/design/jellyfintv_search_empty.png
+ D docs/design/jellyfintv_search_results.png
+ D docs/design/jellyfintv_season_episodes.png
+ D docs/design/jellyfintv_seerr_connect.png
+ D docs/design/jellyfintv_series.png
+ D docs/design/jellyfintv_series_details.png
+ D docs/design/jellyfintv_series_request.png
+ D docs/design/jellyfintv_server_connect.png
+ D docs/design/jellyfintv_settings_requests.png
+ D docs/design/jellyfintv_upcoming.png
+ D docs/design/jellyfintv_version_selector.png
+ D docs/design/jellyfintv_watch_history.png
+ M playback/core/src/main/kotlin/engine/PlaybackSessionOwner.kt
+?? app/src/androidTest/java/org/jellyfin/androidtv/catalog/
+?? app/src/androidTest/java/org/jellyfin/androidtv/startup/
+?? app/src/main/java/org/jellyfin/androidtv/ui/catalog/
+?? app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidRefreshRateController.kt
+?? app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchArtwork.kt
+?? app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchOverlay.kt
+?? app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchTimeline.kt
+?? app/src/main/res/drawable/arrstreamer_launch_legacy_window.xml
+?? app/src/main/res/drawable/arrstreamer_launch_window.xml
+?? app/src/main/res/drawable/ic_catalog_discover.xml
+?? app/src/main/res/drawable/ic_catalog_home.xml
+?? app/src/main/res/values-v31/
+?? app/src/main/res/values/branding.xml
+?? app/src/test/kotlin/catalog/
+?? app/src/test/kotlin/startup/
+?? docs/architecture/PLAYER_ENGINE_FEASIBILITY.md
+?? docs/design/01-1000019662.jpg
+?? docs/design/01_home.png
+?? docs/design/02-1000019661.jpg
+?? docs/design/02_side_menu.png
+?? docs/design/03-1000019660.jpg
+?? docs/design/03_discover.png
+?? docs/design/04-1000019657.jpg
+?? docs/design/04_title_details.png
+?? docs/design/05-1000019658.jpg
+?? docs/design/05_request_title.png
+?? docs/design/06-1000019659.jpg
+?? docs/design/06_search.png
+?? docs/design/07_more_information.png
+?? docs/design/08_series_episodes.png
+?? docs/design/1000019663.mp4
+?? docs/design/ArrStreamer_logo.png
+?? docs/design/arrstreamer/
+?? docs/design/old/
+?? docs/ui-redesign/
+?? playback/core/src/main/kotlin/engine/PlaybackStartup.kt
+?? playback/core/src/main/kotlin/engine/RefreshRatePolicy.kt

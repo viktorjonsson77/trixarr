@@ -1,0 +1,291 @@
+Trixarr Player Engine · Playback diagnostics · D-pad to scroll [512,68][1408,159]
+NEGOTIATION / Source DV profile: 5
+
+NEGOTIATION / Selected source: dae676fc22d2a272784e30b9ff521ab8
+
+NEGOTIATION / Requested preference: Original video; conversion requires verified DV signaling
+
+NEGOTIATION / Server-selected method: DirectPlay
+
+NEGOTIATION / Server DirectPlay: true
+
+NEGOTIATION / Server DirectStream: true
+
+NEGOTIATION / Server Transcoding: true
+
+NEGOTIATION / Source audio selection: 1
+
+NEGOTIATION / Container signaling verified: false
+
+NEGOTIATION / Converted audio compatibility: UNKNOWN
+
+NEGOTIATION / Client audio declaration (not HDMI): SUPPORTED
+
+NEGOTIATION / Server advertised: true
+
+NEGOTIATION / Video copy verified: false
+
+NEGOTIATION / DV preservation: NOT_VERIFIED
+
+NEGOTIATION / Allowed: true
+
+NEGOTIATION / Reason: Original video retained; decoder capability and physical output require separate verification
+
+ERRORS / Previous attempt: UNKNOWN
+
+PLAYER / Delivery: DirectPlay
+
+PLAYER / URL type: http
+
+SOURCE FORMAT / Container (Jellyfin): mkv
+
+SOURCE FORMAT / Video #0 (Jellyfin) codec: hevc
+
+SOURCE FORMAT / Video #0 (Jellyfin) profile: Main 10
+
+SOURCE FORMAT / Video #0 (Jellyfin) bitrate: 24197784
+
+SOURCE FORMAT / Video #0 (Jellyfin) resolution: 3832 × 1600
+
+SOURCE FORMAT / Video #0 (Jellyfin) fps: 23.976025
+
+SOURCE FORMAT / Video #0 (Jellyfin) HDR: DOVI
+
+SOURCE FORMAT / Video #0 (Jellyfin) DV profile: 5
+
+SOURCE FORMAT / Video #0 (Jellyfin) DV level: 6
+
+SOURCE FORMAT / Video #0 (Jellyfin) primaries: UNKNOWN
+
+SOURCE FORMAT / Video #0 (Jellyfin) transfer: UNKNOWN
+
+SOURCE FORMAT / Video #0 (Jellyfin) matrix: UNKNOWN
+
+SOURCE FORMAT / Video #0 (Jellyfin) bit depth: 10
+
+SOURCE FORMAT / Audio #1 (Jellyfin) codec: eac3
+
+SOURCE FORMAT / Audio #1 (Jellyfin) profile: Dolby Digital Plus + Dolby Atmos
+
+SOURCE FORMAT / Audio #1 (Jellyfin) bitrate: 768000
+
+SOURCE FORMAT / Audio #1 (Jellyfin) channels: 6
+
+SOURCE FORMAT / Audio #1 (Jellyfin) layout: 5.1
+
+SOURCE FORMAT / Audio #1 (Jellyfin) sample rate: 48000
+
+SOURCE AUDIO / Codec: eac3
+
+DEVICE CAPABILITY / Passthrough enabled: false
+
+DEVICE CAPABILITY / Local native audio decoder: false
+
+DEVICE CAPABILITY / Local FFmpeg audio decoder: true
+
+DEVICE CAPABILITY / CAN_DECODE_AUDIO: true
+
+DEVICE CAPABILITY / CAN_PASSTHROUGH_AUDIO: true
+
+SELECTED AUDIO PATH / Requested mode: Local decode to PCM only
+
+PHYSICAL AVR VERIFICATION / Output: NOT VERIFIED
+
+DEVICE CAPABILITY / Policy: ALLOWED
+
+DEVICE CAPABILITY / engine: SUPPORTED
+
+DEVICE CAPABILITY / android: SUPPORTED
+
+DEVICE CAPABILITY / container: SUPPORTED
+
+DEVICE CAPABILITY / videoDecoder: SUPPORTED
+
+DEVICE CAPABILITY / resolutionFrameRateBitDepth: SUPPORTED
+
+DEVICE CAPABILITY / hevcDecoder: SUPPORTED
+
+DEVICE CAPABILITY / dolbyVisionDecoder: SUPPORTED
+
+DEVICE CAPABILITY / dolbyVisionProfileLevel: SUPPORTED
+
+DEVICE CAPABILITY / hdr10Compatibility: UNSUPPORTED
+
+DEVICE CAPABILITY / displayHdr: SUPPORTED
+
+DEVICE CAPABILITY / audio: SUPPORTED
+
+DEVICE CAPABILITY / channelLayout: SUPPORTED
+
+DEVICE CAPABILITY / hdmiOutput: NOT_VERIFIED
+
+DEVICE CAPABILITY / dvDeliveryPreservation: NOT_VERIFIED
+
+PLAYER / Engine selection reason: Jellyfin Media3: ALLOWED; P5: no generic HEVC/HDR10 fallback; colour conversion is not verified, Original video retained; decoder capability and physical output require separate verification
+
+ERRORS / Fallback: NONE
+
+SELECTED DECODER / Selection reason: Media3 default ordering; policy blocks unverified DV HEVC fallback; see actual decoder events
+
+VIDEO / Decoder: OMX.Nvidia.DOVI.decode
+
+VIDEO / Hardware acceleration (Android): true
+
+VIDEO / Decoder input codec: video/dolby-vision
+
+VIDEO / Decoder input codecs: dvhe.05.06
+
+VIDEO / Decoder input bitrate: UNKNOWN
+
+VIDEO / Decoder input resolution: 3832 × 1600
+
+VIDEO / Decoder input fps: UNKNOWN
+
+VIDEO / Decoder input color (Media3): UNKNOWN
+
+VIDEO / Decoder input HDR: Dolby Vision
+
+VIDEO / Decoder input DV profile / level: (5, 6)
+
+VIDEO / Decoder reuse result: UNKNOWN
+
+VIDEO / Decoder reuse discard reasons: UNKNOWN
+
+AUDIO / Decoder: ffmpegLavc60.3.100-eac3
+
+ACTUAL AUDIO OUTPUT / Mode: PCM selected (no encoded passthrough)
+
+ACTUAL AUDIO OUTPUT / Channel count: 6
+
+AUDIO / Output encoding (AudioTrack): 2
+
+AUDIO / Output encoding name: PCM 16-bit
+
+AUDIO / AudioTrack sample rate: 48000
+
+AUDIO / AudioTrack channel mask: 252
+
+AUDIO / AudioTrack offload: false
+
+AUDIO / AudioTrack buffer bytes: 144000
+
+AUDIO / Passthrough selected: PCM selected (no encoded passthrough)
+
+VIDEO / MediaCodec HDR10+ metadata present: false
+
+VIDEO / MediaCodec HDR static metadata present: true
+
+VIDEO / MediaCodec output mime: video/raw
+
+VIDEO / MediaCodec output width: 3832
+
+VIDEO / MediaCodec output height: 1600
+
+VIDEO / MediaCodec output color-standard: 1
+
+VIDEO / MediaCodec output color-transfer: 3
+
+VIDEO / MediaCodec output color-range: 1
+
+VIDEO / MediaCodec output profile: UNKNOWN
+
+VIDEO / MediaCodec output level: UNKNOWN
+
+VIDEO / Android decoder MIME support: audio/mp4a-latm, audio/3gpp, audio/amr-wb, audio/flac, audio/g711-alaw, audio/g711-mlaw, audio/mpeg, audio/opus, audio/raw, audio/vorbis, audio/mpeg-L2, audio/x-ms-wma, video/avc, video/dolby-vision, video/3gpp, video/hevc, video/x-motion-jpeg, video/mpeg2, video/mp4v-es, video/wvc1, video/x-ms-wmv, video/x-vnd.on2.vp8, video/x-vnd.on2.vp9
+
+DEVICE / Android: 11 / API 30
+
+DEVICE / Model: NVIDIA SHIELD Android TV
+
+AUDIO / Android advertised output encodings (not active route): 2, 5, 6, 18, 7, 8, 13, 14,
+
+DEVICE / Refresh rate: 23.976025
+
+DEVICE / Display mode: {id=22, width=3840, height=2160, fps=23.976025}
+
+DEVICE / Supported HDR types (Android; 1=DV 2=HDR10 3=HLG 4=HDR10+): 1, 2
+
+SESSION / ID: a177e17e-6b8d-46cd-b79f-af1b59891a4d
+
+SESSION / Generation: 1
+
+SESSION / Reporting: PROGRESS_SENT
+
+SESSION / Resume ms: 0
+
+SESSION / Position ms: 83502
+
+SESSION / Terminal reason: UNKNOWN
+
+ACTUAL PLAYER STATE / Session: PAUSED
+
+STARTUP / Phase: PLAYING
+
+STARTUP / Total elapsed ms: 105744
+
+STARTUP / Phase elapsed ms: 104260
+
+STARTUP / Tracks: DISCOVERED
+
+STARTUP / Decoder: INITIALIZED
+
+STARTUP / First frame: RENDERED
+
+STARTUP / Terminal reason: UNKNOWN
+
+VIDEO / Selected stream codec: video/dolby-vision
+
+VIDEO / Selected stream codecs: dvhe.05.06
+
+VIDEO / Selected stream bitrate: UNKNOWN
+
+VIDEO / Selected stream resolution: 3832 × 1600
+
+VIDEO / Selected stream fps: UNKNOWN
+
+VIDEO / Selected stream color (Media3): UNKNOWN
+
+VIDEO / Selected stream HDR: Dolby Vision
+
+VIDEO / Selected stream DV profile / level: (5, 6)
+
+AUDIO / Selected stream codec: audio/eac3
+
+AUDIO / Selected stream codecs: UNKNOWN
+
+AUDIO / Selected stream bitrate: UNKNOWN
+
+AUDIO / Selected stream track id: 2
+
+AUDIO / Selected stream channels: 6
+
+AUDIO / Selected stream sample rate: 48000
+
+PLAYER / Active engine: Jellyfin Media3
+
+PLAYER / Engine version: 1.8.0
+
+PLAYER / State: READY / PAUSED
+
+PLAYER / Position ms (engine timeline): 83510
+
+PLAYER / Buffered ms: 37673
+
+PLAYER / Dropped frames: 8
+
+PLAYER / Unsupported tracks (Media3): 0
+
+VIDEO / TV activated HDR: NOT VERIFIED
+
+AUDIO / HDMI output / Atmos / DTS:X active: NOT VERIFIED
+
+ERRORS / Video decoder: UNKNOWN
+
+ERRORS / Audio decoder: UNKNOWN
+
+ERRORS / Audio sink: UNKNOWN
+
+ERRORS / Playback: UNKNOWN
+
+AUDIO / Passthrough requested: UNKNOWN (automatic Media3 policy) [464,159][1456,936]
+CLOSE [1299,944][1432,1040]

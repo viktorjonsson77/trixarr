@@ -1,0 +1,3 @@
+mActiveModeId=22
+mDefaultModeId=31
+mDesiredDisplayModeSpecs={baseModeId=22 primaryRefreshRateRange=[24 24] appRequestRefreshRateRange=[24 24]}

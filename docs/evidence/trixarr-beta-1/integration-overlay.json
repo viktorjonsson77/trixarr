@@ -1,0 +1,262 @@
+[
+  {
+    "path": "app/build.gradle.kts",
+    "sha256": "d5d7743ee2471f3a7c708e0a0d4fa9effc042fee79eae811be67b57d1e1bd997"
+  },
+  {
+    "path": "app/src/debug/res/values/logo.xml",
+    "sha256": "9a04c45d1939561df4d5ba6223c7e702c2dc024429a5484da47cbc1afb75b18c"
+  },
+  {
+    "path": "app/src/main/AndroidManifest.xml",
+    "sha256": "b0dabd1c92430d04f7a2d7d40b0e18885c14cccd61e3b6e40daf1f500db8c0de"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/seerr/SeerrMediaMapper.kt",
+    "sha256": "54401babf965e335ffdc28f402070ef846d2a829019290feb3965c894fe56506"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/seerr/SeerrRepository.kt",
+    "sha256": "844f3ac28e09e3f58f8e93dde7d44d787f5eafd682dde92a0ef582d13601ee51"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/seerr/model/SeerrModels.kt",
+    "sha256": "6de14e62477ef386f3f745fe6e174d562edfc975d84063ea6f1b46637f055473"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/browsing/MainActivity.kt",
+    "sha256": "8020f0a67aa35e0b3fc2748a5268e5d1d6dbba911f641795add572735e1eb665"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/discover/DiscoverFragment.kt",
+    "sha256": "381eee52f758b51caa0df5d30d47e8628491f1216aa7a46112eb4d024b9c84a7"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/itemdetail/CinematicDetailsFragment.kt",
+    "sha256": "9735850bf1e5819ded2379f08d043bcb57e2159b1fa9220c67bc3dbdbdbec5d1"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/navigation/Destinations.kt",
+    "sha256": "d2b047185aca3e7888785a7b1ad76a94b829319677df4225f2daaa18352724ee"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/preference/PreferencesActivity.kt",
+    "sha256": "3c1eb99590cc9244daa6502f29f1e1e46334be97bf912333a175944026deffcf"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/preference/category/about.kt",
+    "sha256": "3c10efa1d54dcf75d014057c1d67e78b9d6e8232afd844e2178d7f7c70d7fdc9"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/preference/screen/CustomizationPreferencesScreen.kt",
+    "sha256": "bd7917d73a8c92775842ee56ea234ea3c9a4ad1985bb93b64deb5f7fbf8a9bcf"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/preference/screen/UserPreferencesScreen.kt",
+    "sha256": "d05374433eacb8c62ad4e10207e065529e9179ab0a8816c4dffe700583a81229"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/seerr/SeerrDetailsFragment.kt",
+    "sha256": "fe6b21294d45367831ae83dd58b0c107715e1d95fa148623c386e1327bb34f4b"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/seerr/SeerrUi.kt",
+    "sha256": "c3f5646a1f8b3d4535b381f9aaa4c19a4bebdbb5bab186678d1d754ab492c552"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/shared/toolbar/MainToolbar.kt",
+    "sha256": "31e9ab0a35b81ef201ec2bd5f690a33d219e3580bc32915fae4774daedf97428"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/shared/toolbar/Toolbar.kt",
+    "sha256": "753ba9ba5b5c32af72e81322d5f31dfc42ab167fb76b344ba7b086eff2ee1a33"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/startup/StartupActivity.kt",
+    "sha256": "405dd26b3c1797f31a1bf9d01f4afaeb85ec7b0d5cf4a95d9b7ff6b2429129ac"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/startup/fragment/SplashFragment.kt",
+    "state": "deleted"
+  },
+  {
+    "path": "app/src/main/res/values/logo.xml",
+    "sha256": "9a04c45d1939561df4d5ba6223c7e702c2dc024429a5484da47cbc1afb75b18c"
+  },
+  {
+    "path": "app/src/main/res/values/theme_jellyfin.xml",
+    "sha256": "164092d1169223c8651685daf1cddc5fbe5eeef850dca53fd6ebee1166ba630f"
+  },
+  {
+    "path": "app/src/test/kotlin/discover/DiscoverLayoutTests.kt",
+    "sha256": "fa9d83458b68c80b7a454b81c3e47de167e8bedc8bf9ab309659450e37772d01"
+  },
+  {
+    "path": "app/src/test/kotlin/seerr/SeerrApiTests.kt",
+    "sha256": "4463ab1a7cd96eaa5010430c4858c043059c7997ef591db18a527fb392f93890"
+  },
+  {
+    "path": "app/src/test/kotlin/ui/playback/completion/ControllerChainTests.kt",
+    "sha256": "3c396a9244168ba9c67c08dbec4747d1640693fc07fca7e2854d54a189b98acf"
+  },
+  {
+    "path": "playback/core/src/main/kotlin/engine/PlaybackSessionOwner.kt",
+    "sha256": "12462e67725d65b116370936fc348fcccc02398a5e34642bbae33b4ec28908c9"
+  },
+  {
+    "path": "app/src/androidTest/java/org/jellyfin/androidtv/catalog/SearchNavigationUiTests.kt",
+    "sha256": "5171ac16d015e163c22bf8351601b9836caad8801d1715beb004e4bb341b6b09"
+  },
+  {
+    "path": "app/src/androidTest/java/org/jellyfin/androidtv/catalog/CorrectionUiTests.kt",
+    "sha256": "24b1e5c4cb0c0e6514a0dc484befe08f671aeb638224a586df3ceb1a3cc3ebe0"
+  },
+  {
+    "path": "app/src/androidTest/java/org/jellyfin/androidtv/catalog/DetailNavigationUiTests.kt",
+    "sha256": "976566a96eeee4f4bc5ad4b0e46b22f4839dad9e326d31be7941374658384f92"
+  },
+  {
+    "path": "app/src/androidTest/java/org/jellyfin/androidtv/catalog/HomeMenuUiTests.kt",
+    "sha256": "02192ccf58fb0444dc244a95501b3c77762ca29a2847c88b83ce7b4842588629"
+  },
+  {
+    "path": "app/src/androidTest/java/org/jellyfin/androidtv/startup/LaunchUiTests.kt",
+    "sha256": "c03dac0b704a020bb4cf9391c3e6d2cb667d9a57dad674b383113a5d648ce828"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogComponents.kt",
+    "sha256": "00adbf258a7896aa7df52690aa95243ddb8f8fc6eac44205d44b820d4e4c86fe"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogSearchField.kt",
+    "sha256": "92fc28003f74dd7b3745285fde5aa18f36006c968584abbc8820334c6eb088f0"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogDetailLayout.kt",
+    "sha256": "108ccc2f2de4225207154ff0af1c47d977c2f0ae1890eb5c08f1a959385c4af9"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogRepository.kt",
+    "sha256": "e2e4fbf5b5ff4cb55ee0895b25b0e811e8f079e785f21454f8089d5d3cd58da5"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogMenu.kt",
+    "sha256": "15d6a529672c57912a3a839c23010e7100683b1b3aeda615fa8c724b9538c7ab"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/TitleMotion.kt",
+    "sha256": "93384144a5850c0c226172a0f0a012bf5d3767076a3e8abcd8843b0888762745"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogTitle.kt",
+    "sha256": "36a56233ae31fc6936ee075a6be0ec14155d469142535092cfe86cf248d00c0f"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogNavigation.kt",
+    "sha256": "bf60a89df81279e982d5900432f1a76a356563d312b50b5ce63f33c5a890dc44"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogInputBoundary.kt",
+    "sha256": "437d3aa0200706ccac98f8763d9494520c7125de9ec7f912ea4c1c972abfc01c"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/SearchCoordinator.kt",
+    "sha256": "5099662a98ea8f0148f4ef0b2bda06e9e3b4221d0493c0322e2b22e2ce756072"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogFragment.kt",
+    "sha256": "1a3c1e41b0f9c5fb8f6e10eebad414aaaa3bb7c270e4107ca8bb7683b53bb69e"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogRows.kt",
+    "sha256": "2b0ec29bf9ee489faef6f0fc3a7d8d94cff493375150a8ac27bfcbb78009a3e2"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/CatalogMetadata.kt",
+    "sha256": "a04148ef52e572133832ed5e3608f6bbd56bae495cebf8251a4d029e4c9d4aab"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/LatestFanart.kt",
+    "sha256": "20d08b224d9cce29f8e8527b2cfcabde319abeb41f056b44b1967af74a58221b"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/HomeLoadingSurface.kt",
+    "sha256": "aee8a144065ad237efd2cf2a20ff3b3c6672106f2acf9783866115dcce293cea"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/catalog/SoftFanartTransformation.kt",
+    "sha256": "00080431e4c4902d28eaad8ed1cce542b11143507f62aabcad098814109f06ca"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidRefreshRateController.kt",
+    "sha256": "e5ae89156f251dad1fcd2a9263858e365e425c26ebffffdd24a0c5d403534e3a"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchArtwork.kt",
+    "sha256": "7ede8bc7b29ed4a56280e278515b7c6043c25035487cdd88325b3db50f7b921e"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchOverlay.kt",
+    "sha256": "bcca5c974238b12aeeb73b705aa6fa9ebfaaff0f448b63ae64a0926ebbbfcda7"
+  },
+  {
+    "path": "app/src/main/java/org/jellyfin/androidtv/ui/startup/LaunchTimeline.kt",
+    "sha256": "f3efed99b586d950b578deef200bab562b532b49f34c5729fc2d9da6229a2da3"
+  },
+  {
+    "path": "app/src/main/res/drawable/arrstreamer_launch_legacy_window.xml",
+    "sha256": "4ddd453926f41c586d289837769acbf20ed77c7ec6f42d3d562a0361b9f3d825"
+  },
+  {
+    "path": "app/src/main/res/drawable/arrstreamer_launch_window.xml",
+    "sha256": "4ddd453926f41c586d289837769acbf20ed77c7ec6f42d3d562a0361b9f3d825"
+  },
+  {
+    "path": "app/src/main/res/drawable/ic_catalog_discover.xml",
+    "sha256": "4d81fbaa9a0ca2ff6cad10c6bc141084be881d855c21673309a8b653613d073e"
+  },
+  {
+    "path": "app/src/main/res/drawable/ic_catalog_home.xml",
+    "sha256": "bf2858cc0fe1f020f5774fb3b7d9aef9a33d72ab12490064b527a4745c2b95ca"
+  },
+  {
+    "path": "app/src/main/res/values-v31/branding.xml",
+    "sha256": "8af22043cb5815cfa81d01f56b8f2f64f490cd11c80e75dc37c21d1422f1996e"
+  },
+  {
+    "path": "app/src/main/res/values/branding.xml",
+    "sha256": "74026bfbb33ed85b5f8ba73b4c965cd5a86ae8be40d2c0e2e311c61736388089"
+  },
+  {
+    "path": "app/src/test/kotlin/catalog/CatalogCorrectionTests.kt",
+    "sha256": "a8185db509b5aefa7be30856f4c551b5592ad6ad955b3ff2dd88e4b3b86a4f91"
+  },
+  {
+    "path": "app/src/test/kotlin/catalog/CatalogMetadataTests.kt",
+    "sha256": "7b118053a6e8c848e51f96e99718697e05708454427ff71dc469929f547d5834"
+  },
+  {
+    "path": "app/src/test/kotlin/catalog/CatalogTests.kt",
+    "sha256": "9f2c6f560e77b232ef83825fb2765d1f570f7441875cd96a5a48aadeeb1ff1ff"
+  },
+  {
+    "path": "app/src/test/kotlin/catalog/LatestFanartTests.kt",
+    "sha256": "42a49ca92ce3e68874faf5d60a453f490ae96efcb29b2b25785ebaa1743bc308"
+  },
+  {
+    "path": "app/src/test/kotlin/catalog/CatalogNavigationTests.kt",
+    "sha256": "2c61fc87cb1fafd8c163a49bbacba7135ff96547f8cd619de325b24ca21df987"
+  },
+  {
+    "path": "app/src/test/kotlin/startup/LaunchTests.kt",
+    "sha256": "935b15a25d48f09d3047f909a8af92746d4becda500af5fcd1c34f68fa38b429"
+  },
+  {
+    "path": "playback/core/src/main/kotlin/engine/PlaybackStartup.kt",
+    "sha256": "8fa983b09aa7d8d51d8bbe55267315a6a5bfe93f9bf39353cf69f3c82bff4fd3"
+  },
+  {
+    "path": "playback/core/src/main/kotlin/engine/RefreshRatePolicy.kt",
+    "sha256": "ceafe374e424236acbd4864472d44fe10b50b0d38f0c5c328ae78e86b244ad74"
+  }
+]

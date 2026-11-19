@@ -1,0 +1,7 @@
+gradle.projectsEvaluated {
+ def appProject = rootProject.findProject(':app')
+ if (appProject != null) appProject.tasks.withType(Test).configureEach {
+  systemProperty 'kotest.filter.specs', 'startup.*,org.jellyfin.androidtv.ui.catalog.*'
+  include '**/startup/*Tests.class', '**/ui/catalog/*Tests.class'
+ }
+}

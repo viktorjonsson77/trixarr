@@ -1,0 +1,93 @@
+{
+  "ON": {
+    "tracks_created": [
+      "614",
+      "621",
+      "624",
+      "626",
+      "633"
+    ],
+    "tracks_destructed": [
+      "614",
+      "621",
+      "624",
+      "626",
+      "633"
+    ],
+    "tracks_without_destructor": [],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [],
+    "unexplained_tracks_without_destructor": []
+  },
+  "REPLAY": {
+    "tracks_created": [
+      "635",
+      "643"
+    ],
+    "tracks_destructed": [
+      "635",
+      "643"
+    ],
+    "tracks_without_destructor": [],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [],
+    "unexplained_tracks_without_destructor": []
+  },
+  "OFF": {
+    "tracks_created": [
+      "651",
+      "653"
+    ],
+    "tracks_destructed": [
+      "653"
+    ],
+    "tracks_without_destructor": [
+      "651"
+    ],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [
+      "651"
+    ],
+    "unexplained_tracks_without_destructor": []
+  },
+  "DV7": {
+    "tracks_created": [],
+    "tracks_destructed": [],
+    "tracks_without_destructor": [],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [],
+    "unexplained_tracks_without_destructor": []
+  },
+  "DV7OFF": {
+    "tracks_created": [],
+    "tracks_destructed": [],
+    "tracks_without_destructor": [],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [],
+    "unexplained_tracks_without_destructor": []
+  },
+  "DV8": {
+    "tracks_created": [
+      "666",
+      "674",
+      "676"
+    ],
+    "tracks_destructed": [
+      "666",
+      "674",
+      "676"
+    ],
+    "tracks_without_destructor": [],
+    "exo_release_observed": true,
+    "terminal_playback_error_observed": false,
+    "native_dead_tracks_restored_by_framework": [
+      "666"
+    ],
+    "unexplained_tracks_without_destructor": []
+  }
+}

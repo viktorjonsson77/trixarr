@@ -1,0 +1,4 @@
+{
+  "status": "NOT_VERIFIED",
+  "reason": "Android media.codec dumpsys service unavailable on this Shield; no negative active-client conclusion can be drawn. Per-session ExoPlayer release and AudioTrack metrics are the cleanup evidence."
+}

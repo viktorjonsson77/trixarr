@@ -1,0 +1,9 @@
+JDK21; Android SDK /opt/android-sdk
+RELEASE_SIGNING_BLOCKED (configured release signing absent)
+> Task :playback:core:testDebugUnitTest UP-TO-DATE
+> Task :playback:jellyfin:testDebugUnitTest UP-TO-DATE
+> Task :app:testDebugUnitTest
+> Task :app:assembleDebugAndroidTest UP-TO-DATE
+> Task :app:assembleDebug
+BUILD SUCCESSFUL in 19s
+180 actionable tasks: 11 executed, 169 up-to-date

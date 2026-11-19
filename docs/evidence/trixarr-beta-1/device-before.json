@@ -1,0 +1,14 @@
+{
+  "ro.product.manufacturer": "NVIDIA",
+  "ro.product.model": "SHIELD Android TV",
+  "ro.product.device": "mdarcy",
+  "ro.build.version.release": "11",
+  "ro.build.version.sdk": "30",
+  "ro.product.cpu.abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "versionName": "0.0.0-dev.1",
+  "versionCode": "1",
+  "firstInstallTime": "2026-09-02 23:52:47",
+  "lastUpdateTime": "2026-11-19 18:35:48",
+  "userId": "10048",
+  "data_inode": "652903"
+}

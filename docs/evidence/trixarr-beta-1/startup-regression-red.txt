@@ -1,0 +1,4 @@
+ControllerChainTests > startup stuck before decoder cannot buffer indefinitely FAILED
+60 tests completed, 1 failed
+> Task :app:testDebugUnitTest FAILED
+BUILD FAILED in 1m 17s
