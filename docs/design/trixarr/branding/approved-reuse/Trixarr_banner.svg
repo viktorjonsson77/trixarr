@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="320" height="180" viewBox="0 0 320 180"><title>Trixarr</title><defs>
+ <linearGradient id="base_upper" gradientUnits="userSpaceOnUse" x1="230" y1="440" x2="480" y2="235">
+  <stop stop-color="#11076c"/><stop offset=".45" stop-color="#071180"/><stop offset="1" stop-color="#0047fa"/>
+ </linearGradient>
+ <linearGradient id="base_lower" gradientUnits="userSpaceOnUse" x1="135" y1="590" x2="350" y2="450">
+  <stop stop-color="#4210c5"/><stop offset=".5" stop-color="#1b0b86"/><stop offset="1" stop-color="#07116c"/>
+ </linearGradient>
+ <linearGradient id="upper" gradientUnits="userSpaceOnUse" x1="220" y1="205" x2="528" y2="338">
+  <stop stop-color="#0921a5"/><stop offset=".48" stop-color="#004aff"/><stop offset="1" stop-color="#00f1fb"/>
+ </linearGradient>
+ <linearGradient id="upper_fold" gradientUnits="userSpaceOnUse" x1="145" y1="270" x2="307" y2="161">
+  <stop stop-color="#3c12ef"/><stop offset=".48" stop-color="#4944ff"/><stop offset="1" stop-color="#12d9fa"/>
+ </linearGradient>
+ <linearGradient id="lower" gradientUnits="userSpaceOnUse" x1="154" y1="390" x2="435" y2="528">
+  <stop stop-color="#b34cff"/><stop offset=".45" stop-color="#7625ff"/><stop offset="1" stop-color="#243bff"/>
+ </linearGradient>
+ <linearGradient id="lower_edge" gradientUnits="userSpaceOnUse" x1="215" y1="380" x2="533" y2="481">
+  <stop stop-color="#d679ff"/><stop offset=".42" stop-color="#6876ff"/><stop offset="1" stop-color="#00ddff"/>
+ </linearGradient>
+</defs><rect width="320" height="180" fill="#090d20"/><g transform="translate(48.230755364 29.4) scale(0.1556)"><g id="symbol_base" inkscape:groupmode="layer" inkscape:label="symbol_base">
+ <path fill="url(#base_upper)" d="M114 508 L114 224 C114 172 154 138 194 137 C211 136 226 142 244 153 L549 323 C581 341 599 362 598 394 C597 439 564 467 521 469 C483 471 445 447 405 425 C322 379 279 352 224 379 C172 404 153 459 114 508 Z"/>
+ <path fill="url(#base_lower)" d="M114 506 C151 456 171 413 211 390 C257 363 301 402 357 434 C430 476 487 492 553 464 L235 631 C205 649 181 650 154 635 C128 621 114 597 114 571 Z"/>
+</g>
+<g id="symbol_upper_stream" inkscape:groupmode="layer" inkscape:label="symbol_upper_stream">
+ <path fill="url(#upper)" d="M114 303 L114 224 C114 172 151 140 190 139 C209 138 226 143 244 153 L518 306 C538 319 540 345 528 365 C513 391 489 394 457 389 C367 374 266 311 198 274 C163 253 132 259 114 303 Z"/>
+ <path fill="url(#upper_fold)" d="M114 303 L114 225 C114 181 142 149 174 145 C215 139 242 164 274 208 C331 288 359 346 457 389 C367 374 266 311 198 274 C163 253 132 259 114 303 Z"/>
+</g>
+<g id="symbol_lower_stream" inkscape:groupmode="layer" inkscape:label="symbol_lower_stream">
+ <path fill="url(#lower)" d="M114 506 C145 466 164 415 205 390 C251 361 295 397 357 434 C428 475 488 493 553 464 L432 526 C377 551 320 503 256 466 C205 433 176 444 148 493 C131 522 120 547 114 570 Z"/>
+ <path fill="url(#lower_edge)" d="M205 390 C251 361 295 397 357 434 C428 475 488 493 553 464 C477 515 418 479 353 444 C290 410 251 365 205 390 Z"/>
+</g>
+<g id="highlights" inkscape:groupmode="layer" inkscape:label="highlights">
+ <path fill="#6bedff" opacity=".65" d="M145 157 C186 126 226 148 259 187 C305 241 332 311 388 349 C332 315 302 247 257 191 C220 145 181 133 145 157 Z"/>
+ <path fill="#df94ff" opacity=".55" d="M150 452 C175 409 200 380 231 380 C269 379 308 409 344 430 C301 407 266 382 231 383 C199 382 174 413 150 452 Z"/>
+</g><g id="wordmark" fill="#ffffff" aria-label="Trixarr"><g transform="translate(611.539178 494.154228) scale(0.115360724 -0.115360724)"><path transform="translate(0 0)" d="M1188 1189H778V0H440V1189H30V1457H1188Z"/><path transform="translate(1218 0)" d="M395 877Q443 961 505.5 1009.0Q568 1057 649 1057Q719 1057 763 1024L743 796Q738 774 726.5 766.0Q715 758 695 758Q687 758 674.0 759.0Q661 760 647.0 761.5Q633 763 618.5 764.5Q604 766 592 766Q524 766 483.5 730.0Q443 694 415 630V0H105V1037H289Q312 1037 327.5 1033.0Q343 1029 353.5 1020.5Q364 1012 369.5 998.0Q375 984 379 964Z"/><path transform="translate(1981 0)" d="M422 1037V0H112V1037ZM454 1321Q454 1284 439.0 1251.5Q424 1219 398.0 1194.5Q372 1170 337.5 1155.5Q303 1141 264 1141Q226 1141 193.0 1155.5Q160 1170 134.5 1194.5Q109 1219 94.5 1251.5Q80 1284 80 1321Q80 1359 94.5 1392.0Q109 1425 134.5 1450.0Q160 1475 193.0 1489.0Q226 1503 264 1503Q303 1503 337.5 1489.0Q372 1475 398.0 1450.0Q424 1425 439.0 1392.0Q454 1359 454 1321Z"/><path transform="translate(2515 0)" d="M1097 0H799Q766 0 745.5 16.0Q725 32 713 54L528 372Q523 355 516.0 340.0Q509 325 501 312L349 54Q335 34 316.0 17.0Q297 0 267 0H-9L339 536L5 1037H303Q336 1037 351.5 1028.5Q367 1020 379 1000L564 693Q570 711 579.0 728.5Q588 746 599 764L731 995Q745 1017 760.5 1027.0Q776 1037 799 1037H1083L749 550Z"/><path transform="translate(3603 0)" d="M640 422Q547 418 487.0 406.0Q427 394 392.0 376.0Q357 358 343.5 335.0Q330 312 330 285Q330 232 359.0 210.5Q388 189 444 189Q504 189 549.0 210.0Q594 231 640 278ZM82 893Q176 976 290.5 1016.5Q405 1057 536 1057Q630 1057 705.5 1026.5Q781 996 833.5 941.5Q886 887 914.0 812.0Q942 737 942 648V0H800Q756 0 733.5 12.0Q711 24 696 62L674 119Q635 86 599.0 61.0Q563 36 524.5 18.5Q486 1 442.5 -7.5Q399 -16 346 -16Q275 -16 217.0 2.5Q159 21 118.5 57.0Q78 93 56.0 146.5Q34 200 34 270Q34 326 62.0 383.5Q90 441 159.0 488.5Q228 536 345.0 568.0Q462 600 640 604V648Q640 739 602.5 779.5Q565 820 496 820Q441 820 406.0 808.0Q371 796 343.5 781.0Q316 766 290.0 754.0Q264 742 228 742Q196 742 174.0 758.0Q152 774 138 796Z"/><path transform="translate(4638 0)" d="M395 877Q443 961 505.5 1009.0Q568 1057 649 1057Q719 1057 763 1024L743 796Q738 774 726.5 766.0Q715 758 695 758Q687 758 674.0 759.0Q661 760 647.0 761.5Q633 763 618.5 764.5Q604 766 592 766Q524 766 483.5 730.0Q443 694 415 630V0H105V1037H289Q312 1037 327.5 1033.0Q343 1029 353.5 1020.5Q364 1012 369.5 998.0Q375 984 379 964Z"/><path transform="translate(5401 0)" d="M395 877Q443 961 505.5 1009.0Q568 1057 649 1057Q719 1057 763 1024L743 796Q738 774 726.5 766.0Q715 758 695 758Q687 758 674.0 759.0Q661 760 647.0 761.5Q633 763 618.5 764.5Q604 766 592 766Q524 766 483.5 730.0Q443 694 415 630V0H105V1037H289Q312 1037 327.5 1033.0Q343 1029 353.5 1020.5Q364 1012 369.5 998.0Q375 984 379 964Z"/></g></g></g></svg>

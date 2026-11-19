@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="500" height="520" viewBox="105 130 500 520">
+<title>ArrStreamer</title><defs>
+ <linearGradient id="base_upper" gradientUnits="userSpaceOnUse" x1="230" y1="440" x2="480" y2="235">
+  <stop stop-color="#11076c"/><stop offset=".45" stop-color="#071180"/><stop offset="1" stop-color="#0047fa"/>
+ </linearGradient>
+ <linearGradient id="base_lower" gradientUnits="userSpaceOnUse" x1="135" y1="590" x2="350" y2="450">
+  <stop stop-color="#4210c5"/><stop offset=".5" stop-color="#1b0b86"/><stop offset="1" stop-color="#07116c"/>
+ </linearGradient>
+ <linearGradient id="upper" gradientUnits="userSpaceOnUse" x1="220" y1="205" x2="528" y2="338">
+  <stop stop-color="#0921a5"/><stop offset=".48" stop-color="#004aff"/><stop offset="1" stop-color="#00f1fb"/>
+ </linearGradient>
+ <linearGradient id="upper_fold" gradientUnits="userSpaceOnUse" x1="145" y1="270" x2="307" y2="161">
+  <stop stop-color="#3c12ef"/><stop offset=".48" stop-color="#4944ff"/><stop offset="1" stop-color="#12d9fa"/>
+ </linearGradient>
+ <linearGradient id="lower" gradientUnits="userSpaceOnUse" x1="154" y1="390" x2="435" y2="528">
+  <stop stop-color="#b34cff"/><stop offset=".45" stop-color="#7625ff"/><stop offset="1" stop-color="#243bff"/>
+ </linearGradient>
+ <linearGradient id="lower_edge" gradientUnits="userSpaceOnUse" x1="215" y1="380" x2="533" y2="481">
+  <stop stop-color="#d679ff"/><stop offset=".42" stop-color="#6876ff"/><stop offset="1" stop-color="#00ddff"/>
+ </linearGradient>
+</defs><g id="symbol_base" inkscape:groupmode="layer" inkscape:label="symbol_base">
+ <path fill="url(#base_upper)" d="M114 508 L114 224 C114 172 154 138 194 137 C211 136 226 142 244 153 L549 323 C581 341 599 362 598 394 C597 439 564 467 521 469 C483 471 445 447 405 425 C322 379 279 352 224 379 C172 404 153 459 114 508 Z"/>
+ <path fill="url(#base_lower)" d="M114 506 C151 456 171 413 211 390 C257 363 301 402 357 434 C430 476 487 492 553 464 L235 631 C205 649 181 650 154 635 C128 621 114 597 114 571 Z"/>
+</g>
+<g id="symbol_upper_stream" inkscape:groupmode="layer" inkscape:label="symbol_upper_stream">
+ <path fill="url(#upper)" d="M114 303 L114 224 C114 172 151 140 190 139 C209 138 226 143 244 153 L518 306 C538 319 540 345 528 365 C513 391 489 394 457 389 C367 374 266 311 198 274 C163 253 132 259 114 303 Z"/>
+ <path fill="url(#upper_fold)" d="M114 303 L114 225 C114 181 142 149 174 145 C215 139 242 164 274 208 C331 288 359 346 457 389 C367 374 266 311 198 274 C163 253 132 259 114 303 Z"/>
+</g>
+<g id="symbol_lower_stream" inkscape:groupmode="layer" inkscape:label="symbol_lower_stream">
+ <path fill="url(#lower)" d="M114 506 C145 466 164 415 205 390 C251 361 295 397 357 434 C428 475 488 493 553 464 L432 526 C377 551 320 503 256 466 C205 433 176 444 148 493 C131 522 120 547 114 570 Z"/>
+ <path fill="url(#lower_edge)" d="M205 390 C251 361 295 397 357 434 C428 475 488 493 553 464 C477 515 418 479 353 444 C290 410 251 365 205 390 Z"/>
+</g>
+<g id="highlights" inkscape:groupmode="layer" inkscape:label="highlights">
+ <path fill="#6bedff" opacity=".65" d="M145 157 C186 126 226 148 259 187 C305 241 332 311 388 349 C332 315 302 247 257 191 C220 145 181 133 145 157 Z"/>
+ <path fill="#df94ff" opacity=".55" d="M150 452 C175 409 200 380 231 380 C269 379 308 409 344 430 C301 407 266 382 231 383 C199 382 174 413 150 452 Z"/>
+</g></svg>

@@ -21,4 +21,4 @@ For focused playback checks, use the existing test filter:
 
 The current workspace also contains unfinished startup/refresh work. The latest verified player candidate used explicitly controlled build inputs; see the [local-audio acceptance](evidence/trixarr-dv-local-audio-decode-v1/ACCEPTANCE.md). Do not silently incorporate or discard that work when reproducing an APK. Branding-only validation must retain the same player/audio/DV policies.
 
-Approved Trixarr logo assets have not been found. Existing launcher artwork and animated splash assets are legacy ArrStreamer graphics, not approved Trixarr designs. This is a release acceptance limitation, not permission to synthesize a replacement logo.
+Trixarr uses the existing blue/purple triangle with a user-approved text-only wordmark change to Trixarr. See [branding V2 acceptance](evidence/trixarr-branding-v2/ACCEPTANCE.md) for source hashes, export steps and verification. The truncated triangle PNGs on the asset branch are preserved as source evidence and are not used by Android.

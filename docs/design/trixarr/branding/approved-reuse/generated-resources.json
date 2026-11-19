@@ -1,0 +1,15 @@
+[
+  "app/src/main/res/drawable-nodpi/app_logo.png",
+  "app/src/main/res/drawable-nodpi/app_banner_foreground.png",
+  "app/src/main/res/mipmap-mdpi/app_banner.png",
+  "app/src/main/res/mipmap-hdpi/app_banner.png",
+  "app/src/main/res/mipmap-xhdpi/app_banner.png",
+  "app/src/main/res/mipmap-xxhdpi/app_banner.png",
+  "app/src/main/res/mipmap-xxxhdpi/app_banner.png",
+  "app/src/debug/res/drawable-nodpi/app_banner_foreground.png",
+  "app/src/debug/res/mipmap-mdpi/app_banner.png",
+  "app/src/debug/res/mipmap-hdpi/app_banner.png",
+  "app/src/debug/res/mipmap-xhdpi/app_banner.png",
+  "app/src/debug/res/mipmap-xxhdpi/app_banner.png",
+  "app/src/debug/res/mipmap-xxxhdpi/app_banner.png"
+]

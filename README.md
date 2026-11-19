@@ -44,7 +44,7 @@ The links below refer to the upstream Jellyfin project and its downloads, not Tr
 </p>
 
 Trixarr is an independent Android TV media player for Nvidia Shield and other Android TV devices, based on Jellyfin Android TV. Jellyfin remains its media-server and API backend; Seerr provides discovery and requests.
-See the [current architecture](docs/architecture/TRIXARR_OVERVIEW.md) and [developer build guide](docs/BUILDING.md). Approved Trixarr logo assets are not yet available; legacy artwork is not presented here as a Trixarr logo.
+See the [current architecture](docs/architecture/TRIXARR_OVERVIEW.md) and [developer build guide](docs/BUILDING.md). Trixarr uses the existing triangle design with the user-approved Trixarr wordmark; see [branding V2 evidence](docs/evidence/trixarr-branding-v2/ACCEPTANCE.md).
 We welcome all contributions and pull requests! If you have a larger feature in mind please open an
 issue so we can discuss the implementation before you start. 
 

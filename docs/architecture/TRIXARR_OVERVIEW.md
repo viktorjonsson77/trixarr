@@ -8,6 +8,6 @@ The user-facing player name is **Trixarr Player Engine**. Its existing Media3 1.
 
 Current Android labels resolve through `app_name_release` and `app_name_debug`, both Trixarr. Localized app-facing text keeps its surrounding translation. Human-readable diagnostic/report labels may use Trixarr while protocol field names and identifiers remain unchanged. Jellyfin server/authentication/compatibility references remain accurate backend terminology.
 
-Approved Trixarr artwork is missing. The legacy symbol, TV banner and animated splash assets remain unchanged; some raster wordmarks still visibly say ArrStreamer. No replacement artwork or new animation framework is introduced. This prevents full branding acceptance until approved assets are supplied. Historical design/evidence documents, filenames and APKs retain their original names.
+The user approved reuse of the existing blue/purple triangle with only the wordmark changed to Trixarr. The original SVG geometry, gradient colors, Lato Black font metrics and existing animation are preserved. Regenerated banner/splash resources use Trixarr; symbol-only icons are unchanged. See the [V2 evidence](../evidence/trixarr-branding-v2/ACCEPTANCE.md). Historical design/evidence documents, filenames and APKs retain their original names.
 
 See the [build guide](../BUILDING.md) and [rebranding acceptance](../evidence/trixarr-rebranding-v1/ACCEPTANCE.md) for actual validation, artifact identity and remaining limits.
