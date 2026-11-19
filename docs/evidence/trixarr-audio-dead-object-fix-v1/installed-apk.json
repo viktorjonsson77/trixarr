@@ -1,0 +1,7 @@
+{
+  "sha256": "06283683675b1cd1028ad72f51cb306d60830a9cd8a886c07a5d03ac887c317b",
+  "new_apk_built": false,
+  "new_apk_installed": false,
+  "same_app_pid_after_tests": 26782,
+  "reused_artifact": "/opt/jellyfintv-artifacts/trixarr-branding-v3/trixarr-0.1.0-beta.1-branding-v3-debug.apk"
+}

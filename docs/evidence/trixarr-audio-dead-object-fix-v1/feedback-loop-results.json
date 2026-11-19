@@ -1,0 +1,12 @@
+[
+  {
+    "trace": "docs/evidence/trixarr-branding-v3/PLAYBACK-logcat.txt",
+    "exit_code": 2,
+    "verdict": "RED: DEAD_OBJECT -6 before playback; terminal player failure"
+  },
+  {
+    "trace": "docs/evidence/trixarr-audio-dead-object-fix-v1/REPRO-logcat.txt",
+    "exit_code": 0,
+    "verdict": "GREEN: playback reached onPrepared; terminal startup failure not reproduced"
+  }
+]

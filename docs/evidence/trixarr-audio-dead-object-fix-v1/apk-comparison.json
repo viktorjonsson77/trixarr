@@ -1,0 +1,194 @@
+{
+  "beta_apk_sha256": "e4a0bf09eb64823c8f90a73268e7914a074200768dd9d63aecacee8f9640e434",
+  "v3_apk_sha256": "06283683675b1cd1028ad72f51cb306d60830a9cd8a886c07a5d03ac887c317b",
+  "entries": [
+    {
+      "entry": "AndroidManifest.xml",
+      "identical": true,
+      "beta_sha256": "cac42a1e8abf79c161f7046290fcc902e01ceda7aa3a2405fa44825ad587d4aa",
+      "v3_sha256": "cac42a1e8abf79c161f7046290fcc902e01ceda7aa3a2405fa44825ad587d4aa"
+    },
+    {
+      "entry": "classes.dex",
+      "identical": true,
+      "beta_sha256": "aa8f2b84fe02bfaa6eab3cf937eee72a2392169dba6322bc17eccf533b64adec",
+      "v3_sha256": "aa8f2b84fe02bfaa6eab3cf937eee72a2392169dba6322bc17eccf533b64adec"
+    },
+    {
+      "entry": "classes10.dex",
+      "identical": true,
+      "beta_sha256": "cf51ecbeb81cc9fce785624a98dc71e50df8a3d463f2c68f9864e3b9783c0167",
+      "v3_sha256": "cf51ecbeb81cc9fce785624a98dc71e50df8a3d463f2c68f9864e3b9783c0167"
+    },
+    {
+      "entry": "classes11.dex",
+      "identical": true,
+      "beta_sha256": "6594bdfde0bf05a54a9a82469a02d886e9dc2ddf044f3d92a4c2986e7cd057fe",
+      "v3_sha256": "6594bdfde0bf05a54a9a82469a02d886e9dc2ddf044f3d92a4c2986e7cd057fe"
+    },
+    {
+      "entry": "classes12.dex",
+      "identical": true,
+      "beta_sha256": "0822bdb65cd50638cf67e4da415edb1978b9ceffff24641acc7e7ae3109ec2e3",
+      "v3_sha256": "0822bdb65cd50638cf67e4da415edb1978b9ceffff24641acc7e7ae3109ec2e3"
+    },
+    {
+      "entry": "classes13.dex",
+      "identical": true,
+      "beta_sha256": "ed81d23e4ca54915726703cbb269c4af8d70f4f8bf51558c8a6f314c9bdac84c",
+      "v3_sha256": "ed81d23e4ca54915726703cbb269c4af8d70f4f8bf51558c8a6f314c9bdac84c"
+    },
+    {
+      "entry": "classes14.dex",
+      "identical": true,
+      "beta_sha256": "3de5f44146b5506579575ef9a59d338462597d459563b629554a9ea375d6716e",
+      "v3_sha256": "3de5f44146b5506579575ef9a59d338462597d459563b629554a9ea375d6716e"
+    },
+    {
+      "entry": "classes15.dex",
+      "identical": true,
+      "beta_sha256": "733528de8a6276fb6db3a3397b013d16a39f327391506fe9cc3781932c393451",
+      "v3_sha256": "733528de8a6276fb6db3a3397b013d16a39f327391506fe9cc3781932c393451"
+    },
+    {
+      "entry": "classes16.dex",
+      "identical": true,
+      "beta_sha256": "0294b5625e88f2bebf46642e2fcf30ec003e3db115adecce39f52b03dce5c0ed",
+      "v3_sha256": "0294b5625e88f2bebf46642e2fcf30ec003e3db115adecce39f52b03dce5c0ed"
+    },
+    {
+      "entry": "classes17.dex",
+      "identical": true,
+      "beta_sha256": "22befed49f0d171bf800f908eade7037f57168894228cf0fa2756eea1220167c",
+      "v3_sha256": "22befed49f0d171bf800f908eade7037f57168894228cf0fa2756eea1220167c"
+    },
+    {
+      "entry": "classes18.dex",
+      "identical": true,
+      "beta_sha256": "965e3c5c560a42eb90d4aa63c6a857b5db34ca05cd67f00133d47df29851f426",
+      "v3_sha256": "965e3c5c560a42eb90d4aa63c6a857b5db34ca05cd67f00133d47df29851f426"
+    },
+    {
+      "entry": "classes19.dex",
+      "identical": true,
+      "beta_sha256": "fa3f5c3dccac3a8b24eef19f067f561fd741b5b70aa06510f40624bfea4adc6f",
+      "v3_sha256": "fa3f5c3dccac3a8b24eef19f067f561fd741b5b70aa06510f40624bfea4adc6f"
+    },
+    {
+      "entry": "classes2.dex",
+      "identical": true,
+      "beta_sha256": "fa32b3e4bcfd98b048e20b020bd3654f05c075a865fcb4be50c694d7bfe420b7",
+      "v3_sha256": "fa32b3e4bcfd98b048e20b020bd3654f05c075a865fcb4be50c694d7bfe420b7"
+    },
+    {
+      "entry": "classes20.dex",
+      "identical": true,
+      "beta_sha256": "ef4d18c1e8b9cabdfb9f665059dc595ca216aa21edaed52b9c5b1ba6979231e0",
+      "v3_sha256": "ef4d18c1e8b9cabdfb9f665059dc595ca216aa21edaed52b9c5b1ba6979231e0"
+    },
+    {
+      "entry": "classes21.dex",
+      "identical": true,
+      "beta_sha256": "9bb415a5ea73f3afe68ceca4149cd5b5aacec062db5617da514df0794118acbc",
+      "v3_sha256": "9bb415a5ea73f3afe68ceca4149cd5b5aacec062db5617da514df0794118acbc"
+    },
+    {
+      "entry": "classes22.dex",
+      "identical": true,
+      "beta_sha256": "9772c96dd2cd633e93fae3c66a5379df27bf9bd7b92b6e2e3decf6ce8996ddad",
+      "v3_sha256": "9772c96dd2cd633e93fae3c66a5379df27bf9bd7b92b6e2e3decf6ce8996ddad"
+    },
+    {
+      "entry": "classes3.dex",
+      "identical": true,
+      "beta_sha256": "a0f4bedc1165c12bdee4622ce47082490daa6c25900db65ada6d1ca1c88d75ad",
+      "v3_sha256": "a0f4bedc1165c12bdee4622ce47082490daa6c25900db65ada6d1ca1c88d75ad"
+    },
+    {
+      "entry": "classes4.dex",
+      "identical": true,
+      "beta_sha256": "e903f32a7f1ef9ac31ea1acf164bc963502b611c0a03685c77f129ae9f6d2e96",
+      "v3_sha256": "e903f32a7f1ef9ac31ea1acf164bc963502b611c0a03685c77f129ae9f6d2e96"
+    },
+    {
+      "entry": "classes5.dex",
+      "identical": true,
+      "beta_sha256": "797925314ba263590b14b2836f640326d8d16ef8c9eb54d02fac06f4ee7c5922",
+      "v3_sha256": "797925314ba263590b14b2836f640326d8d16ef8c9eb54d02fac06f4ee7c5922"
+    },
+    {
+      "entry": "classes6.dex",
+      "identical": true,
+      "beta_sha256": "bcbdb910251d262a68e27b93fd700561327302e636881298e8904da1cc3aa7c7",
+      "v3_sha256": "bcbdb910251d262a68e27b93fd700561327302e636881298e8904da1cc3aa7c7"
+    },
+    {
+      "entry": "classes7.dex",
+      "identical": true,
+      "beta_sha256": "90fea351c92acfd07762961af974a171aeabaf13d2e5739998136e17b18ef581",
+      "v3_sha256": "90fea351c92acfd07762961af974a171aeabaf13d2e5739998136e17b18ef581"
+    },
+    {
+      "entry": "classes8.dex",
+      "identical": true,
+      "beta_sha256": "9de75cf19b972ce338e5648d31a69c922a7321736907228303a6473c8113da79",
+      "v3_sha256": "9de75cf19b972ce338e5648d31a69c922a7321736907228303a6473c8113da79"
+    },
+    {
+      "entry": "classes9.dex",
+      "identical": true,
+      "beta_sha256": "c76c5b7e84b36ce24981e95ee495359a7afa75240bb64564ac53f3180176b0e6",
+      "v3_sha256": "c76c5b7e84b36ce24981e95ee495359a7afa75240bb64564ac53f3180176b0e6"
+    },
+    {
+      "entry": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "identical": true,
+      "beta_sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+      "v3_sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6"
+    },
+    {
+      "entry": "lib/arm64-v8a/libffmpegJNI.so",
+      "identical": true,
+      "beta_sha256": "63d56c5fbd0f0b84dc607af3c3faed7befdea5e9fa5187bbcdb3ebc54782e929",
+      "v3_sha256": "63d56c5fbd0f0b84dc607af3c3faed7befdea5e9fa5187bbcdb3ebc54782e929"
+    },
+    {
+      "entry": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+      "identical": true,
+      "beta_sha256": "41399eba6fc2a60f6f14642375c1824f3cf25eb8fec7397d753730a3ceda3e2b",
+      "v3_sha256": "41399eba6fc2a60f6f14642375c1824f3cf25eb8fec7397d753730a3ceda3e2b"
+    },
+    {
+      "entry": "lib/armeabi-v7a/libffmpegJNI.so",
+      "identical": true,
+      "beta_sha256": "03609e862bd6f71ddddb462d6a92eabaa5cce31b35269571bd05872c3a754ede",
+      "v3_sha256": "03609e862bd6f71ddddb462d6a92eabaa5cce31b35269571bd05872c3a754ede"
+    },
+    {
+      "entry": "lib/x86/libandroidx.graphics.path.so",
+      "identical": true,
+      "beta_sha256": "eb0570b41fd3bff25d8204a967c03bd7550719e768b791f680cc40cbe35f29af",
+      "v3_sha256": "eb0570b41fd3bff25d8204a967c03bd7550719e768b791f680cc40cbe35f29af"
+    },
+    {
+      "entry": "lib/x86/libffmpegJNI.so",
+      "identical": true,
+      "beta_sha256": "b96d83ec0813ce5edd30d1ebacdd2d98f6d060182baf2ef77d06cc712cac929f",
+      "v3_sha256": "b96d83ec0813ce5edd30d1ebacdd2d98f6d060182baf2ef77d06cc712cac929f"
+    },
+    {
+      "entry": "lib/x86_64/libandroidx.graphics.path.so",
+      "identical": true,
+      "beta_sha256": "4e56c996f13670e70082658de7880c4020eabf4f25e43387f88ed78a713fc9f0",
+      "v3_sha256": "4e56c996f13670e70082658de7880c4020eabf4f25e43387f88ed78a713fc9f0"
+    },
+    {
+      "entry": "lib/x86_64/libffmpegJNI.so",
+      "identical": true,
+      "beta_sha256": "d991ed496c82664ff5bf5d44427d70f31ec6399a3300f00235be8f072c03447e",
+      "v3_sha256": "d991ed496c82664ff5bf5d44427d70f31ec6399a3300f00235be8f072c03447e"
+    }
+  ],
+  "all_dex_identical": true,
+  "all_native_identical": true
+}

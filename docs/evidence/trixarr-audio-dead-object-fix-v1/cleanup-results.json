@@ -1,0 +1,28 @@
+{
+  "REPRO": {
+    "tracks_created": [
+      "709",
+      "717"
+    ],
+    "tracks_destructed": [
+      "709",
+      "717"
+    ],
+    "unclosed_in_capture": [],
+    "exo_release": true,
+    "terminal_player_error": false
+  },
+  "REPLAY": {
+    "tracks_created": [
+      "725",
+      "733"
+    ],
+    "tracks_destructed": [
+      "725",
+      "733"
+    ],
+    "unclosed_in_capture": [],
+    "exo_release": true,
+    "terminal_player_error": false
+  }
+}

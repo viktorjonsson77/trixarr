@@ -1,0 +1,19 @@
+--------- beginning of main
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal: Recoverable renderer error
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:   androidx.media3.exoplayer.ExoPlaybackException: MediaCodecAudioRenderer error, index=2, format=Format(2, null, video/x-matroska, audio/eac3, null, -1, en, [-1, -1, -1.0, null], [6, 48000]), format_supported=NO_UNSUPPORTED_TYPE
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.BaseRenderer.createRendererException(BaseRenderer.java:545)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:843)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.bypassRender(MediaCodecRenderer.java:2485)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:891)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.RendererHolder.render(RendererHolder.java:391)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1367)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:697)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at android.os.Handler.dispatchMessage(Handler.java:102)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at android.os.Looper.loop(Looper.java:223)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at android.os.HandlerThread.run(HandlerThread.java:67)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:   Caused by: androidx.media3.exoplayer.audio.AudioSink$WriteException: AudioTrack write failed: -6
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.drainOutputBuffer(DefaultAudioSink.java:1349)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.processBuffers(DefaultAudioSink.java:1231)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.handleBuffer(DefaultAudioSink.java:1094)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:832)
+11-19 21:46:48.769 26782 28923 W ExoPlayerImplInternal:       ... 8 more

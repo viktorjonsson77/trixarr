@@ -1,0 +1,8 @@
+{
+  "pid": 26782,
+  "clock_ticks_per_second": 100,
+  "start_ticks": 19782027,
+  "elapsed_process_seconds": 770.9000000000233,
+  "original_failure_device_time": "21:39:12",
+  "repro_app_pid": 26782
+}

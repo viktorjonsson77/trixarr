@@ -1,0 +1,49 @@
+   Current: 2 (speaker): 1, 4 (headset): 4, 8 (headphone): 4, 80 (bt_a2dp): 3, 400 (hdmi): 5, 1000 (digital_dock): 4, 4000000 (usb_headset): 2, 40000000 (default): 5
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 5, 8 (headphone): 5, 80 (bt_a2dp): 3, 400 (hdmi): 7, 1000 (digital_dock): 5, 4000000 (usb_headset): 1, 40000000 (default): 7
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 5, 8 (headphone): 5, 80 (bt_a2dp): 3, 400 (hdmi): 7, 1000 (digital_dock): 5, 4000000 (usb_headset): 1, 40000000 (default): 7
+   Current: 2 (speaker): 0, 4 (headset): 10, 8 (headphone): 10, 80 (bt_a2dp): 7, 400 (hdmi): 15, 1000 (digital_dock): 10, 4000000 (usb_headset): 3, 40000000 (default): 15
+   Devices: hdmi
+   Current: 2 (speaker): 1, 4 (headset): 5, 8 (headphone): 5, 80 (bt_a2dp): 4, 400 (hdmi): 7, 1000 (digital_dock): 5, 4000000 (usb_headset): 2, 40000000 (default): 7
+   Current: 2 (speaker): 0, 4 (headset): 5, 8 (headphone): 5, 80 (bt_a2dp): 3, 400 (hdmi): 7, 1000 (digital_dock): 5, 4000000 (usb_headset): 1, 40000000 (default): 7
+   Devices: hdmi
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 5, 8 (headphone): 5, 80 (bt_a2dp): 3, 400 (hdmi): 7, 1000 (digital_dock): 5, 4000000 (usb_headset): 1, 40000000 (default): 7
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 10, 8 (headphone): 10, 80 (bt_a2dp): 7, 400 (hdmi): 15, 1000 (digital_dock): 10, 4000000 (usb_headset): 3, 40000000 (default): 15
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 10, 8 (headphone): 10, 80 (bt_a2dp): 7, 400 (hdmi): 15, 1000 (digital_dock): 10, 4000000 (usb_headset): 3, 40000000 (default): 15
+   Current: 2 (speaker): 1, 4 (headset): 10, 8 (headphone): 10, 80 (bt_a2dp): 8, 400 (hdmi): 15, 1000 (digital_dock): 10, 4000000 (usb_headset): 4, 40000000 (default): 15
+   Devices: hdmi
+   Current: 2 (speaker): 0, 4 (headset): 10, 8 (headphone): 10, 80 (bt_a2dp): 7, 400 (hdmi): 15, 1000 (digital_dock): 10, 4000000 (usb_headset): 3, 40000000 (default): 15
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+   Devices: hdmi
+  mHdmiCecSink=true
+  mHdmiAudioSystemClient=null
+  mHdmiPlaybackClient=android.hardware.hdmi.HdmiPlaybackClient@a938351
+  mHdmiTvClient=null
+  mHdmiSystemAudioSupported=false
+  mHdmiCecVolumeControlEnabled=true
+    [DeviceInfo: type:0x400 (hdmi) name: addr:aux1_audio codec: 0]
+11-19 19:21:14:973 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 19:21:15:043 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android
+11-19 19:42:15:341 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 19:42:49:737 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android
+11-19 19:42:51:291 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 19:42:52:989 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android
+11-19 21:39:12:438 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 21:39:12:924 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android
+11-19 21:39:14:278 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 21:39:14:310 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android
+11-19 21:46:48:697 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_UNAVAILABLE addr:aux1_audio name:) from android
+11-19 21:46:48:780 setWiredDeviceConnectionState( type:400 state:DEVICE_STATE_AVAILABLE addr:aux1_audio name:) from android

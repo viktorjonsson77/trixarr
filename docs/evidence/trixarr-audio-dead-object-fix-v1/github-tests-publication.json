@@ -1,0 +1,8 @@
+{
+  "repository": "viktorjonsson77/trixarr",
+  "branch": "fix/trixarr-audio-dead-object-v1",
+  "tests_commit": "be21d55fae2dfbca837a6b2cdec7cb7156d3535c",
+  "verified_remote_tests_commit": "be21d55fae2dfbca837a6b2cdec7cb7156d3535c",
+  "main_merge": false,
+  "force_push": false
+}
