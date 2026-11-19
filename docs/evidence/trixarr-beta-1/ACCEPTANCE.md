@@ -1,12 +1,14 @@
 # Trixarr Beta 1 acceptance — 2026-11-19
 
-**TRIXARR_BETA_1_PARTIAL**
+**TRIXARR_BETA_1_PHYSICAL_AV_PASS**
 
-**BETA_BUILD_PASS** for the signed debug Beta candidate. **PHYSICAL_BETA_PASS NOT
-ACHIEVED**: fresh TCL/Yamaha observations are not available, DV7 source playback is
-blocked by the existing safety policy, and actual Activity recreation remains unverified.
+**BETA_BUILD_PASS** for the signed debug Beta candidate.
+**PHYSICAL_AV_PASS** based on the user's confirmed Nvidia Shield / TCL / Yamaha tests,
+recorded in the physical-output section below, separately from automated/runtime evidence.
 No terminal playback failure was observed on the tested DV5/DV8 supported paths.
-This is a usable debug Beta candidate, not a production-signed release.
+This accepts the documented audiovisual paths; it does not establish complete DV7,
+Activity recreation or long-term stability acceptance. This remains a debug Beta
+candidate, not a production-signed release.
 
 ## Baseline and integration — IMPLEMENTED
 
@@ -155,14 +157,34 @@ Java destructor leak for651. [Cleanup summary](cleanup-summary.json) records bot
 raw IDs and this distinction. A live `dumpsys media.codec` client check was unavailable
 on this Shield; no negative active-client claim is made from that unavailable service.
 
-## Physical output — NOT VERIFIED for Beta 1
+## Physical output — USER PHYSICALLY VERIFIED / PHYSICAL_AV_PASS
 
-Fresh user confirmation was requested during Resident Evil ON for TCL Dolby Vision,
-correct colors and Yamaha DD+, and during OFF for TCL DV/colors and Yamaha PCM/audio.
-No answer was received during this run. Earlier "ja" and "Yamaha visar DD+" belong to
-previous acceptance, not this Beta. Decoder/MIME/AudioTrack facts do not replace
-external TV/AVR observations or prove speaker channel mapping, audible sync or color.
-Thus **USER PHYSICALLY VERIFIED: none for this Beta**. Physical acceptance is PARTIAL.
+Confirmation source: the user's explicit `TRIXARR_BETA_1_PHYSICAL_ACCEPTANCE`
+message on 2026-11-19, confirming physical tests of Beta 1 on Nvidia Shield with
+TCL TV and Yamaha RX-V6A. This follow-up supersedes the earlier pending-confirmation
+status; these are user observations, not conclusions inferred from Android metadata.
+
+| Physical check | User-confirmed result |
+| --- | --- |
+| TCL Dolby Vision indicator | Displayed |
+| TCL picture colors | Correct |
+| Yamaha RX-V6A, bitstream ON | Dolby Digital Plus |
+| Yamaha RX-V6A, bitstream OFF | PCM |
+| Audible output | Sound works |
+
+**PHYSICAL_AV_PASS** applies to these confirmed TV/AVR observations together with
+the supported playback paths documented above. The user's confirmation also records
+DV5 Direct Play, DV8 Direct Play runtime verification, local E-AC3 to PCM 5.1,
+E-AC3 passthrough and refresh-rate switching as verified. The 5.1 configuration is
+supported by runtime AudioTrack evidence; the physical AVR observation is PCM with
+working sound, without an additional speaker-by-speaker mapping or sync measurement.
+DV8 remains runtime-verified for the tested source; no separate profile-specific
+DV8 TV-indicator observation or DV7 FEL/MEL verification is inferred.
+
+Automated results remain **137 JVM + 12 Android PASS**, as recorded in the test
+section; they are separate from these physical observations. This acceptance update
+changes documentation only: no production code, new APK build, Shield settings,
+installation or new automated/device test execution was performed.
 
 ## Branding, installation and restoration — RUNTIME VERIFIED
 
@@ -200,7 +222,8 @@ Thus **USER PHYSICALLY VERIFIED: none for this Beta**. Physical acceptance is PA
 ## Remaining limitations / release readiness
 
 1. RELEASE_SIGNING_BLOCKED; this verified debug Beta safely updates the existing debug app.
-2. Fresh TCL/Yamaha DV/DD+/PCM, audible channel layout and synchronization are unconfirmed.
+2. TCL DV/colors, Yamaha DD+/PCM and working sound are user-confirmed. Detailed
+   speaker-by-speaker mapping and measured audiovisual synchronization remain unverified.
 3. One Battle After Another DV7 original-video path is unavailable in current negotiation;
    exact server reason/historical124s cause unresolved. No DV7 FEL/MEL acceptance.
 4. No physical Activity recreation test, long soak, broad library matrix or network-failure
@@ -209,5 +232,8 @@ Thus **USER PHYSICALLY VERIFIED: none for this Beta**. Physical acceptance is PA
    but repeated-route/device combinations beyond these short runs are not certified.
 6. Launcher re-entry returns Home rather than claiming automatic playback continuation.
 
-The build is ready for limited Beta testing of documented supported paths. These limits
-prevent a full physical release PASS and must accompany distribution of this candidate.
+The documented audiovisual paths meet **BETA_BUILD_PASS** and **PHYSICAL_AV_PASS**.
+Release signing, complete DV7 verification, full Activity recreation verification,
+long-term testing and the unknown historical buffering cause remain limitations.
+These gates do not constitute production release or complete lifecycle/format certification;
+the remaining limitations must accompany distribution of this candidate.
