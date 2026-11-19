@@ -116,6 +116,26 @@ class ControllerChainTests : FunSpec({
         f.engine.state shouldBe "PLAYING"
         f.controller.stop(); f.scope.runCurrent()
     }
+    test("terminal audio error permits explicit replay and rejects the previous start callback") {
+        val f = fixture(); f.start(0); f.scope.runCurrent()
+        val failed = f.controller.sessionOwner.snapshot!!
+        val oldStart = f.segmentCallback!!
+        // Same callback used by VideoManager after a terminal Media3 audio write failure.
+        f.controller.onError(); f.scope.runCurrent()
+        f.controller.sessionOwner.snapshot!!.state shouldBe SessionState.ERROR
+        f.engine.stops shouldBe 1
+        f.engine.prepares shouldBe 1 // No automatic retry of a terminal output error.
+        f.api.bodies.filterIsInstance<PlaybackStopInfo>().single().failed shouldBe true
+        f.start(0); f.scope.runCurrent()
+        f.controller.sessionOwner.snapshot!!.id.equals(failed.id) shouldBe false
+        f.controller.sessionOwner.isCurrent(failed.generation) shouldBe false
+        oldStart.invoke(); f.scope.runCurrent()
+        f.engine.prepares shouldBe 2
+        f.api.bodies.filterIsInstance<PlaybackStartInfo>().size shouldBe 2
+        f.controller.pause(); f.controller.play(0); f.controller.stop(); f.scope.runCurrent()
+        f.engine.stops shouldBe 2
+        f.api.bodies.filterIsInstance<PlaybackStopInfo>().map { it.failed } shouldBe listOf(true, false)
+    }
     test("active decoder error is terminal with one failed stop and no retry") {
         val f = fixture(); f.start(1000); f.scope.runCurrent()
         f.controller.playerErrorEncountered(); f.scope.runCurrent()
