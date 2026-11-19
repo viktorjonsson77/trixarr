@@ -1,0 +1,5 @@
+11-19 23:01:42.045 11954 11954 W VideoCapabilities: Unsupported mime video/dolby-vision
+11-19 23:01:42.046 11954 11954 W VideoCapabilities: Unsupported mime video/dolby-vision
+11-19 23:01:42.075 11954 11954 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.DOVI.decode for mime video/dolby-vision
+11-19 23:01:43.417 11954 12235 I MediaCodec: [OMX.Nvidia.DOVI.decode] setting surface generation to 12240897
+11-19 23:01:43.876 11954 12216 W ExoPlayerImplInternal:   androidx.media3.exoplayer.ExoPlaybackException: MediaCodecAudioRenderer error, index=2, format=Format(2, null, video/x-matroska, audio/eac3, null, -1, en, [-1, -1, -1.0, null], [6, 48000]), format_supported=NO_UNSUPPORTED_TYPE

@@ -1,0 +1,10 @@
+
+org.jellyfin.androidtv.artwork.ArtworkCaptureTest:.
+
+Time: 20,073
+
+OK (1 test)
+
+
+
+Shell exit:139 after JUnit OK; see ACCEPTANCE.md for Nvidia shell EGL teardown limitation.

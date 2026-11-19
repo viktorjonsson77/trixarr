@@ -1,0 +1,18 @@
+{
+  "request": {
+    "maxWidth": 4096,
+    "maxHeight": 4096,
+    "quality": 90
+  },
+  "source": [
+    1371,
+    2057
+  ],
+  "response": [
+    1371,
+    2057
+  ],
+  "server_did_not_upscale": true,
+  "format": "JPEG",
+  "bytes": 643417
+}

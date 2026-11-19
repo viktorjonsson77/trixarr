@@ -1,0 +1,18 @@
+{
+  "ro.product.manufacturer": "NVIDIA",
+  "ro.product.model": "SHIELD Android TV",
+  "ro.product.device": "mdarcy",
+  "ro.build.version.release": "11",
+  "ro.build.version.sdk": "30",
+  "ro.product.cpu.abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "versionName": "0.1.0-beta.1",
+  "versionCode": "10001",
+  "firstInstallTime": "2026-09-02 23:52:47",
+  "lastUpdateTime": "2026-11-19 22:59:00",
+  "userId": "10048",
+  "data_inode": "652903",
+  "installed_apk_sha256": "b8b6fff69f9f4832327dc5f6449f294f1ed04a713d4e4777c4daabf2bc19c03f",
+  "bitstream_unchanged": "ABSENT/default ON",
+  "wm_size": "Physical size: 3840x2160\nOverride size: 1920x1080",
+  "wm_density": "Physical density: 320"
+}

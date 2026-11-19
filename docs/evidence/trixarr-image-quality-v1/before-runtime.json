@@ -1,0 +1,35 @@
+{
+  "render_width": 1920,
+  "render_height": 1080,
+  "density": 2,
+  "density_dpi": 320,
+  "shared_cache_bytes": 0,
+  "singleton_cache_bytes": 33779712,
+  "same_loader": false,
+  "cache_records": [
+    {
+      "loader": "singleton",
+      "decoded_width": 348,
+      "decoded_height": 196,
+      "parameters": {},
+      "item": "72f60ad4-92e4-f6db-407d-20dbfb976e36",
+      "image_type": "Thumb"
+    },
+    {
+      "loader": "singleton",
+      "decoded_width": 348,
+      "decoded_height": 196,
+      "parameters": {},
+      "item": "90f7d4f9-2848-c7fa-face-e3b046dee170",
+      "image_type": "Primary"
+    },
+    {
+      "loader": "singleton",
+      "decoded_width": 3840,
+      "decoded_height": 2160,
+      "parameters": {},
+      "item": "5b9433f5-4f27-d3bf-7879-592d6ed2460e",
+      "image_type": "Thumb"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+[
+  {
+    "worktree": "/opt/jellyfintv",
+    "branch": "feat/trixarr-branding-v2",
+    "head": "1d7407710293a829c482b56baf5d1f5099eaba3f",
+    "dirty_entries": 117
+  },
+  {
+    "worktree": "/opt/jellyfintv-beta-1",
+    "branch": "release/trixarr-beta-1",
+    "head": "553465c3a20352bba27a44cf8bbfcfe7acd36c82",
+    "dirty_entries": 0
+  },
+  {
+    "worktree": "/opt/jellyfintv-branding-v3",
+    "branch": "feat/trixarr-branding-v3",
+    "head": "9ed83d86cffcede063335112a890b09d43277087",
+    "dirty_entries": 0
+  },
+  {
+    "worktree": "/opt/jellyfintv-audio-dead-object-v1",
+    "branch": "fix/trixarr-audio-dead-object-v1",
+    "head": "c443283f57afbc2db85179675c96c43d944bb63f",
+    "dirty_entries": 0
+  },
+  {
+    "worktree": "/opt/jellyfintv-image-quality-v1",
+    "branch": "feat/trixarr-image-quality-v1",
+    "head": "c443283f57afbc2db85179675c96c43d944bb63f",
+    "dirty_entries": 14
+  }
+]

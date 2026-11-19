@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Parasit",
+    "type": "Backdrop",
+    "request_params": {
+      "maxWidth": 384,
+      "maxHeight": 224,
+      "quality": 90
+    },
+    "response_width": 384,
+    "response_height": 216,
+    "format": "JPEG",
+    "bytes": 29821,
+    "headers": {
+      "Content-Length": "29821",
+      "Content-Type": "image/jpeg",
+      "Age": "0",
+      "Cache-Control": "public",
+      "Last-Modified": "Thu, 19 Nov 2026 21:51:10 GMT",
+      "Vary": "Accept"
+    }
+  },
+  {
+    "name": "Du \u00e4r varnad",
+    "type": "Primary",
+    "request_params": {
+      "maxWidth": 384,
+      "maxHeight": 224,
+      "quality": 90
+    },
+    "response_width": 384,
+    "response_height": 216,
+    "format": "JPEG",
+    "bytes": 16219,
+    "headers": {
+      "Content-Length": "16219",
+      "Content-Type": "image/jpeg",
+      "Age": "1043",
+      "Cache-Control": "public",
+      "Last-Modified": "Thu, 19 Nov 2026 21:33:49 GMT",
+      "Vary": "Accept"
+    }
+  }
+]

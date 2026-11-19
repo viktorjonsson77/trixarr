@@ -1,0 +1,41 @@
+[
+  {
+    "item": "72f60ad4-92e4-f6db-407d-20dbfb976e36",
+    "name": "Parasit",
+    "type": "Movie",
+    "source_images": [
+      {
+        "ImageType": "Logo",
+        "Width": 4300,
+        "Height": 593
+      },
+      {
+        "ImageType": "Primary",
+        "Width": 2000,
+        "Height": 3000
+      },
+      {
+        "ImageType": "Thumb",
+        "Width": 1920,
+        "Height": 1080
+      },
+      {
+        "ImageType": "Backdrop",
+        "Width": 3840,
+        "Height": 2160
+      }
+    ]
+  },
+  {
+    "item": "90f7d4f9-2848-c7fa-face-e3b046dee170",
+    "name": "Du \u00e4r varnad",
+    "type": "Episode",
+    "source_images": [
+      {
+        "ImageType": "Primary",
+        "Width": 1920,
+        "Height": 1080
+      }
+    ]
+  }
+]
