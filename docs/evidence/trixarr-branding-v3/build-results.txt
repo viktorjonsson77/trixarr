@@ -1,0 +1,5 @@
+> Task :app:assembleDebug
+> Task :app:testDebugUnitTest
+> Task :app:assembleDebugAndroidTest
+BUILD SUCCESSFUL in 2m 2s
+170 actionable tasks: 170 executed

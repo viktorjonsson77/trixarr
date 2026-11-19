@@ -1,0 +1,12 @@
+{
+  "/opt/jellyfintv-beta-1": {
+    "status_entries": 0,
+    "status_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "branch": "release/trixarr-beta-1"
+  },
+  "/opt/jellyfintv": {
+    "status_entries": 117,
+    "status_sha256": "545ab603a5f72e4e8b37ffad1edff658106ae7b38c215ee6876095d8a54eebe6",
+    "branch": "feat/trixarr-branding-v2"
+  }
+}

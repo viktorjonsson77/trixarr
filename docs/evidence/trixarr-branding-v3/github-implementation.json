@@ -1,0 +1,11 @@
+{
+  "repository": "viktorjonsson77/trixarr",
+  "branch": "feat/trixarr-branding-v3",
+  "implementation_commit": "5d7cc3747fa12272f76905018a72f7f155e36096",
+  "remote_commit_verified": "5d7cc3747fa12272f76905018a72f7f155e36096",
+  "master_blob_sha1": "4f071ea1a83c7c66b50578dafe1fa2d0f997df83",
+  "source_sha256": "22421f41e2c3f8a00d8a6b135a6aca8c4c04fc567e5ae94f3afc559bb7967e83",
+  "main_not_merged": true,
+  "force_push": false,
+  "main_sha_unchanged": "5794fdc529a8e9e94749d23783e91f791ef55548"
+}

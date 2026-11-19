@@ -1,0 +1,12 @@
+{
+  "created_audio_tracks": [
+    "697"
+  ],
+  "destructed_audio_tracks": [
+    "697"
+  ],
+  "tracks_without_destructor_in_capture": [],
+  "exo_release_observed": true,
+  "startup_result": "FAILED_AUDIO_SINK_DEAD_OBJECT",
+  "automatic_retry": false
+}

@@ -1,0 +1,17 @@
+{
+  "artifact": "/opt/jellyfintv-artifacts/trixarr-branding-v3/trixarr-0.1.0-beta.1-branding-v3-debug.apk",
+  "apk_sha256": "06283683675b1cd1028ad72f51cb306d60830a9cd8a886c07a5d03ac887c317b",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "installed_before_signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "installed_before_apk_sha256": "e4a0bf09eb64823c8f90a73268e7914a074200768dd9d63aecacee8f9640e434",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "namespace": "org.jellyfin.androidtv",
+  "versionName": "0.1.0-beta.1",
+  "versionCode": 10001,
+  "update_compatible": true,
+  "arm64_libraries_unchanged": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/arm64-v8a/libffmpegJNI.so"
+  ],
+  "installed_final_sha256": "06283683675b1cd1028ad72f51cb306d60830a9cd8a886c07a5d03ac887c317b"
+}
