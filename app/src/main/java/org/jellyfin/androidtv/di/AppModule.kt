@@ -123,6 +123,7 @@ val appModule = module {
 			logger(CoilTimberLogger(if (BuildConfig.DEBUG) Logger.Level.Warn else Logger.Level.Error))
 
 			components {
+				add(org.jellyfin.androidtv.util.artwork.ArtworkInterceptor())
 				add(get<NetworkFetcher.Factory>())
 
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) add(AnimatedImageDecoder.Factory())

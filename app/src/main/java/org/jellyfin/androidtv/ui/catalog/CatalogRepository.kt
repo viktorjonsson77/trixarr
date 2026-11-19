@@ -388,12 +388,9 @@ class CatalogRepository(
             kind = kind,
             name = item.name.orEmpty(),
             overview = item.overview.orEmpty(),
+            posterAspectRatio = item.primaryImageAspectRatio,
             poster = (item.itemImages[ImageType.PRIMARY] ?: item.seriesPrimaryImage)?.getUrl(api),
-            backdrop =
-                (item.itemImages[ImageType.BACKDROP]
-                        ?: item.parentImages[ImageType.BACKDROP]
-                        ?: item.itemImages[ImageType.THUMB])
-                    ?.getUrl(api),
+            backdrop = item.catalogBackdropImage()?.getUrl(api),
             year = item.productionYear,
             genres = item.genres.orEmpty(),
             certification = item.officialRating,

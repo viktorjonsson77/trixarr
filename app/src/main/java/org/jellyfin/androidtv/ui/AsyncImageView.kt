@@ -17,6 +17,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.request.target
 import coil3.request.transformations
+import coil3.size.ViewSizeResolver
 import coil3.transform.CircleCropTransformation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -43,6 +44,18 @@ class AsyncImageView @JvmOverloads constructor(
 	private val styledAttributes = context.obtainStyledAttributes(attrs, R.styleable.AsyncImageView, defStyleAttr, 0)
 	private val imageLoader by inject<ImageLoader>()
 	private var loadJob: Job? = null
+    private data class Content(val url: String?, val blurHash: String?, val placeholder: Drawable?, val aspect: Double, val resolution: Int)
+    private var lastContent: Content? = null
+    init {
+        addOnLayoutChangeListener { _, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            val previousWidth = oldRight - oldLeft; val previousHeight = oldBottom - oldTop
+            if (previousWidth > 0 && previousHeight > 0 && right > left && bottom > top &&
+                (right - left != previousWidth || bottom - top != previousHeight)) {
+                lastContent?.let { load(it.url, it.blurHash, it.placeholder, it.aspect, it.resolution) }
+            }
+        }
+    }
+
 
 	/**
 	 * The duration of the crossfade when changing switching the images of the url, blurhash and
@@ -68,6 +81,7 @@ class AsyncImageView @JvmOverloads constructor(
 		aspectRatio: Double = 1.0,
 		blurHashResolution: Int = 32,
 	) = doOnAttach {
+        lastContent = Content(url, blurHash, placeholder, aspectRatio, blurHashResolution)
 		// Cancel the previous load if still running
 		loadJob?.cancel()
 
@@ -89,6 +103,7 @@ class AsyncImageView @JvmOverloads constructor(
 			val request = if (url == null) {
 				ImageRequest.Builder(context).apply {
 					target(this@AsyncImageView)
+					size(ViewSizeResolver(this@AsyncImageView))
 					data(placeholder)
 					if (circleCrop) transformations(CircleCropTransformation())
 				}.build()
@@ -99,6 +114,7 @@ class AsyncImageView @JvmOverloads constructor(
 					else crossfade(false)
 
 					target(this@AsyncImageView)
+					size(ViewSizeResolver(this@AsyncImageView))
 					data(url)
 					placeholder(placeholderOrBlurHash?.asImage())
 					if (circleCrop) transformations(CircleCropTransformation())

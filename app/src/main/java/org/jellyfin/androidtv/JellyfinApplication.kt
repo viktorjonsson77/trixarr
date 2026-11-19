@@ -19,7 +19,12 @@ import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
 @Suppress("unused")
-class JellyfinApplication : Application() {
+class JellyfinApplication : Application(), coil3.SingletonImageLoader.Factory {
+    override fun newImageLoader(context: Context): coil3.ImageLoader {
+        val loader by inject<coil3.ImageLoader>()
+        return loader
+    }
+
 	override fun onCreate() {
 		super.onCreate()
 

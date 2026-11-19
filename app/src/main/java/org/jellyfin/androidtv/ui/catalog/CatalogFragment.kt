@@ -1166,12 +1166,7 @@ class CatalogFragment : Fragment() {
                             ) {
                                 Box(Modifier.weight(1f).fillMaxHeight().background(Ink)) {
                                     (episode.poster ?: episode.backdrop)?.let {
-                                        AsyncImage(
-                                            it,
-                                            null,
-                                            Modifier.fillMaxSize(),
-                                            contentScale = ContentScale.Crop,
-                                        )
+                                        CatalogImage(it, Modifier.fillMaxSize(), episode.posterAspectRatio)
                                     }
                                     if (episode.watched)
                                         Text(

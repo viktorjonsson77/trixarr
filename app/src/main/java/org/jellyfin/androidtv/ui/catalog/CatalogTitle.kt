@@ -28,6 +28,7 @@ data class CatalogTitle(
     val seasonNumber: Int? = null,
     val seriesName: String? = null,
     val requestAllowed: Boolean = false,
+    val posterAspectRatio: Double? = null,
 ) {
     val progress: Float
         get() =

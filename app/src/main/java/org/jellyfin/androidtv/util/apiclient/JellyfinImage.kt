@@ -44,7 +44,7 @@ fun JellyfinImage.getUrl(
 		fillWidth = fillWidth,
 		fillHeight = fillHeight,
 	)
-}
+}.also { org.jellyfin.androidtv.util.artwork.ArtworkSources.remember(it, aspectRatio) }
 
 enum class JellyfinImageSource {
 	ITEM,

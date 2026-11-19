@@ -46,6 +46,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntSize
+import coil3.size.Scale
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -176,6 +180,7 @@ internal fun TvButton(
 internal fun Fanart(url: String?, subdued: Boolean = false, soft: Boolean = false, onReady: (String?) -> Unit = {}, identity: String? = url) {
     val notifyReady by androidx.compose.runtime.rememberUpdatedState(onReady)
     val context = LocalContext.current
+    var artworkSize by remember { mutableStateOf(IntSize.Zero) }
     val scope = rememberCoroutineScope()
     val loader = remember(scope) { LatestFanart<ImageBitmap>(scope) }
     var pending by remember { mutableStateOf<Pair<ImageBitmap?, String?>?>(null) }
@@ -201,12 +206,13 @@ internal fun Fanart(url: String?, subdued: Boolean = false, soft: Boolean = fals
         }
     }
     DisposableEffect(loader) { onDispose { loader.cancel() } }
-    LaunchedEffect(url, soft, identity) {
+    LaunchedEffect(url, soft, identity, artworkSize) {
+        if (artworkSize.width <= 0 || artworkSize.height <= 0) return@LaunchedEffect
         // Drop a queued old result; an already visible fade finishes without an alpha reset.
         pending = null
         loader.submit(load = {
             if (url == null) null else SingletonImageLoader.get(context).execute(
-                ImageRequest.Builder(context).data(url).apply {
+                ImageRequest.Builder(context).data(url).size(artworkSize.width, artworkSize.height).scale(Scale.FILL).apply {
                     if (soft) {
                         allowHardware(false)
                         transformations(SoftFanartTransformation())
@@ -215,11 +221,11 @@ internal fun Fanart(url: String?, subdued: Boolean = false, soft: Boolean = fals
             ).image?.toBitmap()?.asImageBitmap()
         }, publish = { pending = it to identity }, stabilize = current != null)
     }
-    Box(Modifier.fillMaxSize().background(Ink).testTag("catalog-fanart").semantics {
+    Box(Modifier.fillMaxSize().onSizeChanged { artworkSize = it }.background(Ink).testTag("catalog-fanart").semantics {
         set(FanartLayerCountKey, (if (current != null) 1 else 0) + (if (incoming != null) 1 else 0))
     }) {
-        current?.let { Image(it, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
-        incoming?.let { Image(it, null, Modifier.fillMaxSize().then(Modifier.graphicsLayer { this.alpha = alpha.value }), contentScale = ContentScale.Crop) }
+        current?.let { Image(it, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, filterQuality = FilterQuality.Medium) }
+        incoming?.let { Image(it, null, Modifier.fillMaxSize().then(Modifier.graphicsLayer { this.alpha = alpha.value }), contentScale = ContentScale.Crop, filterQuality = FilterQuality.Medium) }
         Box(
             Modifier.fillMaxSize()
                 .background(
@@ -331,9 +337,9 @@ internal fun TitleCard(
     onClick: () -> Unit,
 ) {
     TvTarget(modifier, requester, onFocus, onClick, animateCard = true, logicalFocus = logicalFocus) {
-        val image = if (landscape) title.backdrop ?: title.poster else title.poster
+        val image = if (landscape && title.kind != TitleKind.Episode) title.backdrop ?: title.poster else title.poster ?: title.backdrop
         if (image != null)
-            AsyncImage(image, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            CatalogImage(image, Modifier.fillMaxSize(), if (image == title.poster) title.posterAspectRatio else 16.0 / 9, if (landscape) org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind.THUMBNAIL else org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind.POSTER)
         Box(
             Modifier.fillMaxSize()
                 .background(
@@ -399,4 +405,17 @@ internal fun Progress(title: CatalogTitle) {
                     .background(LocalFocusColor.current, RoundedCornerShape(2.dp))
             )
     }
+}
+
+/** Pass source aspect as request metadata, not as a server parameter or a global size. */
+@Composable
+internal fun CatalogImage(url: String, modifier: Modifier = Modifier, sourceAspect: Double? = null, kind: org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind = org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind.THUMBNAIL) {
+    val context = LocalContext.current
+    val request = remember(context, url, sourceAspect, kind) {
+        ImageRequest.Builder(context).data(url).apply {
+            extras[org.jellyfin.androidtv.util.artwork.ArtworkKindKey] = kind
+            extras[org.jellyfin.androidtv.util.artwork.ArtworkSourceKey] = org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Source(sourceAspect)
+        }.build()
+    }
+    AsyncImage(request, null, modifier, contentScale = ContentScale.Crop, filterQuality = FilterQuality.Medium)
 }
