@@ -1,0 +1,29 @@
+{
+  "serial": "100.91.172.18:5555",
+  "device": "NVIDIA SHIELD Android TV / mdarcy",
+  "android": "11 / API30 / arm64-v8a",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "versionName": "0.0.0-dev.1",
+  "versionCode": 1,
+  "application_label": "Trixarr",
+  "apk": "/opt/jellyfintv-artifacts/trixarr-branding-v2/trixarr-branding-v2-debug.apk",
+  "apk_sha256": "dc78768a3aaeddf25d14494c79709bb75bbf18fa9d0ce576b70bca6415491f3c",
+  "installed_apk_sha256": "dc78768a3aaeddf25d14494c79709bb75bbf18fa9d0ce576b70bca6415491f3c",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "baseline_apk_sha256": "eecf795d609e57afc1e895444caa5779fdc0934ea6e1f55914f940ac461f5652",
+  "installation": "adb install -r Success",
+  "first_install_unchanged": "2026-09-02 23:52:47",
+  "last_update_device_local": "2026-11-19 18:35:48",
+  "ce_data_inode_before": 652903,
+  "ce_data_inode_after": 652903,
+  "arm64_libraries_unchanged": {
+    "lib/arm64-v8a/libandroidx.graphics.path.so": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "lib/arm64-v8a/libffmpegJNI.so": "63d56c5fbd0f0b84dc607af3c3faed7befdea5e9fa5187bbcdb3ebc54782e929"
+  },
+  "bitstream_before": "ABSENT / ON default",
+  "bitstream_after": "ABSENT / ON default",
+  "audio_display_preference_changes": false,
+  "login_library": "Authenticated catalog loaded after cold start; no login flow",
+  "physical_branding": "Launcher and splash captures visually verified",
+  "physical_tcl_yamaha": "Requested during playback; no response at recording time"
+}

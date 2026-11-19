@@ -1,0 +1,15 @@
+{
+  "app/src/main/java/org/jellyfin/androidtv/ui/preference/category/about.kt": "3c10efa1d54dcf75d014057c1d67e78b9d6e8232afd844e2178d7f7c70d7fdc9",
+  "app/src/main/java/org/jellyfin/androidtv/ui/startup/fragment/SelectServerFragment.kt": "5993e55156bc23e566437c7878ebbbeeb129c02484a6ba125394529a430559eb",
+  "app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/PlaybackDiagnostics.kt": "14b4bd1d8324f39e5a2b09b34a6a9e91fd3e5235146ca63ae061f1a47c0ffdf8",
+  "app/src/main/java/org/jellyfin/androidtv/ui/playback/VideoManager.java": "61cbf5a8f4d9417e7d00154780689f02ea91a67e73f0f77db1b4f2d33188b78b",
+  "app/src/main/java/org/jellyfin/androidtv/telemetry/TelemetryService.kt": "3419ed20149b66846170b846e8dc841054435c3e0579cf2b3c9746df485e5dac",
+  "app/src/main/java/org/jellyfin/androidtv/util/profile/deviceProfileReport.kt": "dd1d1d621d2ba9bb35c81aac0f2cb2f9bdd6f8ebd369fe9322b4c521a8047eff",
+  "excluded_unfinished_inputs": [
+    "app/src/main/java/org/jellyfin/androidtv/ui/playback/engine/AndroidRefreshRateController.kt",
+    "app/src/test/kotlin/ui/playback/completion/ControllerChainTests.kt",
+    "playback/core/src/main/kotlin/engine/PlaybackSessionOwner.kt",
+    "playback/core/src/main/kotlin/engine/PlaybackStartup.kt",
+    "playback/core/src/main/kotlin/engine/RefreshRatePolicy.kt"
+  ]
+}

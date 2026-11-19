@@ -1,0 +1,5 @@
+org.jellyfin.androidtv.playback.BrandingInstrumentedTest:....
+
+Time: 0,119
+
+OK (4 tests)

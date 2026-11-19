@@ -1,0 +1,154 @@
+[
+  {
+    "filename": "docs/design/trixarr/branding/app-icon.png",
+    "format": "PNG",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 2073144,
+    "sha256": "24c2ac5e8979b5bcedc04d3174817da8f1dc5cce78fb0b2c05f96a76ba56ba7e",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": [
+      255,
+      255
+    ],
+    "valid": true,
+    "errors": [],
+    "intended_usage": "Source-only: earlier design, not selected after user approved legacy triangle reuse",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "348ccd2eb59e39b9aa10fbc7b478f55b13f9e5af"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/splash.png",
+    "format": "PNG",
+    "width": 1672,
+    "height": 941,
+    "bytes": 1804346,
+    "sha256": "f22e7596a776c9601ba2e51a23277f1775bdea4b45e6ccbb6d9574fd635589d0",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": [
+      255,
+      255
+    ],
+    "valid": true,
+    "errors": [],
+    "intended_usage": "Source-only: earlier design, not selected after user approved legacy triangle reuse",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "50e883f94a5cb68c84da63135d1a1b39dd8c0cd1"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/tv-banner.png",
+    "format": "PNG",
+    "width": 1672,
+    "height": 941,
+    "bytes": 1972218,
+    "sha256": "2c77f1bd58c976485939b8926b65df8a1106b6fa7e5e9c56e4181605057a9e43",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": [
+      255,
+      255
+    ],
+    "valid": true,
+    "errors": [],
+    "intended_usage": "Source-only: earlier design, not selected after user approved legacy triangle reuse",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "ed9dbf0a289b0d453ff3501797753cb9296811e6"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/wordmark-monochrome.png",
+    "format": "PNG",
+    "width": 2075,
+    "height": 758,
+    "bytes": 775572,
+    "sha256": "f00d0c426ac2615bdd9e8f1db20203c82c98bb45fdf3f7fe1af9420b9d34ffd3",
+    "declared_alpha_channel": true,
+    "actual_alpha_range": [
+      0,
+      255
+    ],
+    "valid": true,
+    "errors": [],
+    "intended_usage": "Source-only: earlier design, not selected after user approved legacy triangle reuse",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "dd10997e7d5cc8430f9045b2fb6cfbc11dc13b6f"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/wordmark.png",
+    "format": "PNG",
+    "width": 2170,
+    "height": 725,
+    "bytes": 1276224,
+    "sha256": "b855c071d83a1502723d9500639fb079b669c6c30f39636d85e4365274b0a6a4",
+    "declared_alpha_channel": true,
+    "actual_alpha_range": [
+      0,
+      255
+    ],
+    "valid": true,
+    "errors": [],
+    "intended_usage": "Source-only: earlier design, not selected after user approved legacy triangle reuse",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "69e64afdd3b1a39877a12ba74682b482143f93c0"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/triangle-v1/trixarr-app-icon.png",
+    "format": "PNG",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 786444,
+    "sha256": "e5c7e8cab55e3767849180d75d55b439512e02ef33e7d57c012c834cec1af8c5",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": null,
+    "valid": false,
+    "errors": [
+      "Truncated IDAT chunk: declared end 1438937; file bytes 786444",
+      "Missing IEND"
+    ],
+    "intended_usage": "Intended triangle trixarr-app-icon; unusable/truncated, not integrated",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "b5c508163f5e53a797abd57f9090cfd7006bc2bd"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/triangle-v1/trixarr-logo.png",
+    "format": "PNG",
+    "width": 2172,
+    "height": 724,
+    "bytes": 786444,
+    "sha256": "c817fbc4fe16750570e9879e52b7f0732b9226809c009601bdc0694cd6a8d50e",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": null,
+    "valid": false,
+    "errors": [
+      "Truncated IDAT chunk: declared end 1075462; file bytes 786444",
+      "Missing IEND"
+    ],
+    "intended_usage": "Intended triangle trixarr-logo; unusable/truncated, not integrated",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "1cda4e999439ff7744d2fb810191787250a5809b"
+  },
+  {
+    "filename": "docs/design/trixarr/branding/triangle-v1/trixarr-splash.png",
+    "format": "PNG",
+    "width": 1672,
+    "height": 941,
+    "bytes": 786445,
+    "sha256": "176ccf557fb4b5e20c52bdcde39b2ce90f9806f7f51229ff5220c073e30acdfb",
+    "declared_alpha_channel": false,
+    "actual_alpha_range": null,
+    "valid": false,
+    "errors": [
+      "Truncated IDAT chunk: declared end 1355064; file bytes 786445",
+      "Missing IEND"
+    ],
+    "intended_usage": "Intended triangle trixarr-splash; unusable/truncated, not integrated",
+    "source_ref": "origin/assets/trixarr-triangle-brand-20261118",
+    "source_commit": "62349998bd5b30abf731144372d5a5282719f9d6",
+    "git_blob": "b7bf7f9267e97d8ddfb5c64ea9d9e98a4e3b717b"
+  }
+]

@@ -1,0 +1,4 @@
+org.jellyfin.androidtv.playback.BrandingInstrumentedTest:....
+org.jellyfin.androidtv.playback.LocalAudioDecodeInstrumentedTest:..
+org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest:.INSTRUMENTATION_RESULT: shortMsg=Process crashed.
+INSTRUMENTATION_CODE: 0

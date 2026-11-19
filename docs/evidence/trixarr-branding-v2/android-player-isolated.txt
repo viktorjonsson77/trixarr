@@ -1,0 +1,5 @@
+org.jellyfin.androidtv.playback.PlayerEngineInstrumentedTest:....
+
+Time: 0,297
+
+OK (4 tests)

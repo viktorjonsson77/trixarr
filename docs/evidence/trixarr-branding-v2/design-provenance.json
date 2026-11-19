@@ -1,0 +1,14 @@
+{
+  "authorization": "Du kan använda den gamla triangeldesignen och bara byta texten",
+  "interpretation": "Existing blue/purple triangle; text-only Trixarr wordmark; same Lato Black metrics",
+  "symbol_original_sha256": "9c98d59fc4d71fe1b64d0d37c397a04564497aef437b315ae37e46e5da552bc2",
+  "font_sha256": "4ed66fa3928ae769205635c916b4f9e6a63f6a77f5d9693ac31a83d0d96ae1ef",
+  "host_tools": {
+    "CairoSVG": "2.9.1",
+    "Pillow": "13.0.0",
+    "fonttools": "4.68.0"
+  },
+  "icons": "Existing symbol-only launcher/adaptive/monochrome resources retained unchanged",
+  "animation": "No production startup code or timing edits",
+  "incoming_triangle_pngs": "Three truncated files preserved unchanged and NOT integrated"
+}
