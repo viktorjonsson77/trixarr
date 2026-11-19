@@ -20,7 +20,9 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class LocalAudioDecodeInstrumentedTest {
-	@Test fun actualShieldEac3LocalPathAndDeviceProfile() {
+	// DefaultAudioSink registers callbacks on the caller's Looper. The instrumentation
+	// worker has no Looper; use main so callback delivery observes the same thread.
+	@Test fun actualShieldEac3LocalPathAndDeviceProfile() = InstrumentationRegistry.getInstrumentation().runOnMainSync {
 		val context = InstrumentationRegistry.getInstrumentation().targetContext
 		val capability = LocalAudioSupport.probe(context, "eac3", 6, 48000)
 		assertTrue("Native or packaged software EAC3 decoder required", capability.canDecode)
