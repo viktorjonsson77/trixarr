@@ -47,6 +47,7 @@ class SeerrApiTests : StringSpec({
 			repository.request(media, confirmed = true).isFailure shouldBe true
 			first.await().isSuccess shouldBe true
 		}
+		repository.request(media, confirmed = true).isFailure shouldBe true
 		fake.calls shouldBe 1
 		repository.generation() shouldBe 1
 	}

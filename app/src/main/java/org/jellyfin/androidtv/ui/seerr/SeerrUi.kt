@@ -38,7 +38,7 @@ import org.jellyfin.androidtv.ui.cinematic.CinematicColors
 import org.jellyfin.androidtv.ui.cinematic.CinematicDimensions
 
 @Composable
-fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier, cardWidth: Dp = 122.dp, reserveMetadataSpace: Boolean = false) {
+fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, modifier: Modifier = Modifier, cardWidth: Dp = 122.dp, reserveMetadataSpace: Boolean = false, landscape: Boolean = false) {
 	var focused by remember { mutableStateOf(false) }
 	val scale by animateFloatAsState(if (focused) CinematicDimensions.FocusScale else 1f, label = "SeerrCardFocus")
 	val shape = RoundedCornerShape(CinematicDimensions.CardCorner)
@@ -47,9 +47,9 @@ fun SeerrMediaCard(media: SeerrMedia, onFocus: () -> Unit, onClick: () -> Unit, 
 			.clickable(onClick = onClick).focusable(),
 		verticalArrangement = Arrangement.spacedBy(5.dp),
 	) {
-		Box(Modifier.fillMaxWidth().aspectRatio(2f / 3f).clip(shape).background(CinematicColors.Surface)
+		Box(Modifier.fillMaxWidth().aspectRatio(if (landscape) 16f / 9f else 2f / 3f).clip(shape).background(CinematicColors.Surface)
 			.border(if (focused) 2.dp else 1.dp, if (focused) CinematicColors.Cyan else Color.White.copy(.12f), shape)) {
-			AsyncImage(model = media.posterUrl, contentDescription = media.title, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+			AsyncImage(model = if (landscape) media.backdropUrl ?: media.posterUrl else media.posterUrl, contentDescription = media.title, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
 			StatusChip(media.availability, Modifier.padding(6.dp))
 		}
 		Text(media.title, color = Color.White, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)

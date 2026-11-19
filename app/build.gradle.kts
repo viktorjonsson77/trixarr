@@ -11,6 +11,7 @@ android {
 	compileSdk = libs.versions.android.compileSdk.get().toInt()
 
 	defaultConfig {
+		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 		minSdk = libs.versions.android.minSdk.get().toInt()
 		targetSdk = libs.versions.android.targetSdk.get().toInt()
 
@@ -181,6 +182,10 @@ dependencies {
 	coreLibraryDesugaring(libs.android.desugar)
 
 	// Testing
+	androidTestImplementation("androidx.test:runner:1.6.2")
+	androidTestImplementation("androidx.test.ext:junit:1.2.1")
+	androidTestImplementation("androidx.compose.ui:ui-test-junit4:${libs.versions.androidx.compose.ui.get()}")
+	debugImplementation("androidx.compose.ui:ui-test-manifest:${libs.versions.androidx.compose.ui.get()}")
 	testImplementation(libs.kotest.runner.junit5)
 	testImplementation(libs.kotest.assertions)
 	testImplementation(libs.mockk)

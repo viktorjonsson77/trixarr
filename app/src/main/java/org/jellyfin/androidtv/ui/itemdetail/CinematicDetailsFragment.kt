@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.onPreviewKeyEvent
@@ -31,6 +33,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import androidx.lifecycle.lifecycleScope
@@ -140,8 +143,13 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 	val scope = rememberCoroutineScope()
 	var contextItem by remember { mutableStateOf<BaseItemDto?>(null) }
 	var showVersions by remember { mutableStateOf(false) }
+	var showInformation by remember { mutableStateOf(false) }
 	var isFavorite by remember(item.id) { mutableStateOf(item.userData?.isFavorite == true) }
+	val initialFocus = remember { FocusRequester() }
+	val informationFocus = remember { FocusRequester() }
+	val playable = item.type in setOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE)
 	val hasTrailer = remember(item) { TrailerUtils.hasPlayableTrailers(context, item) }
+	LaunchedEffect(item.id) { withFrameNanos { }; runCatching { initialFocus.requestFocus() } }
 	LazyColumn(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black.copy(.94f), Color.Black.copy(.45f), Color.Transparent))), verticalArrangement = Arrangement.spacedBy(14.dp)) {
 		item {
 			Column(Modifier.padding(start = 48.dp, top = 58.dp, end = 48.dp).width(880.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
@@ -160,9 +168,9 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 				if (facts.isNotEmpty()) Text(facts, color = Color.White.copy(.82f), fontSize = 14.sp)
 				item.overview?.takeIf(String::isNotBlank)?.let { Text(it, color = Color.White.copy(.88f), fontSize = 15.sp, maxLines = 4, overflow = TextOverflow.Ellipsis) }
 				Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-					if (item.type in setOf(BaseItemKind.MOVIE, BaseItemKind.EPISODE)) {
+					if (playable) {
 						val resume = (item.userData?.playbackPositionTicks ?: 0L) > 0
-						FocusableTvButton(onClick = { playback.retrieveAndPlay(item.id, false, if (resume) (item.userData?.playbackPositionTicks ?: 0L) / 10_000L else 0L, context) }) { Text(stringResource(if (resume) R.string.jellyfin_tv_resume else R.string.lbl_play)) }
+						FocusableTvButton(onClick = { playback.retrieveAndPlay(item.id, false, if (resume) (item.userData?.playbackPositionTicks ?: 0L) / 10_000L else 0L, context) }, modifier = Modifier.focusRequester(initialFocus)) { Text(stringResource(if (resume) R.string.jellyfin_tv_resume else R.string.lbl_play)) }
 						if (resume) FocusableTvButton(onClick = { playback.retrieveAndPlay(item.id, false, 0L, context) }) { Text(stringResource(R.string.jellyfin_tv_play_from_beginning)) }
 					}
 					if (hasTrailer) FocusableTvButton(onClick = {
@@ -175,6 +183,10 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 					if (item.type == BaseItemKind.MOVIE && showVersionSelector(item.mediaSources)) {
 						FocusableTvButton(onClick = { showVersions = true }) { Text(stringResource(R.string.select_version)) }
 					}
+					FocusableTvButton(
+						onClick = { showInformation = true },
+						modifier = Modifier.focusRequester(if (playable) informationFocus else initialFocus),
+					) { Text("Mer information") }
 					FocusableTvButton(onClick = {
 						val original = isFavorite
 						val requested = !original
@@ -188,24 +200,12 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 				}
 			}
 		}
-		item.people?.take(10)?.takeIf { it.isNotEmpty() }?.let { people ->
-			item {
-				Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
-					Text(stringResource(R.string.lbl_cast_crew), color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 48.dp))
-					LazyRow(contentPadding = PaddingValues(horizontal = 48.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-						items(people, key = { it.id }) { person ->
-							PersonCard(person.name.orEmpty(), person.role, person.primaryImage?.getUrl(api)) {
-								launcher.launch(BaseItemPersonBaseRowItem(person), null, context)
-							}
-						}
-					}
-				}
-			}
-		}
-		if (state.related.isNotEmpty()) item { DetailMediaRow(if (item.type == BaseItemKind.SEASON) stringResource(R.string.lbl_episodes) else stringResource(R.string.lbl_items), state.related, launcher, { contextItem = it }) }
-		if (state.similar.isNotEmpty()) item { DetailMediaRow(stringResource(R.string.jellyfin_tv_similar), state.similar, launcher, { contextItem = it }) }
 		item { Spacer(Modifier.height(30.dp)) }
 	}
+	if (showInformation) LocalInformationPage(state, api, launcher, onContext = { contextItem = it }, onDismiss = {
+		showInformation = false
+		scope.launch { withFrameNanos { }; runCatching { informationFocus.requestFocus() } }
+	})
 	contextItem?.let { CinematicItemContextMenu(it) { contextItem = null } }
 	if (showVersions) VersionSelectorDialog(
 		item = item,
@@ -215,6 +215,39 @@ private fun CinematicDetailsScreen(state: CinematicDetailState) {
 			playbackLauncher.launch(context, listOf(item), mediaSourceId = source.id)
 		},
 	)
+}
+
+@Composable
+private fun LocalInformationPage(state: CinematicDetailState, api: ApiClient, launcher: ItemLauncher, onContext: (BaseItemDto) -> Unit, onDismiss: () -> Unit) {
+	val item = state.item ?: return
+	val context = LocalContext.current
+	val closeFocus = remember { FocusRequester() }
+	LaunchedEffect(item.id) { withFrameNanos { }; runCatching { closeFocus.requestFocus() } }
+	Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+		LazyColumn(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color(0xFF10121A), Color.Black.copy(.76f)))), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+			item {
+				Column(Modifier.padding(horizontal = 48.dp, vertical = 36.dp).width(900.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+					Text(item.name.orEmpty(), color = Color.White, fontSize = 34.sp, fontWeight = FontWeight.Bold, maxLines = 2)
+					Text(detailFacts(item), color = Color.White.copy(.82f), fontSize = 14.sp)
+					item.overview?.takeIf(String::isNotBlank)?.let { Text(it, color = Color.White.copy(.9f), fontSize = 15.sp, maxLines = 8) }
+					FocusableTvButton(onClick = onDismiss, modifier = Modifier.focusRequester(closeFocus)) { Text("Tillbaka") }
+				}
+			}
+			item.people?.take(10)?.takeIf { it.isNotEmpty() }?.let { people ->
+				item {
+					Column(verticalArrangement = Arrangement.spacedBy(7.dp)) {
+						Text(stringResource(R.string.lbl_cast_crew), color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 48.dp))
+						LazyRow(contentPadding = PaddingValues(horizontal = 48.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+							items(people, key = { it.id }) { person -> PersonCard(person.name.orEmpty(), person.role, person.primaryImage?.getUrl(api)) { launcher.launch(BaseItemPersonBaseRowItem(person), null, context) } }
+						}
+					}
+				}
+			}
+			if (state.related.isNotEmpty()) item { DetailMediaRow(if (item.type == BaseItemKind.SEASON) stringResource(R.string.lbl_episodes) else stringResource(R.string.lbl_items), state.related, launcher, onContext) }
+			if (state.similar.isNotEmpty()) item { DetailMediaRow(stringResource(R.string.jellyfin_tv_similar), state.similar, launcher, onContext) }
+			item { Spacer(Modifier.height(30.dp)) }
+		}
+	}
 }
 
 @Composable

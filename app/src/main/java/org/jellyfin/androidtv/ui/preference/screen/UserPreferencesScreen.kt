@@ -15,7 +15,7 @@ class UserPreferencesScreen : OptionsFragment() {
 
 		category {
 			action {
-				title = "Begäranden"
+				title = "Seerr"
 				content = "Anslut till Seerr och hantera din säkra session"
 				onActivate = { startActivity(Intent(requireContext(), SeerrConnectActivity::class.java)) }
 			}
@@ -29,7 +29,7 @@ class UserPreferencesScreen : OptionsFragment() {
 
 			link {
 				setTitle(R.string.pref_customization)
-				setContent(R.string.pref_customization_description)
+				content = "Skärmsläckare och fjärrkontroll"
 				icon = R.drawable.ic_adjust
 				withFragment<CustomizationPreferencesScreen>()
 			}

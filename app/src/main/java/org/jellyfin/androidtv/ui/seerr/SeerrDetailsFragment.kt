@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.fragment.app.Fragment
 import androidx.fragment.compose.content
 import coil3.compose.AsyncImage
@@ -100,8 +101,10 @@ private sealed interface DetailsState {
 @Composable
 private fun SeerrDetailsScreen(media: SeerrMedia, user: SeerrUser, api: SeerrApi, localId: String?, onOpen: (SeerrMedia) -> Unit, onOpenLocal: (String) -> Unit, onExpired: () -> Unit, onUpdate: (SeerrMedia) -> Unit) {
 	var dialog by remember(media.id) { mutableStateOf(false) }
+	var information by remember(media.id) { mutableStateOf(false) }
 	var error by remember { mutableStateOf<String?>(null) }
 	val initialFocus = remember { FocusRequester() }
+	val informationFocus = remember { FocusRequester() }
 	LaunchedEffect(media.id, localId) {
 		withFrameNanos { }
 		runCatching { initialFocus.requestFocus() }
@@ -110,8 +113,6 @@ private fun SeerrDetailsScreen(media: SeerrMedia, user: SeerrUser, api: SeerrApi
 		media.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
 		Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color.Black.copy(.88f), Color.Transparent))))
 		Column(Modifier.fillMaxSize().padding(horizontal = 44.dp, vertical = 30.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-			Text("‹  Jellyfin", color = Color.White, fontSize = 18.sp)
-			Spacer(Modifier.height(20.dp))
 			Text(media.title, color = Color.White, fontSize = 38.sp)
 			if (!media.originalTitle.isNullOrBlank() && media.originalTitle != media.title) Text(media.originalTitle, color = CinematicColors.TextSecondary, fontSize = 14.sp)
 			Text(listOfNotNull(media.releaseDate ?: media.year?.toString(), media.runtimeMinutes?.let { "${it / 60} h ${it % 60} min" }, media.certification, media.rating?.let { "★ %.1f".format(it) }).joinToString("  •  "), color = Color.White.copy(.78f))
@@ -122,19 +123,38 @@ private fun SeerrDetailsScreen(media: SeerrMedia, user: SeerrUser, api: SeerrApi
 				val allowed = MediaAvailabilityResolver.canRequest(media.availability, true, SeerrPermissions.canRequest(user.permissions, media.kind))
 				if (localId != null) FocusableTvButton(onClick = { onOpenLocal(localId) }, modifier = Modifier.focusRequester(initialFocus)) { Text("Visa i biblioteket") }
 				else if (allowed) FocusableTvButton(onClick = { dialog = true }, modifier = Modifier.focusRequester(initialFocus)) { Text("Begär") }
-				else Text(availabilityLabel(media.availability) ?: "Kan inte begäras", color = CinematicColors.TextSecondary)
+				FocusableTvButton(onClick = { information = true }, modifier = Modifier.focusRequester(if (localId == null && !allowed) initialFocus else informationFocus)) { Text("Mer information") }
 			}
 			error?.let { Text(it, color = CinematicColors.Warning) }
-			if (media.cast.isNotEmpty()) Text("Medverkande  ${media.cast.joinToString(", ")}", color = CinematicColors.TextSecondary, maxLines = 2)
-			if (media.studios.isNotEmpty()) Text("Studio / nätverk  ${media.studios.joinToString(", ")}", color = CinematicColors.TextSecondary, maxLines = 1)
-			if (media.seasons.any { it.number > 0 }) Text(media.seasons.filter { it.number > 0 }.joinToString("   ") { "${it.name}: ${availabilityLabel(it.availability) ?: "Kan begäras"}" }, color = Color.White.copy(.8f), maxLines = 2)
-			if (media.related.isNotEmpty()) {
-				Text("Liknande titlar", color = Color.White, fontSize = 19.sp)
-				LazyRow(horizontalArrangement = Arrangement.spacedBy(13.dp)) { items(media.related, key = { "${it.kind}:${it.id}" }) { item -> SeerrMediaCard(item, {}, { onOpen(item) }) } }
+		}
+	}
+	if (information) SeerrInformationPage(media, onOpen, onDismiss = { information = false })
+	if (dialog) RequestDialog(media, api, onDismiss = { dialog = false }, onSuccess = { dialog = false; error = null; onUpdate(media.copy(availability = MediaAvailability.Requested)) }, onExpired = onExpired, onError = { error = it })
+}
+
+@Composable
+private fun SeerrInformationPage(media: SeerrMedia, onOpen: (SeerrMedia) -> Unit, onDismiss: () -> Unit) {
+	val closeFocus = remember { FocusRequester() }
+	LaunchedEffect(Unit) { withFrameNanos { }; runCatching { closeFocus.requestFocus() } }
+	Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+		Box(Modifier.fillMaxSize().background(CinematicColors.Background)) {
+			media.backdropUrl?.let { AsyncImage(model = it, contentDescription = null, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize()) }
+			Box(Modifier.fillMaxSize().background(Brush.horizontalGradient(listOf(Color.Black, Color.Black.copy(.94f), Color.Black.copy(.58f)))))
+			Column(Modifier.fillMaxSize().padding(horizontal = 48.dp, vertical = 36.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+				Text(media.title, color = Color.White, fontSize = 34.sp, maxLines = 2)
+				Text(listOfNotNull(media.releaseDate ?: media.year?.toString(), media.runtimeMinutes?.let { "${it / 60} h ${it % 60} min" }, media.certification, media.rating?.let { "★ %.1f".format(it) }).joinToString("  •  "), color = Color.White.copy(.8f))
+				media.overview?.takeIf(String::isNotBlank)?.let { Text(it, color = Color.White.copy(.9f), maxLines = 7, modifier = Modifier.fillMaxWidth(.62f)) }
+				if (media.cast.isNotEmpty()) Text("Medverkande  ${media.cast.joinToString(", ")}", color = CinematicColors.TextSecondary, maxLines = 3)
+				if (media.studios.isNotEmpty()) Text("Studio / nätverk  ${media.studios.joinToString(", ")}", color = CinematicColors.TextSecondary, maxLines = 2)
+				if (media.seasons.any { it.number > 0 }) Text(media.seasons.filter { it.number > 0 }.joinToString("   ") { "${it.name}: ${availabilityLabel(it.availability) ?: "Kan begäras"}" }, color = Color.White.copy(.84f), maxLines = 3)
+				if (media.related.isNotEmpty()) {
+					Text("Liknande titlar", color = Color.White, fontSize = 19.sp)
+					LazyRow(horizontalArrangement = Arrangement.spacedBy(13.dp)) { items(media.related, key = { "${it.kind}:${it.id}" }) { item -> SeerrMediaCard(item, {}, { onOpen(item) }) } }
+				}
+				FocusableTvButton(onClick = onDismiss, modifier = Modifier.focusRequester(closeFocus)) { Text("Tillbaka") }
 			}
 		}
 	}
-	if (dialog) RequestDialog(media, api, onDismiss = { dialog = false }, onSuccess = { dialog = false; error = null; onUpdate(media.copy(availability = MediaAvailability.Requested)) }, onExpired = onExpired, onError = { error = it })
 }
 
 @Composable

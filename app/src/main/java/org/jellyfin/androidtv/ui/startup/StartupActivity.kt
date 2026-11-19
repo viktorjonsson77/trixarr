@@ -1,6 +1,8 @@
 package org.jellyfin.androidtv.ui.startup
 
 import android.Manifest
+import android.app.ActivityOptions
+import android.os.Build
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -38,7 +40,6 @@ import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.playback.MediaManager
 import org.jellyfin.androidtv.ui.startup.fragment.SelectServerFragment
 import org.jellyfin.androidtv.ui.startup.fragment.ServerFragment
-import org.jellyfin.androidtv.ui.startup.fragment.SplashFragment
 import org.jellyfin.androidtv.ui.startup.fragment.StartupToolbarFragment
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.sdk.api.client.ApiClient
@@ -64,7 +65,11 @@ class StartupActivity : FragmentActivity() {
 	private val navigationRepository: NavigationRepository by inject()
 	private val itemLauncher: ItemLauncher by inject()
 
+	var animateColdStart = false
+		private set
+
 	private lateinit var binding: ActivityStartupBinding
+	private var launchOverlay: LaunchOverlay? = null
 
 	private val networkPermissionsRequester = registerForActivityResult(
 		ActivityResultContracts.RequestMultiplePermissions()
@@ -81,6 +86,14 @@ class StartupActivity : FragmentActivity() {
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		animateColdStart = processLaunchHistory.claimColdStart()
+		if (Build.VERSION.SDK_INT >= 31) {
+			splashScreen.setOnExitAnimationListener { splash ->
+				// Keep the platform image until the matching cover frame is committed.
+				val remove: () -> Unit = { splash.remove() }
+				launchOverlay?.nativeHandoff(remove) ?: remove()
+			}
+		}
 		applyTheme()
 
 		super.onCreate(savedInstanceState)
@@ -90,7 +103,12 @@ class StartupActivity : FragmentActivity() {
 		binding.screensaver.isVisible = false
 		setContentView(binding.root)
 
-		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) showSplash()
+		if (!intent.getBooleanExtra(EXTRA_HIDE_SPLASH, false)) {
+			launchOverlay = LaunchOverlay(this, binding.root).also { cover ->
+				cover.animate(this)
+				cover.watchContent(supportFragmentManager) { it is ServerFragment || it is SelectServerFragment }
+			}
+		}
 
 		// Ensure basic permissions
 		networkPermissionsRequester.launch(arrayOf(Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE))
@@ -130,6 +148,8 @@ class StartupActivity : FragmentActivity() {
 		}.launchIn(lifecycleScope)
 
 	private suspend fun openNextActivity() {
+		// Transfer only a fully faded image. This awaits the fade itself, never a hold timer.
+		launchOverlay?.sequence?.awaitFadeIn()
 		val itemId = when {
 			intent.action == Intent.ACTION_VIEW && intent.data != null -> intent.data.toString()
 			else -> intent.getStringExtra(EXTRA_ITEM_ID)
@@ -168,19 +188,14 @@ class StartupActivity : FragmentActivity() {
 		// Clear navigation history
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME)
 		Timber.i("Opening next activity $intent")
-		startActivity(intent)
+		LaunchTransfer.sequence = launchOverlay?.sequence
+		val options = ActivityOptions.makeCustomAnimation(this, 0, 0).toBundle()
+		startActivity(intent, options)
 		finishAfterTransition()
 	}
 
 	// Fragment switching
-	private fun showSplash() {
-		// Prevent progress bar flashing
-		if (supportFragmentManager.findFragmentById(R.id.content_view) is SplashFragment) return
-
-		supportFragmentManager.commit {
-			replace<SplashFragment>(R.id.content_view)
-		}
-	}
+	private fun showSplash() = Unit // The cover is independent of fragment transactions.
 
 	private fun showServer(id: UUID) = supportFragmentManager.commit {
 		replace<StartupToolbarFragment>(R.id.content_view)

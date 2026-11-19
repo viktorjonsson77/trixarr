@@ -146,7 +146,6 @@ private fun MainToolbar(
 			.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier),
 		start = {
 			ToolbarButtons(modifier = Modifier.then(if (downFocusRequester != null) Modifier.focusProperties { down = downFocusRequester } else Modifier)) {
-				Logo()
 				NowPlayingComposable(
 					onFocusableChange = {},
 				)

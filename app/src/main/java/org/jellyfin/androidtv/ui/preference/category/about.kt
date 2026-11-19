@@ -14,7 +14,7 @@ fun OptionsScreen.aboutCategory() = category {
 		// Hardcoded strings for troubleshooting purposes
 		title = "Trixarr app version"
 		content = "Trixarr ${BuildConfig.VERSION_NAME} ${BuildConfig.BUILD_TYPE}"
-		icon = R.drawable.ic_jellyfin
+		icon = R.drawable.ic_arrstreamer
 	}
 
 	link {

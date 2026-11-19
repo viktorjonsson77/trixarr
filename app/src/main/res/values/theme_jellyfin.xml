@@ -86,7 +86,10 @@
     </style>
 
     <style name="Theme.Jellyfin.Preferences" parent="Theme.Jellyfin">
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">#080C10</item>
+        <item name="android:colorAccent">#FF625C</item>
+        <item name="android:colorControlHighlight">#66FF625C</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimation.SlideRight</item>
     </style>

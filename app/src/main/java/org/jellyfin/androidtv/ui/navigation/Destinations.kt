@@ -42,16 +42,14 @@ import java.util.UUID
 @Suppress("TooManyFunctions")
 object Destinations {
 	// General
-	val home = fragmentDestination<HomeFragment>()
-	val discover = fragmentDestination<DiscoverFragment>()
-	fun search(query: String? = null) = fragmentDestination<SearchFragment>(
-		SearchFragment.EXTRA_QUERY to query,
+	val home = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>()
+	val discover = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>("section" to "Discover")
+	fun search(query: String? = null) = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>(
+		"section" to "Search", "query" to query,
 	)
-	fun seerrDetails(id: Int, kind: String) = fragmentDestination<SeerrDetailsFragment>(
-		SeerrDetailsFragment.ARG_ID to id,
-		SeerrDetailsFragment.ARG_KIND to kind,
+	fun seerrDetails(id: Int, kind: String) = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>(
+		"remoteId" to id, "kind" to kind,
 	)
-	val seerrRequests = fragmentDestination<SeerrRequestsFragment>()
 
 	// Browsing
 	// TODO only pass item id instead of complete JSON to browsing destinations
@@ -119,12 +117,12 @@ object Destinations {
 		"ItemId" to item.toString(),
 	)
 
-	fun cinematicItemDetails(item: UUID) = fragmentDestination<CinematicDetailsFragment>(
-		CinematicDetailsFragment.ARG_ITEM_ID to item.toString(),
+	fun cinematicItemDetails(item: UUID) = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>(
+		"localId" to item.toString(),
 	)
 
-	fun seriesDetails(item: UUID) = fragmentDestination<SeriesDetailsFragment>(
-		"ItemId" to item.toString(),
+	fun seriesDetails(item: UUID) = fragmentDestination<org.jellyfin.androidtv.ui.catalog.CatalogFragment>(
+		"localId" to item.toString(),
 	)
 
 	// TODO only pass item id instead of complete JSON to browsing destinations

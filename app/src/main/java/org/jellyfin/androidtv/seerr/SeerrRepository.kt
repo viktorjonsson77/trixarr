@@ -32,6 +32,7 @@ class SeerrRepository(private val api: SeerrApi) {
 
 class RequestRepository(private val api: SeerrApi) {
 	private val mutation = Mutex()
+	private val submitted = mutableSetOf<Pair<org.jellyfin.androidtv.seerr.model.MediaKind, Int>>()
 	private val cacheGeneration = java.util.concurrent.atomic.AtomicLong()
 	fun generation() = cacheGeneration.get()
 
@@ -42,7 +43,9 @@ class RequestRepository(private val api: SeerrApi) {
 		if (!mutation.tryLock()) return Result.failure(IllegalStateException("Request already in progress"))
 		return try {
 				runCatching {
+					check((media.kind to media.id) !in submitted) { "Request already submitted" }
 					api.createRequest(if (media.kind == MediaKind.Movie) "movie" else "tv", media.id, selectedSeasons.takeIf { it.isNotEmpty() })
+					submitted += media.kind to media.id
 					cacheGeneration.incrementAndGet()
 					Unit
 				}

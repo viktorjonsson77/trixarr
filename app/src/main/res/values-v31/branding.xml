@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Jellyfin.Startup" parent="Theme.Jellyfin">
+        <item name="android:windowBackground">@drawable/arrstreamer_launch_window</item>
+        <item name="android:windowSplashScreenBackground">#080C10</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@android:color/transparent</item>
+    </style>
+</resources>

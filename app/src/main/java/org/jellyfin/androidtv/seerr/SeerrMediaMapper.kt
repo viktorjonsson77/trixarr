@@ -2,6 +2,7 @@ package org.jellyfin.androidtv.seerr
 
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -11,6 +12,7 @@ import org.jellyfin.androidtv.seerr.model.MediaKind
 import org.jellyfin.androidtv.seerr.model.ProviderIds
 import org.jellyfin.androidtv.seerr.model.SeerrMedia
 import org.jellyfin.androidtv.seerr.model.SeerrSeason
+import org.jellyfin.androidtv.seerr.model.SeerrPerson
 import org.jellyfin.androidtv.seerr.model.SeerrRequest
 import org.jellyfin.androidtv.seerr.model.RequestStatus
 
@@ -35,7 +37,8 @@ object SeerrMediaMapper {
 	}.filterNotNull()
 
 	fun mapMedia(value: JsonObject, imageUrl: (String, Boolean) -> String = { path, _ -> path }): SeerrMedia {
-		val mediaType = value.string("mediaType") ?: value.string("type")
+		val mediaType = value.string("mediaType") ?: value.string("type")?.takeIf { it in setOf("movie", "tv", "person") }
+		require(mediaType == null || mediaType == "movie" || mediaType == "tv") { "Not a movie or series" }
 		val kind = if (mediaType == "tv" || value["name"] != null) MediaKind.Series else MediaKind.Movie
 		val id = value.int("tmdbId") ?: value.int("id") ?: error("Missing media id")
 		val mediaInfo = value["mediaInfo"] as? JsonObject
@@ -57,6 +60,18 @@ object SeerrMediaMapper {
 			genres = value["genres"]?.jsonArray.orEmpty().mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() },
 			cast = (value["credits"] as? JsonObject)?.get("cast")?.jsonArray.orEmpty().take(8).mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() },
 			studios = (value["productionCompanies"]?.jsonArray.orEmpty() + value["networks"]?.jsonArray.orEmpty()).mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() }.distinct(),
+			originalLanguage = value.string("originalLanguage"),
+			productionStatus = value.string("status"),
+			people = listOf("cast", "crew").flatMap { group ->
+				(value["credits"] as? JsonObject)?.get(group)?.jsonArray.orEmpty().mapNotNull { element ->
+					val person = element as? JsonObject ?: return@mapNotNull null
+					val name = person.string("name")?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
+					SeerrPerson(name, person.string("character"), person.string("profilePath")?.let { imageUrl(it, false) }, if (group == "cast") "Actor" else person.string("job"))
+				}
+			} + value["createdBy"]?.jsonArray.orEmpty().mapNotNull { element ->
+				val person = element as? JsonObject ?: return@mapNotNull null
+				person.string("name")?.let { SeerrPerson(it, job = "Creator") }
+			},
 			posterUrl = value.string("posterPath")?.let { imageUrl(it, false) },
 			backdropUrl = value.string("backdropPath")?.let { imageUrl(it, true) },
 			providerIds = ProviderIds(tmdb = id, tvdb = value.int("tvdbId"), imdb = value.string("imdbId")),
@@ -93,6 +108,6 @@ object SeerrMediaMapper {
 		else -> RequestStatus.Unknown
 	}
 
-	private fun JsonObject.string(key: String) = get(key)?.jsonPrimitive?.content
+	private fun JsonObject.string(key: String) = get(key)?.jsonPrimitive?.contentOrNull?.takeIf(String::isNotBlank)
 	private fun JsonObject.int(key: String) = get(key)?.jsonPrimitive?.intOrNull
 }

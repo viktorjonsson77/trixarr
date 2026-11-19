@@ -25,6 +25,9 @@ data class SeerrMedia(
 	val genres: List<String> = emptyList(),
 	val cast: List<String> = emptyList(),
 	val studios: List<String> = emptyList(),
+	val originalLanguage: String? = null,
+	val productionStatus: String? = null,
+	val people: List<SeerrPerson> = emptyList(),
 	val posterUrl: String? = null,
 	val backdropUrl: String? = null,
 	val providerIds: ProviderIds = ProviderIds(tmdb = id),
@@ -32,6 +35,8 @@ data class SeerrMedia(
 	val seasons: List<SeerrSeason> = emptyList(),
 	val related: List<SeerrMedia> = emptyList(),
 )
+
+data class SeerrPerson(val name: String, val role: String? = null, val image: String? = null, val job: String? = null)
 
 data class SeerrSeason(
 	val number: Int,

@@ -1,6 +1,5 @@
 package org.jellyfin.androidtv.ui.shared.toolbar
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -13,34 +12,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRestorer
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.jellyfin.androidtv.R
 import org.jellyfin.androidtv.ui.base.JellyfinTheme
 import org.jellyfin.androidtv.ui.base.Text
 import org.jellyfin.androidtv.ui.composable.modifier.overscan
 import org.jellyfin.androidtv.ui.composable.rememberCurrentTime
 
 @Composable
-fun Logo(modifier: Modifier = Modifier) {
-	Image(
-		painter = painterResource(R.drawable.app_logo),
-		contentDescription = null,
-		modifier = modifier.height(26.dp),
-	)
-}
-
-@Composable
 fun Toolbar(
 	modifier: Modifier = Modifier,
-	start: @Composable () -> Unit = { Logo() },
+	start: @Composable () -> Unit = {},
 	center: @Composable () -> Unit = {},
 	end: @Composable () -> Unit = { ToolbarClock() },
 ) {
 	ToolbarLayout(
 		modifier = modifier
-			.height(95.dp)
+			.height(72.dp)
 			.overscan(),
 		start = start,
 		center = center,

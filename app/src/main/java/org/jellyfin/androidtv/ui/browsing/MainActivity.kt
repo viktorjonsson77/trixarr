@@ -27,6 +27,8 @@ import org.jellyfin.androidtv.ui.background.AppBackground
 import org.jellyfin.androidtv.ui.navigation.NavigationAction
 import org.jellyfin.androidtv.ui.navigation.NavigationRepository
 import org.jellyfin.androidtv.ui.screensaver.InAppScreensaver
+import org.jellyfin.androidtv.ui.startup.LaunchOverlay
+import org.jellyfin.androidtv.ui.startup.LaunchTransfer
 import org.jellyfin.androidtv.ui.startup.StartupActivity
 import org.jellyfin.androidtv.util.applyTheme
 import org.jellyfin.androidtv.util.isMediaSessionKeyEvent
@@ -48,6 +50,9 @@ class MainActivity : FragmentActivity() {
 			if (navigationRepository.canGoBack) navigationRepository.goBack()
 		}
 	}
+
+    private var launchCover: LaunchOverlay? = null
+    internal fun catalogFrameReady(content: android.view.View) { launchCover?.revealAfterDraw(content) }
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		applyTheme()
@@ -77,6 +82,13 @@ class MainActivity : FragmentActivity() {
 		binding.background.setContent { AppBackground() }
 		binding.screensaver.setContent { InAppScreensaver() }
 		setContentView(binding.root)
+		LaunchTransfer.take()?.let { frame ->
+			LaunchOverlay(this, binding.root).also { cover ->
+				cover.hold(frame)
+                launchCover = cover
+				cover.watchContent(supportFragmentManager) { it !is org.jellyfin.androidtv.ui.catalog.CatalogFragment }
+			}
+		}
 	}
 
 	override fun onResume() {
