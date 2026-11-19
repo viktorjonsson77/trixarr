@@ -1,0 +1,434 @@
+{
+  "source_filename": "trixarr-approved-logo.png",
+  "source_sha256": "22421f41e2c3f8a00d8a6b135a6aca8c4c04fc567e5ae94f3afc559bb7967e83",
+  "source_dimensions": [
+    2172,
+    724
+  ],
+  "source_format": "RGB PNG; opaque, no alpha",
+  "master_unchanged": true,
+  "method": "Source RGB preserved; max-RGB alpha matte 32..64; triangle crop [225,150,610,580]; LANCZOS aspect-fit, no stretching; navy canvas #010211",
+  "limitations": "Transparency is derived from flattened raster, not original designer alpha. Low-valued edge pixels are feathered. Master remains byte-identical. Debug/release use identical approved artwork.",
+  "assets": [
+    {
+      "filename": "docs/design/trixarr/branding/v3/trixarr-logo-transparent.png",
+      "format": "PNG",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "49c6e84e369b5cc3d4cc84d73d5cb642d6b78242be89621a17fab01538611b6a",
+      "usage": "Full canvas transparent matte; original proportions/RGB retained"
+    },
+    {
+      "filename": "docs/design/trixarr/branding/v3/trixarr-triangle.png",
+      "format": "PNG",
+      "dimensions": [
+        385,
+        430
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "97f145b0e866c1ef1d7d0598ccfae7f5cfa93e1641f4d78beebddcd157bbf8e2",
+      "usage": "Triangle-only transparent source crop; no symbol clipping"
+    },
+    {
+      "filename": "docs/design/trixarr/branding/v3/trixarr-icon-foreground.png",
+      "format": "PNG",
+      "dimensions": [
+        432,
+        432
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "fecae7ca8ccd532e98635893d7b136188621642421dd866fc87a0181b510bcb7",
+      "usage": "Adaptive icon foreground within safe circle"
+    },
+    {
+      "filename": "docs/design/trixarr/branding/v3/trixarr-tv-banner-320x180.png",
+      "format": "PNG",
+      "dimensions": [
+        320,
+        180
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "c77b2b52724943d8ded7eb85d676307ad03d8498bd6bec83b66c85c714d3a82e",
+      "usage": "Android TV banner"
+    },
+    {
+      "filename": "docs/design/trixarr/branding/v3/trixarr-splash.png",
+      "format": "PNG",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "49c6e84e369b5cc3d4cc84d73d5cb642d6b78242be89621a17fab01538611b6a",
+      "usage": "Splash artwork; FIT_CENTER preserves proportions"
+    },
+    {
+      "filename": "app/src/main/res/drawable-nodpi/app_logo.png",
+      "format": "PNG",
+      "dimensions": [
+        2172,
+        724
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "49c6e84e369b5cc3d4cc84d73d5cb642d6b78242be89621a17fab01538611b6a",
+      "usage": "Splash ImageView"
+    },
+    {
+      "filename": "app/src/main/res/drawable-nodpi/app_icon_foreground.png",
+      "format": "PNG",
+      "dimensions": [
+        432,
+        432
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "fecae7ca8ccd532e98635893d7b136188621642421dd866fc87a0181b510bcb7",
+      "usage": "Adaptive launcher icon"
+    },
+    {
+      "filename": "app/src/main/res/drawable-nodpi/app_icon_foreground_monochrome.png",
+      "format": "PNG",
+      "dimensions": [
+        432,
+        432
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "1ef65b2ae310382f19ecbc68bc683101ef74c0f54a8bf3d710e8cf90b9b969ad",
+      "usage": "Android themed icon alpha silhouette from approved triangle"
+    },
+    {
+      "filename": "app/src/main/res/drawable-nodpi/app_banner_foreground.png",
+      "format": "PNG",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "fb8081cd6d50b5385b980ce6ae3cc3a3bc3b81fb6cd8dd28d8f63dbda2a810c5",
+      "usage": "TV banner foreground"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-mdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        320,
+        180
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "c77b2b52724943d8ded7eb85d676307ad03d8498bd6bec83b66c85c714d3a82e",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-mdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        48,
+        48
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "2122469ff22bf416e5ef66536b8e4f0504414cf43fe1e7b38e6f4f1ea55712ea",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-hdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        480,
+        270
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "814c928e1d9c06ef06530fd29803f6aae2e8148a4e0e6f8b3e027269c87575c6",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-hdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        72,
+        72
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "916b1e0ee4b6c82a6e92d174001961298accf29ddf537757ab4bea986df3836c",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        640,
+        360
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "6e074d9760ca8fd88f2916758081a95ceab75ce2582bde1b1d02dd2c690705f8",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        96,
+        96
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "e945eea62492589cc0f442421a4035af35b3640678a94ae14aa89b4df1f0ce2a",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xxhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        960,
+        540
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "350898cc49486a938b23ad0614b9dd67420624927333129f610940e8952a64a6",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xxhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        144,
+        144
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "ab36edc922994a34b7d230370fb5b33803c0b6419f231ad82c105de7023fbb88",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xxxhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "3085315ae0b73236e45efacae705d4a1bedfccaf5da63b674d17f82ecae71c05",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/main/res/mipmap-xxxhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        192,
+        192
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "ce075f9c07301d9201a19e8ea04035e2ebc617238c80cb837efbb4b580575a02",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/debug/res/drawable-nodpi/app_banner_foreground.png",
+      "format": "PNG",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "fb8081cd6d50b5385b980ce6ae3cc3a3bc3b81fb6cd8dd28d8f63dbda2a810c5",
+      "usage": "TV banner foreground"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-mdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        320,
+        180
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "c77b2b52724943d8ded7eb85d676307ad03d8498bd6bec83b66c85c714d3a82e",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-mdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        48,
+        48
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "2122469ff22bf416e5ef66536b8e4f0504414cf43fe1e7b38e6f4f1ea55712ea",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-hdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        480,
+        270
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "814c928e1d9c06ef06530fd29803f6aae2e8148a4e0e6f8b3e027269c87575c6",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-hdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        72,
+        72
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "916b1e0ee4b6c82a6e92d174001961298accf29ddf537757ab4bea986df3836c",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        640,
+        360
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "6e074d9760ca8fd88f2916758081a95ceab75ce2582bde1b1d02dd2c690705f8",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        96,
+        96
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "e945eea62492589cc0f442421a4035af35b3640678a94ae14aa89b4df1f0ce2a",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xxhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        960,
+        540
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "350898cc49486a938b23ad0614b9dd67420624927333129f610940e8952a64a6",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xxhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        144,
+        144
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "ab36edc922994a34b7d230370fb5b33803c0b6419f231ad82c105de7023fbb88",
+      "usage": "Legacy launcher triangle-only icon"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xxxhdpi/app_banner.png",
+      "format": "PNG",
+      "dimensions": [
+        1280,
+        720
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "3085315ae0b73236e45efacae705d4a1bedfccaf5da63b674d17f82ecae71c05",
+      "usage": "TV launcher banner"
+    },
+    {
+      "filename": "app/src/debug/res/mipmap-xxxhdpi/app_icon.png",
+      "format": "PNG",
+      "dimensions": [
+        192,
+        192
+      ],
+      "alpha_range": [
+        255,
+        255
+      ],
+      "sha256": "ce075f9c07301d9201a19e8ea04035e2ebc617238c80cb837efbb4b580575a02",
+      "usage": "Legacy launcher triangle-only icon"
+    }
+  ]
+}

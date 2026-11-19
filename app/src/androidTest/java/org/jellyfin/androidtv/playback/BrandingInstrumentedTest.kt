@@ -31,7 +31,7 @@ class BrandingInstrumentedTest {
         assertNotNull(context.applicationInfo.loadIcon(pm))
         assertNotNull(context.applicationInfo.loadBanner(pm))
         assertNotNull(context.getDrawable(R.drawable.app_logo))
-        // User approved reuse of the existing triangle; the wordmark is now Trixarr.
+        // V3 uses the hash-verified approved raster master; no redesigned artwork.
     }
 
     @Test fun applicationAndSignerIdentityArePreserved() {
@@ -46,9 +46,9 @@ class BrandingInstrumentedTest {
         fun sha(id: Int) = context.resources.openRawResource(id).use {
             MessageDigest.getInstance("SHA-256").digest(it.readBytes()).joinToString("") { b -> "%02x".format(b) }
         }
-        assertEquals("9c1e59e60e3abd5960255b960622747f5376549ea36ec8856ededdeaca4bdd2d", sha(R.drawable.app_logo))
-        assertEquals("2b80ad6386b92803f83cf1e45116f4bed0a8e36c3d40b2da316bb6a656b3cea3", sha(R.drawable.app_icon_foreground))
-        val banners = setOf("0dee77eb4d8db7d020fc00c9d6c9b0d5d192a47ff35e1b8f60eb88f6f33671b3", "52627967ac01d25801f0c6052d7332c2e09127f604b64d4c47fdc25799c9bd9c", "6c134efbcad441963ad9930d49aede7e9e126f400038839507c0e4d1c0b8243a", "728419e312630dd20975f5b804fbeeb41e5bd2b5fcfb1a00acbf1a514cf02cb7", "7df08dffa519ad1a2b4614fe79d1b29acfca76fa6dbce1549b48edb0b3f7d262", "802ab3206d8d4da9ee38df48e01aa322725060e2a93a911da88310aa7aa89fd3", "8c832ded4825f03ea51d9d4b1c77a58ea02e44fda7b31b8bf937ddf1bd52118f", "c0d4f39ab52b50d7111d1648fb371e35e906994cc4c4897b416aedde2203dea3", "f12135552bc241fe6eefcb4faab34d1fbfedd623b08e5638094e8d6c36893008", "fee2886acd7bb90cc929403f2076c410cc1f1db8140d10c02abacebde6e6fc59")
+        assertEquals("49c6e84e369b5cc3d4cc84d73d5cb642d6b78242be89621a17fab01538611b6a", sha(R.drawable.app_logo))
+        assertEquals("fecae7ca8ccd532e98635893d7b136188621642421dd866fc87a0181b510bcb7", sha(R.drawable.app_icon_foreground))
+        val banners = setOf("3085315ae0b73236e45efacae705d4a1bedfccaf5da63b674d17f82ecae71c05", "350898cc49486a938b23ad0614b9dd67420624927333129f610940e8952a64a6", "6e074d9760ca8fd88f2916758081a95ceab75ce2582bde1b1d02dd2c690705f8", "814c928e1d9c06ef06530fd29803f6aae2e8148a4e0e6f8b3e027269c87575c6", "c77b2b52724943d8ded7eb85d676307ad03d8498bd6bec83b66c85c714d3a82e")
         assertTrue(banners.contains(sha(R.mipmap.app_banner)))
     }
 }
