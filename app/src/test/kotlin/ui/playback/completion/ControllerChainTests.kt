@@ -62,6 +62,32 @@ private class ChainEngine(override val id: String = "Media3 fixture", val failPr
 class ControllerChainTests : FunSpec({
 	afterTest { unmockkAll(); stopKoin() }
 	fun fixture(method: PlayMethod = PlayMethod.DIRECT_PLAY, failedInit: Boolean = false): ChainFixture = ChainFixture(method, failedInit)
+	test("startup stuck before decoder cannot buffer indefinitely") {
+        val f = fixture()
+        f.stallStartup = true
+        f.start(0)
+        f.advanceHandlerBy(200_000)
+        f.controller.sessionOwner.snapshot!!.state shouldBe SessionState.ERROR
+        f.engine.prepares shouldBe 1
+    }
+    test("background startup does not consume its timeout budget") {
+        val f = fixture(); f.stallStartup = true; f.controller.setBackgrounded(true); f.start(0)
+        f.advanceHandlerBy(200_000)
+        f.controller.sessionOwner.snapshot!!.terminalReason shouldBe null
+        f.controller.setBackgrounded(false); f.advanceHandlerBy(91_000)
+        f.controller.sessionOwner.snapshot!!.terminalReason shouldBe "STARTUP_TIMEOUT_SOURCE_SELECTED"
+        f.engine.stops shouldBe 1
+    }
+    test("timeout stops once and a new session ignores the stale watchdog") {
+        val f = fixture(); f.stallStartup = true; f.start(0); f.scope.runCurrent()
+        f.advanceHandlerBy(91_000); f.scope.runCurrent()
+        f.engine.stops shouldBe 1
+        f.api.bodies.filterIsInstance<PlaybackStopInfo>().size shouldBe 1
+        f.stallStartup = false; f.start(0); f.scope.runCurrent(); f.advanceHandlerBy(200_000)
+        f.controller.sessionOwner.snapshot!!.terminalReason shouldBe null
+        f.engine.prepares shouldBe 2
+        f.controller.stop()
+    }
 	listOf(PlayMethod.DIRECT_PLAY, PlayMethod.DIRECT_STREAM, PlayMethod.TRANSCODE).forEach { method ->
 		test("$method controller start pause seek resume stop uses one identity and ordered reports") {
 			val f = fixture(method)
@@ -195,6 +221,21 @@ private fun deviceFixture() = DeviceCapabilitySnapshot(28, listOf(DecoderCapabil
 private class ChainFixture(method: PlayMethod, failedInit: Boolean, val media: MediaCapabilityInput = mediaFixture(), val device: DeviceCapabilitySnapshot = deviceFixture(), val itemId: UUID = UUID.randomUUID(), fallback: Boolean = false) {
 	val api = RecordingApi()
 	val scope = TestScope()
+    var clockMs = 0L
+    var stallStartup = false
+    val scheduled = mutableListOf<Pair<Long, Runnable>>()
+    val handler = mockk<Handler>(relaxed = true)
+    fun advanceHandlerBy(ms: Long) {
+        val end = clockMs + ms
+        var count = 0
+        while (true) {
+            val next = scheduled.minByOrNull { it.first } ?: break
+            if (next.first > end) break
+            check(count++ < 1000)
+            scheduled.remove(next); clockMs = next.first; next.second.run()
+        }
+        clockMs = end
+    }
 	val engine = ChainEngine(failPrepare = failedInit)
 	val fallbackEngine = ChainEngine("fallback fixture")
 	val manager = PlayerEngineManager(if (fallback) listOf({ engine }, { fallbackEngine }) else listOf({ engine }))
@@ -231,7 +272,9 @@ private class ChainFixture(method: PlayMethod, failedInit: Boolean, val media: M
 		startKoin { modules(module {
 			single { prefs }; single { refresh }; single { reporting }; single<ApiClient> { api }; single { VideoQueueManager() }
 		}) }
-		controller = PlaybackController(listOf(item), fragment, 0, mockk<Handler>(relaxed = true), mockk<InteractionTrackerViewModel>(relaxed = true), RefreshRateSwitchingBehavior.DISABLED)
+		every { handler.postDelayed(any(), any()) } answers { scheduled += (clockMs + secondArg<Long>()) to firstArg<Runnable>(); true }
+        every { handler.removeCallbacks(any()) } answers { val r = firstArg<Runnable>(); scheduled.removeAll { it.second === r }; Unit }
+        controller = PlaybackController(listOf(item), fragment, 0, handler, mockk<InteractionTrackerViewModel>(relaxed = true), RefreshRateSwitchingBehavior.DISABLED, PlaybackSessionOwner(MonotonicClock { clockMs }))
 		controller.mVideoManager = video
 		controller.mCurrentOptions = VideoOptions()
 		every { video.isInitialized } returns true
@@ -244,7 +287,7 @@ private class ChainFixture(method: PlayMethod, failedInit: Boolean, val media: M
 			manager.evaluate(AndroidCapabilityProbe.media(secondArg()), device)
 			manager.prepare(controller.sessionOwner.snapshot!!.resumePositionMs)
 		}.isSuccess }
-		every { video.start() } answers { manager.play(); setState("PLAYING") }
+		every { video.start() } answers { manager.play(); engine.state = if (stallStartup) "BUFFERING" else "PLAYING"; setState(if (stallStartup) "BUFFERING" else "PLAYING"); if (!stallStartup) controller.sessionOwner.startupEvent(controller.sessionOwner.snapshot!!.generation, StartupEvent.FIRST_FRAME) }
 		every { video.play() } answers { manager.play() }
 		every { video.pause() } answers { manager.pause() }
 		every { video.seekTo(any()) } answers { manager.seek(firstArg()); firstArg<Long>() }

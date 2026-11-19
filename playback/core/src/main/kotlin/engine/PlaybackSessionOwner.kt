@@ -12,7 +12,19 @@ data class PlaybackSessionSnapshot(
 )
 
 /** One owner per player context, used by legacy and core's Jellyfin reporting service. */
-class PlaybackSessionOwner {
+class PlaybackSessionOwner @JvmOverloads constructor(
+    private val clock: MonotonicClock = MonotonicClock { System.nanoTime() / 1_000_000 },
+    private val startupTimeouts: StartupTimeouts = StartupTimeouts(),
+) {
+    private var startup: PlaybackStartup? = null
+    val startupSnapshot: StartupSnapshot? @Synchronized get() = startup?.snapshot()
+    @Synchronized fun startupPhase(attempt: Long, phase: StartupPhase) { if (isCurrent(attempt)) startup?.advance(phase) }
+    @Synchronized fun startupSource(attempt: Long, source: String?, delivery: String?) { if (isCurrent(attempt)) startup?.selected(source, delivery) }
+    @JvmOverloads @Synchronized fun startupEvent(attempt: Long, event: StartupEvent, status: Int = -1) { if (isCurrent(attempt)) startup?.event(event, status) }
+    @Synchronized fun startupBuffering(attempt: Long, value: Boolean) { if (isCurrent(attempt)) startup?.buffering(value) }
+    @Synchronized fun startupSuspend(attempt: Long, value: Boolean) { if (isCurrent(attempt)) startup?.suspend(value) }
+    @Synchronized fun startupTimeout(attempt: Long): StartupTimeout? = if (isCurrent(attempt)) startup?.timeout() else null
+
 	private var generation = 0L
 	private var cleanupFailed = false
 	private var prepared = false
@@ -28,6 +40,7 @@ class PlaybackSessionOwner {
 		generation++
 		prepared = false; startReport = false; stopReport = false
 		snapshot = PlaybackSessionSnapshot(UUID.randomUUID().toString(), generation, mediaId, resumeMs.coerceAtLeast(0), resumeMs.coerceAtLeast(0), null, SessionState.PREPARING)
+        startup = PlaybackStartup(snapshot!!.id, generation, clock, startupTimeouts)
 		return generation
 	}
 	@Synchronized fun isCurrent(attempt: Long) = snapshot?.let { it.generation == attempt && it.terminalReason == null } == true
@@ -53,6 +66,7 @@ class PlaybackSessionOwner {
 	}
 	@Synchronized fun update(attempt: Long, positionMs: Long, paused: Boolean): Boolean {
 		if (!isCurrent(attempt)) return false
+		startup?.position(positionMs)
 		snapshot = snapshot?.copy(positionMs = positionMs.coerceAtLeast(0), state = if (paused) SessionState.PAUSED else if (snapshot?.started == true) SessionState.PLAYING else SessionState.READY)
 		return true
 	}
@@ -69,6 +83,7 @@ class PlaybackSessionOwner {
 	@JvmOverloads @Synchronized fun finish(reason: String, state: SessionState = SessionState.STOPPED): Boolean {
 		val current = snapshot ?: return false
 		if (current.terminalReason != null) return false
+		startup?.finish(reason, state == SessionState.ERROR)
 		snapshot = current.copy(state = state, terminalReason = reason)
 		val release = cleanup; cleanup = null
 		try { release?.run() } catch (error: Exception) { cleanupFailed = true; snapshot = snapshot?.copy(state = SessionState.ERROR, terminalReason = "CLEANUP_${error.javaClass.simpleName}") }

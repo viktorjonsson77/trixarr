@@ -11,6 +11,26 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class PlayerEngineInstrumentedTest {
+    @Test fun delayedOldAudioTrackReleasePreservesReplacementDiagnostics() {
+        val instrumentation = InstrumentationRegistry.getInstrumentation()
+        instrumentation.runOnMainSync {
+            val player = ExoPlayer.Builder(instrumentation.targetContext).build()
+            val engine = Media3PlayerEngine(player)
+            val diagnostics = PlaybackDiagnostics(player, engine)
+            val timeline = androidx.media3.common.Timeline.EMPTY
+            val time = androidx.media3.exoplayer.analytics.AnalyticsListener.EventTime(0, timeline, 0, null, 0, timeline, 0, null, 0, 0)
+            val config = androidx.media3.exoplayer.audio.AudioSink.AudioTrackConfig(6, 48000, 252, false, false, 192000)
+            try {
+                diagnostics.onAudioTrackInitialized(time, config)
+                diagnostics.onAudioTrackInitialized(time, config)
+                diagnostics.onAudioTrackReleased(time, config)
+                assertTrue(diagnostics.snapshot().contains("ACTUAL AUDIO OUTPUT / Channel count: 6"))
+                diagnostics.onAudioTrackReleased(time, config)
+                assertTrue(diagnostics.snapshot().contains("ACTUAL AUDIO OUTPUT / Channel count: UNKNOWN"))
+            } finally { diagnostics.release(); engine.release() }
+        }
+    }
+
     @Test fun pinnedMedia3DoesNotTreatP5OrP7AsGenericHevc() {
         for (profile in listOf("05", "07")) {
             val format = androidx.media3.common.Format.Builder().setSampleMimeType("video/dolby-vision")

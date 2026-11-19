@@ -20,6 +20,15 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class LocalAudioDecodeInstrumentedTest {
+    @Test fun capabilityProbeFromWorkerDoesNotOwnPlaybackCallbacks() {
+        assertNull(android.os.Looper.myLooper())
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        repeat(3) { assertTrue(LocalAudioSupport.probe(context, "eac3", 6, 48000).canDecode) }
+        assertTrue(LocalAudioSupport.profiles(context, listOf("eac3")).any { it.maxChannels >= 6 })
+        // Drain the main queue: the previous context-bound probe crashed asynchronously here.
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+    }
+
 	// DefaultAudioSink registers callbacks on the caller's Looper. The instrumentation
 	// worker has no Looper; use main so callback delivery observes the same thread.
 	@Test fun actualShieldEac3LocalPathAndDeviceProfile() = InstrumentationRegistry.getInstrumentation().runOnMainSync {
@@ -31,7 +40,7 @@ class LocalAudioDecodeInstrumentedTest {
 		assertTrue(profile.directPlayProfiles.filter { it.type == DlnaProfileType.VIDEO }.any { "eac3" in it.audioCodec.orEmpty().split(',') })
 		assertTrue(profile.codecProfiles.any { it.codec == "eac3" })
 	}
-	@Test fun actualMedia3SinkRefusesEncodedBypassAndPreservesSixChannelPcm() {
+	@Test fun actualMedia3SinkRefusesEncodedBypassAndPreservesSixChannelPcm() = InstrumentationRegistry.getInstrumentation().runOnMainSync {
 		val context = InstrumentationRegistry.getInstrumentation().targetContext
 		val sink = PcmOnlyAudioSink(DefaultAudioSink.Builder(context).build())
 		try {

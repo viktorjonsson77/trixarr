@@ -71,7 +71,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     List<BaseItemDto> mItems;
     VideoManager mVideoManager;
-    private final org.jellyfin.playback.core.engine.PlaybackSessionOwner attemptGate = new org.jellyfin.playback.core.engine.PlaybackSessionOwner();
+    private final org.jellyfin.playback.core.engine.PlaybackSessionOwner attemptGate;
+    private Runnable startupWatch;
     int mCurrentIndex;
     protected long mCurrentPosition = 0;
     private PlaybackState mPlaybackState = PlaybackState.IDLE;
@@ -113,6 +114,37 @@ public class PlaybackController implements PlaybackControllerNotifiable {
 
     public org.jellyfin.playback.core.engine.PlaybackSessionOwner getSessionOwner() { return attemptGate; }
 
+    private void cancelStartupWatch() {
+        if (startupWatch != null) mHandler.removeCallbacks(startupWatch);
+        startupWatch = null;
+    }
+
+    private void watchStartup(final long generation) {
+        cancelStartupWatch();
+        attemptGate.startupSuspend(generation, backgrounded);
+        startupWatch = new Runnable() {
+            @Override public void run() {
+                if (!attemptGate.isCurrent(generation)) return;
+                if (attemptGate.getStartupSnapshot() != null && attemptGate.getStartupSnapshot().getPhase() == org.jellyfin.playback.core.engine.StartupPhase.PLAYING) {
+                    startupWatch = null;
+                    return;
+                }
+                org.jellyfin.playback.core.engine.StartupTimeout timeout = attemptGate.startupTimeout(generation);
+                if (timeout != null) {
+                    Timber.w("Startup failed phase=%s elapsedMs=%s generation=%s", timeout.getPhase(), timeout.getElapsedMs(), generation);
+                    finishSession(timeout.getReason(), org.jellyfin.playback.core.engine.SessionState.ERROR);
+                    if (mFragment != null) {
+                        Utils.showToast(mFragment.getContext(), mFragment.getString(R.string.player_error));
+                        mFragment.closePlayer();
+                    }
+                    return;
+                }
+                mHandler.postDelayed(this, 1000);
+            }
+        };
+        mHandler.postDelayed(startupWatch, 1000);
+    }
+
     public void showDiagnostics() { if (mVideoManager != null) mVideoManager.showDiagnostics(); }
 
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment) {
@@ -127,6 +159,14 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     // Explicit dependencies allow controller/session/reporting regression tests without Android UI.
     public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex,
             Handler handler, InteractionTrackerViewModel tracker, RefreshRateSwitchingBehavior refreshBehavior) {
+        this(items, fragment, startIndex, handler, tracker, refreshBehavior,
+                new org.jellyfin.playback.core.engine.PlaybackSessionOwner());
+    }
+
+    public PlaybackController(List<BaseItemDto> items, CustomPlaybackOverlayFragment fragment, int startIndex,
+            Handler handler, InteractionTrackerViewModel tracker, RefreshRateSwitchingBehavior refreshBehavior,
+            org.jellyfin.playback.core.engine.PlaybackSessionOwner owner) {
+        attemptGate = owner;
         mItems = items;
         mCurrentIndex = items != null && startIndex >= 0 && startIndex < items.size() ? startIndex : 0;
         mFragment = fragment;
@@ -140,6 +180,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private boolean pendingForegroundStart;
     public void setBackgrounded(boolean background) {
         backgrounded = background;
+        if (attemptGate.getSnapshot() != null)
+            attemptGate.startupSuspend(attemptGate.getSnapshot().getGeneration(), background);
         if (!background && pendingForegroundStart) {
             pendingForegroundStart = false;
             if (attemptGate.getSnapshot() != null && attemptGate.getSnapshot().getTerminalReason() == null && mVideoManager != null) mVideoManager.start();
@@ -279,6 +321,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     private void finishSession(String reason, org.jellyfin.playback.core.engine.SessionState state) {
+        cancelStartupWatch();
         refreshCurrentPosition();
         stopReportLoop();
         boolean reportStop = attemptGate.finish(reason, state);
@@ -568,6 +611,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     private void playInternal(final BaseItemDto item, final Long position, final VideoOptions internalOptions) {
         if (attemptGate.getSnapshot() != null && attemptGate.getSnapshot().getTerminalReason() == null) stop();
         final long attempt = attemptGate.begin(item.getId().toString(), position);
+        watchStartup(attempt);
         if (isLiveTv) {
             updateTvProgramInfo();
             TvManager.setLastLiveTvChannel(item.getId());
@@ -648,6 +692,8 @@ public class PlaybackController implements PlaybackControllerNotifiable {
         mCurrentPosition = position;
         engineTimelineOffsetMs = 0;
         mCurrentStreamInfo = response;
+        attemptGate.startupSource(attempt, response.getMediaSource().getId(), response.getPlayMethod().name());
+        watchStartup(attempt);
         mCurrentOptions.setMediaSourceId(response.getMediaSource().getId());
 
         if (response.getNegotiationDecision() != null && !response.getNegotiationDecision().getAllowed()) {
@@ -883,6 +929,7 @@ public class PlaybackController implements PlaybackControllerNotifiable {
     }
 
     public void stop() {
+        cancelStartupWatch();
         refreshCurrentPosition();
         org.jellyfin.playback.core.engine.PlaybackSessionSnapshot ending = attemptGate.getSnapshot();
         if (ending != null) attemptGate.update(ending.getGeneration(), mCurrentPosition, isPaused());

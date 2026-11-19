@@ -163,6 +163,28 @@ public class VideoManager {
         mExoPlayerView.getSubtitleView().setStyle(subtitleStyle);
 
         mExoPlayer.addAnalyticsListener(new AnalyticsListener() {
+            private void startup(AnalyticsListener.EventTime time, org.jellyfin.playback.core.engine.StartupEvent event) {
+                if (acceptEvent(time)) sessionOwner.startupEvent(sessionGeneration, event);
+            }
+            @Override public void onLoadStarted(AnalyticsListener.EventTime time, androidx.media3.exoplayer.source.LoadEventInfo info, androidx.media3.exoplayer.source.MediaLoadData data) {
+                startup(time, org.jellyfin.playback.core.engine.StartupEvent.REQUEST_STARTED);
+            }
+            @Override public void onLoadCompleted(AnalyticsListener.EventTime time, androidx.media3.exoplayer.source.LoadEventInfo info, androidx.media3.exoplayer.source.MediaLoadData data) {
+                startup(time, org.jellyfin.playback.core.engine.StartupEvent.HTTP_OPENED);
+            }
+            @Override public void onTracksChanged(AnalyticsListener.EventTime time, Tracks tracks) {
+                if (!tracks.isEmpty()) startup(time, org.jellyfin.playback.core.engine.StartupEvent.TRACKS_DISCOVERED);
+            }
+            @Override public void onVideoDecoderInitialized(AnalyticsListener.EventTime time, String name, long timestamp, long duration) {
+                startup(time, org.jellyfin.playback.core.engine.StartupEvent.DECODER_READY);
+            }
+            @Override public void onRenderedFirstFrame(AnalyticsListener.EventTime time, Object output, long renderTimeMs) {
+                startup(time, org.jellyfin.playback.core.engine.StartupEvent.FIRST_FRAME);
+            }
+            @Override public void onAudioDecoderInitialized(AnalyticsListener.EventTime time, String name, long timestamp, long duration) {
+                startup(time, org.jellyfin.playback.core.engine.StartupEvent.AUDIO_READY);
+            }
+
             @Override
             public void onPlayerError(AnalyticsListener.EventTime time, @NonNull PlaybackException error) {
                 if (!acceptEvent(time)) return;
@@ -188,6 +210,7 @@ public class VideoManager {
             public void onPlaybackStateChanged(AnalyticsListener.EventTime time, int playbackState) {
                 if (!acceptEvent(time)) return;
                 if (playbackState == Player.STATE_BUFFERING) {
+                    sessionOwner.startupBuffering(sessionGeneration, true);
                     Timber.d("Player is buffering");
                 }
 

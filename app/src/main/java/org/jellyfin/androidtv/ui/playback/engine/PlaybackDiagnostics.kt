@@ -29,6 +29,7 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	}
 	private val fields = linkedMapOf<String, String>()
 	private var dropped = 0
+    private var liveAudioTracks = 0
 	private var lastFailure: String? = null
 	private var dialog: AlertDialog? = null
 	private var text: TextView? = null
@@ -126,6 +127,10 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	}
 	override fun onAudioDecoderReleased(time: AnalyticsListener.EventTime, name: String) { put("AUDIO / Decoder", null) }
 	override fun onAudioTrackReleased(time: AnalyticsListener.EventTime, config: AudioSink.AudioTrackConfig) {
+        // Media3 releases AudioTracks asynchronously. An old track can finish after its
+        // replacement has initialized, including when both use an identical config.
+        liveAudioTracks = (liveAudioTracks - 1).coerceAtLeast(0)
+        if (liveAudioTracks > 0) return
 		fields.keys.filter { it.startsWith("ACTUAL AUDIO OUTPUT /") || it.startsWith("AUDIO / AudioTrack") || it.startsWith("AUDIO / Output encoding") || it == "AUDIO / Passthrough selected" }.forEach { put(it, null) }
 	}
 	override fun onAudioDecoderInitialized(time: AnalyticsListener.EventTime, name: String, timestamp: Long, duration: Long) { put("AUDIO / Decoder", name) }
@@ -138,8 +143,19 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 	override fun onPlayerError(time: AnalyticsListener.EventTime, error: PlaybackException) { lastFailure = error.errorCodeName; put("ERRORS / Playback", error.errorCodeName) }
 	override fun onVideoCodecError(time: AnalyticsListener.EventTime, error: Exception) { put("ERRORS / Video decoder", error.javaClass.simpleName) }
 	override fun onAudioCodecError(time: AnalyticsListener.EventTime, error: Exception) { put("ERRORS / Audio decoder", error.javaClass.simpleName) }
-	override fun onAudioSinkError(time: AnalyticsListener.EventTime, error: Exception) { put("ERRORS / Audio sink", error.javaClass.simpleName) }
+	override fun onAudioSinkError(time: AnalyticsListener.EventTime, error: Exception) {
+        put("ERRORS / Audio sink", error.javaClass.simpleName)
+        if (error is AudioSink.WriteException) {
+            put("ERRORS / Audio sink code", error.errorCode)
+            put("ERRORS / Audio sink recoverable (Media3)", error.isRecoverable)
+            put("ERRORS / Audio sink at position ms", player.currentPosition)
+            put("ERRORS / Audio sink player state", player.playbackState)
+            // Numeric fields only; exception messages can contain authenticated URLs.
+            timber.log.Timber.w("AudioSink write code=%s recoverable=%s state=%s positionMs=%s", error.errorCode, error.isRecoverable, player.playbackState, player.currentPosition)
+        }
+    }
 	override fun onAudioTrackInitialized(time: AnalyticsListener.EventTime, config: AudioSink.AudioTrackConfig) {
+        liveAudioTracks++
 		put("ACTUAL AUDIO OUTPUT / Mode", DiagnosticValues.passthrough(config.encoding))
 		put("ACTUAL AUDIO OUTPUT / Channel count", Integer.bitCount(config.channelConfig))
 		put("AUDIO / Output encoding (AudioTrack)", config.encoding)
@@ -170,6 +186,15 @@ class PlaybackDiagnostics(private val player: ExoPlayer, private val engine: Med
 			put("ACTUAL PLAYER STATE / Session", session.state)
 		}
 
+        sessionOwner?.startupSnapshot?.let { startup ->
+            put("STARTUP / Phase", startup.phase)
+            put("STARTUP / Total elapsed ms", startup.totalElapsedMs)
+            put("STARTUP / Phase elapsed ms", startup.phaseElapsedMs)
+            put("STARTUP / Tracks", startup.tracksState)
+            put("STARTUP / Decoder", startup.decoderState)
+            put("STARTUP / First frame", startup.firstFrameState)
+            put("STARTUP / Terminal reason", startup.terminalReason)
+        }
 		format("VIDEO / Selected stream", player.videoFormat)
 		format("AUDIO / Selected stream", player.audioFormat)
 		put("PLAYER / Active engine", engine.id)
