@@ -1,0 +1,4 @@
+Säker statusanslutning [568,350][1034,404] focused=false
+Ange statusbryggans privata HTTPS-adress. Inga tjänstelösenord eller API-nycklar ska anges här. [568,434][1352,500] focused=false
+Avbryt [625,672][704,705] focused=false
+Spara [840,672][912,705] focused=false

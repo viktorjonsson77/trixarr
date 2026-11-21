@@ -1,0 +1,7 @@
+gradle.projectsEvaluated {
+ def p = rootProject.findProject(':app')
+ if (p != null) p.tasks.withType(Test).configureEach {
+  systemProperty 'kotest.filter.specs', 'org.jellyfin.androidtv.status.*,org.jellyfin.androidtv.seerr.*,org.jellyfin.androidtv.ui.discover.*,org.jellyfin.androidtv.ui.artwork.*,org.jellyfin.androidtv.ui.catalog.*,startup.*,org.jellyfin.androidtv.ui.playback.*'
+  include '**/status/*Tests.class', '**/seerr/*Tests.class', '**/ui/discover/*Tests.class', '**/ui/artwork/*Tests.class', '**/ui/catalog/*Tests.class', '**/startup/*Tests.class', '**/ui/playback/**/*Tests.class'
+ }
+}

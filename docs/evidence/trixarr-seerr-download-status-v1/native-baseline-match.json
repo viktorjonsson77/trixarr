@@ -1,0 +1,10 @@
+{
+  "lib/arm64-v8a/libandroidx.graphics.path.so": {
+    "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+    "matches_predecessor": true
+  },
+  "lib/arm64-v8a/libffmpegJNI.so": {
+    "sha256": "63d56c5fbd0f0b84dc607af3c3faed7befdea5e9fa5187bbcdb3ebc54782e929",
+    "matches_predecessor": true
+  }
+}

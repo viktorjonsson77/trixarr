@@ -1,0 +1,22 @@
+{
+  "seerr": {
+    "tcp": "FAIL",
+    "error": "TimeoutError",
+    "errno": null
+  },
+  "radarr": {
+    "tcp": "FAIL",
+    "error": "TimeoutError",
+    "errno": null
+  },
+  "sonarr": {
+    "tcp": "FAIL",
+    "error": "TimeoutError",
+    "errno": null
+  },
+  "qbit": {
+    "tcp": "FAIL",
+    "error": "TimeoutError",
+    "errno": null
+  }
+}

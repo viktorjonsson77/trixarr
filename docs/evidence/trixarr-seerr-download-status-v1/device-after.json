@@ -1,0 +1,21 @@
+{
+  "shared_prefs/se.viktorjonsson.jellyfintv.debug_preferences.xml": {
+    "exists": true,
+    "sha256": "2f8e5d44f75b8e445465d74c9a9af218b75fbb3396ee023c42b19a5673242ca6"
+  },
+  "shared_prefs/seerr_configuration.xml": {
+    "exists": true,
+    "sha256": "daea616492998e5a3dc5d89942e06b26b82cd6ec989c19aec4b1f9c10e44b0a0"
+  },
+  "shared_prefs/status_bridge_configuration.xml": {
+    "exists": false,
+    "sha256": null
+  },
+  "data_inode": "652903",
+  "preservation_matches": {
+    "shared_prefs/se.viktorjonsson.jellyfintv.debug_preferences.xml": true,
+    "shared_prefs/seerr_configuration.xml": true,
+    "shared_prefs/status_bridge_configuration.xml": true,
+    "data_inode": true
+  }
+}

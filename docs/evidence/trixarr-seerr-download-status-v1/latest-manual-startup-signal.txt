@@ -1,0 +1,73 @@
+--------- beginning of main
+11-21 20:49:27.535 17182 17182 I PlaybackController: stop called at 0
+11-21 20:49:27.537 17182 17182 I PlaybackController: ** Available display refresh rates:
+11-21 20:49:27.538 17182 17182 I PlaybackController: display mode 1 - 1920x1080@59,940060
+11-21 20:49:27.538 17182 17182 I PlaybackController: display mode 6 - 1280x720@59,940060
+11-21 20:49:27.539 17182 17182 I PlaybackController: display mode 7 - 1920x1080@60,000004
+11-21 20:49:27.539 17182 17182 I PlaybackController: display mode 8 - 720x480@60,000004
+11-21 20:49:27.540 17182 17182 I PlaybackController: display mode 9 - 1280x720@50,000000
+11-21 20:49:27.541 17182 17182 I PlaybackController: display mode 12 - 1920x1080@50,000000
+11-21 20:49:27.541 17182 17182 I PlaybackController: display mode 17 - 1280x720@60,000004
+11-21 20:49:27.542 17182 17182 I PlaybackController: display mode 20 - 1920x1080@23,976025
+11-21 20:49:27.543 17182 17182 I PlaybackController: display mode 21 - 1920x1080@29,970030
+11-21 20:49:27.543 17182 17182 I PlaybackController: display mode 22 - 3840x2160@23,976025
+11-21 20:49:27.544 17182 17182 I PlaybackController: display mode 23 - 3840x2160@29,970030
+11-21 20:49:27.544 17182 17182 I PlaybackController: display mode 24 - 1920x1080@24,000002
+11-21 20:49:27.545 17182 17182 I PlaybackController: display mode 25 - 1920x1080@30,000002
+11-21 20:49:27.545 17182 17182 I PlaybackController: display mode 26 - 3840x2160@24,000002
+11-21 20:49:27.546 17182 17182 I PlaybackController: display mode 27 - 3840x2160@25,000000
+11-21 20:49:27.546 17182 17182 I PlaybackController: display mode 28 - 3840x2160@30,000002
+11-21 20:49:27.547 17182 17182 I PlaybackController: display mode 29 - 3840x2160@50,000000
+11-21 20:49:27.547 17182 17182 I PlaybackController: display mode 30 - 3840x2160@60,000004
+11-21 20:49:27.548 17182 17182 I PlaybackController: display mode 31 - 3840x2160@59,940060
+11-21 20:49:27.696 17182 17182 I ExoPlayerImpl: Init 2745e4a [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-21 20:49:27.722 17182 17182 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: null
+11-21 20:49:27.822 17182 17182 I PlaybackController: Internal player would direct stream
+11-21 20:49:27.824 17182 17182 D PlaybackController: default audio index set to 1
+11-21 20:49:27.824 17182 17182 I PlaybackController: default audio index set to 1 remote default 1
+11-21 20:49:27.824 17182 17182 I PlaybackController: default sub index set to -1 remote default -1
+11-21 20:49:27.825 17182 17182 D PlaybackController: trying to find display mode for video: 3832x1600@23,976025
+11-21 20:49:27.826 17182 17182 D PlaybackController: considering display mode: 1 - 1920x1080@59,940060
+11-21 20:49:27.826 17182 17182 D PlaybackController: considering display mode: 6 - 1280x720@59,940060
+11-21 20:49:27.827 17182 17182 D PlaybackController: considering display mode: 7 - 1920x1080@60,000004
+11-21 20:49:27.827 17182 17182 D PlaybackController: considering display mode: 8 - 720x480@60,000004
+11-21 20:49:27.827 17182 17182 D PlaybackController: considering display mode: 9 - 1280x720@50,000000
+11-21 20:49:27.828 17182 17182 D PlaybackController: considering display mode: 12 - 1920x1080@50,000000
+11-21 20:49:27.828 17182 17182 D PlaybackController: considering display mode: 17 - 1280x720@60,000004
+11-21 20:49:27.829 17182 17182 D PlaybackController: considering display mode: 20 - 1920x1080@23,976025
+11-21 20:49:27.829 17182 17182 D PlaybackController: considering display mode: 21 - 1920x1080@29,970030
+11-21 20:49:27.830 17182 17182 D PlaybackController: considering display mode: 22 - 3840x2160@23,976025
+11-21 20:49:27.830 17182 17182 I PlaybackController: qualifying display mode: 22 - 3840x2160@23,976025
+11-21 20:49:27.831 17182 17182 D PlaybackController: preferring mode: 22 - 3840x2160@23,976025
+11-21 20:49:27.831 17182 17182 D PlaybackController: considering display mode: 23 - 3840x2160@29,970030
+11-21 20:49:27.832 17182 17182 D PlaybackController: considering display mode: 24 - 1920x1080@24,000002
+11-21 20:49:27.832 17182 17182 D PlaybackController: considering display mode: 25 - 1920x1080@30,000002
+11-21 20:49:27.832 17182 17182 D PlaybackController: considering display mode: 26 - 3840x2160@24,000002
+11-21 20:49:27.833 17182 17182 D PlaybackController: considering display mode: 27 - 3840x2160@25,000000
+11-21 20:49:27.833 17182 17182 D PlaybackController: considering display mode: 28 - 3840x2160@30,000002
+11-21 20:49:27.834 17182 17182 D PlaybackController: considering display mode: 29 - 3840x2160@50,000000
+11-21 20:49:27.834 17182 17182 D PlaybackController: considering display mode: 30 - 3840x2160@60,000004
+11-21 20:49:27.834 17182 17182 D PlaybackController: considering display mode: 31 - 3840x2160@59,940060
+11-21 20:49:27.835 17182 17182 I PlaybackController: *** Best refresh mode is: 22 - 3840x2160/23,976025
+11-21 20:49:27.836 17182 17182 I PlaybackController: *** Attempting to change refresh rate from: 31 - 3840x2160@59,940060
+11-21 20:49:27.837 17182 17182 D VideoManager: Setting playback speed: 1,000000
+11-21 20:49:27.859 17182 17182 I VideoManager: Video delivery selected: DirectPlay
+11-21 20:49:27.862 17182 17182 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-21 20:49:27.864 17182 17182 D VideoManager: Player is buffering
+11-21 20:49:27.896 17182 17182 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 20:49:28.629 17182 17182 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 20:49:28.649 17182 17182 D VideoManager: Tracks changed
+11-21 20:49:29.157 17182 17182 D VideoManager: re-retrieved exoplayer track index 1
+11-21 20:49:29.160 17182 17182 I PlaybackController: Play method: Direct
+11-21 20:49:29.166 17182 17182 D VideoManager: re-retrieved exoplayer track index 1
+11-21 20:49:29.166 17182 17182 I PlaybackController: trying to switch audio stream from 1 to 1
+11-21 20:49:29.166 17182 17182 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-21 20:49:29.167 17182 17182 I PlaybackController: setting mCurrentOptions audio stream index from null to 1
+11-21 20:49:30.148 17182 17182 D VideoManager: Tracks changed
+11-21 20:49:30.186 17182 17182 W PlaybackDiagnostics: AudioSink write code=-6 recoverable=true state=3 positionMs=0
+11-21 20:49:30.192 17182 17182 D VideoManager: Tracks changed
+11-21 20:49:30.193 17182 17182 D VideoManager: Player is buffering
+11-21 20:49:30.247 17182 17182 D VideoManager: Tracks changed
+11-21 20:49:30.371 17182 17182 I PlaybackController: Play method: Direct
+11-21 20:49:30.373 17182 17182 I PlaybackController: trying to switch audio stream from 1 to 1
+11-21 20:49:30.373 17182 17182 D PlaybackController: skipping setting audio stream, already set to requested index 1

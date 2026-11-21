@@ -1,0 +1,1 @@
+GREEN: playback reached onPrepared; terminal startup failure not reproduced

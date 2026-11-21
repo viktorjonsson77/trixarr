@@ -1,0 +1,65 @@
+11-21 20:45:57.788 17182 17182 I PlaybackController: ** Available display refresh rates:
+11-21 20:45:57.789 17182 17182 I PlaybackController: display mode 1 - 1920x1080@59,940060
+11-21 20:45:57.790 17182 17182 I PlaybackController: display mode 6 - 1280x720@59,940060
+11-21 20:45:57.791 17182 17182 I PlaybackController: display mode 7 - 1920x1080@60,000004
+11-21 20:45:57.791 17182 17182 I PlaybackController: display mode 8 - 720x480@60,000004
+11-21 20:45:57.792 17182 17182 I PlaybackController: display mode 9 - 1280x720@50,000000
+11-21 20:45:57.793 17182 17182 I PlaybackController: display mode 12 - 1920x1080@50,000000
+11-21 20:45:57.794 17182 17182 I PlaybackController: display mode 17 - 1280x720@60,000004
+11-21 20:45:57.796 17182 17182 I PlaybackController: display mode 20 - 1920x1080@23,976025
+11-21 20:45:57.797 17182 17182 I PlaybackController: display mode 21 - 1920x1080@29,970030
+11-21 20:45:57.798 17182 17182 I PlaybackController: display mode 22 - 3840x2160@23,976025
+11-21 20:45:57.798 17182 17182 I PlaybackController: display mode 23 - 3840x2160@29,970030
+11-21 20:45:57.799 17182 17182 I PlaybackController: display mode 24 - 1920x1080@24,000002
+11-21 20:45:57.800 17182 17182 I PlaybackController: display mode 25 - 1920x1080@30,000002
+11-21 20:45:57.801 17182 17182 I PlaybackController: display mode 26 - 3840x2160@24,000002
+11-21 20:45:57.802 17182 17182 I PlaybackController: display mode 27 - 3840x2160@25,000000
+11-21 20:45:57.802 17182 17182 I PlaybackController: display mode 28 - 3840x2160@30,000002
+11-21 20:45:57.803 17182 17182 I PlaybackController: display mode 29 - 3840x2160@50,000000
+11-21 20:45:57.803 17182 17182 I PlaybackController: display mode 30 - 3840x2160@60,000004
+11-21 20:45:57.804 17182 17182 I PlaybackController: display mode 31 - 3840x2160@59,940060
+11-21 20:45:58.080 17182 17182 I ExoPlayerImpl: Init 71ff3b7 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-21 20:45:58.122 17182 17182 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: null
+11-21 20:45:58.186 17182 17182 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.h265.decode for mime video/hevc
+11-21 20:45:58.188 17182 17182 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.h264.decode for mime video/avc
+11-21 20:45:58.191 17182 17182 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.vc1.decode for mime video/wvc1
+11-21 20:45:58.192 17182 17182 D MediaCodecCapabilitiesTest: Computed max resolution for video/avc: 4080x4080
+11-21 20:45:58.193 17182 17182 D MediaCodecCapabilitiesTest: Computed max resolution for video/hevc: 4096x4096
+11-21 20:45:58.194 17182 17182 D MediaCodecCapabilitiesTest: Computed max resolution for video/av01: 0x0
+11-21 20:45:58.195 17182 17182 D MediaCodecCapabilitiesTest: Computed max resolution for video/wvc1: 3840x2176
+11-21 20:45:58.197 17182 17182 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.DOVI.decode for mime video/dolby-vision
+11-21 20:45:58.482 17182 17182 I PlaybackController: Internal player would direct stream
+11-21 20:45:58.484 17182 17182 D PlaybackController: default audio index set to 1
+11-21 20:45:58.484 17182 17182 I PlaybackController: default audio index set to 1 remote default 1
+11-21 20:45:58.485 17182 17182 I PlaybackController: default sub index set to -1 remote default -1
+11-21 20:45:58.486 17182 17182 D PlaybackController: trying to find display mode for video: 3832x1600@23,976025
+11-21 20:45:58.487 17182 17182 D PlaybackController: considering display mode: 1 - 1920x1080@59,940060
+11-21 20:45:58.487 17182 17182 D PlaybackController: considering display mode: 6 - 1280x720@59,940060
+11-21 20:45:58.488 17182 17182 D PlaybackController: considering display mode: 7 - 1920x1080@60,000004
+11-21 20:45:58.489 17182 17182 D PlaybackController: considering display mode: 8 - 720x480@60,000004
+11-21 20:45:58.489 17182 17182 D PlaybackController: considering display mode: 9 - 1280x720@50,000000
+11-21 20:45:58.490 17182 17182 D PlaybackController: considering display mode: 12 - 1920x1080@50,000000
+11-21 20:45:58.490 17182 17182 D PlaybackController: considering display mode: 17 - 1280x720@60,000004
+11-21 20:45:58.491 17182 17182 D PlaybackController: considering display mode: 20 - 1920x1080@23,976025
+11-21 20:45:58.492 17182 17182 D PlaybackController: considering display mode: 21 - 1920x1080@29,970030
+11-21 20:45:58.492 17182 17182 D PlaybackController: considering display mode: 22 - 3840x2160@23,976025
+11-21 20:45:58.493 17182 17182 I PlaybackController: qualifying display mode: 22 - 3840x2160@23,976025
+11-21 20:45:58.493 17182 17182 D PlaybackController: preferring mode: 22 - 3840x2160@23,976025
+11-21 20:45:58.496 17182 17182 D PlaybackController: considering display mode: 23 - 3840x2160@29,970030
+11-21 20:45:58.497 17182 17182 D PlaybackController: considering display mode: 24 - 1920x1080@24,000002
+11-21 20:45:58.498 17182 17182 D PlaybackController: considering display mode: 25 - 1920x1080@30,000002
+11-21 20:45:58.499 17182 17182 D PlaybackController: considering display mode: 26 - 3840x2160@24,000002
+11-21 20:45:58.500 17182 17182 D PlaybackController: considering display mode: 27 - 3840x2160@25,000000
+11-21 20:45:58.501 17182 17182 D PlaybackController: considering display mode: 28 - 3840x2160@30,000002
+11-21 20:45:58.502 17182 17182 D PlaybackController: considering display mode: 29 - 3840x2160@50,000000
+11-21 20:45:58.502 17182 17182 D PlaybackController: considering display mode: 30 - 3840x2160@60,000004
+11-21 20:45:58.503 17182 17182 D PlaybackController: considering display mode: 31 - 3840x2160@59,940060
+11-21 20:45:58.503 17182 17182 I PlaybackController: *** Best refresh mode is: 22 - 3840x2160/23,976025
+11-21 20:45:58.504 17182 17182 I PlaybackController: *** Attempting to change refresh rate from: 31 - 3840x2160@59,940060
+11-21 20:45:58.505 17182 17182 D VideoManager: Setting playback speed: 1,000000
+11-21 20:45:58.564 17182 17182 I VideoManager: Video delivery selected: DirectPlay
+11-21 20:45:58.581 17182 17182 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-21 20:45:58.583 17182 17182 D VideoManager: Player is buffering
+11-21 20:45:58.629 17182 17182 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 20:45:59.645 17182 17182 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 20:45:59.700 17182 17182 D VideoManager: Tracks changed

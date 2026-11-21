@@ -1,0 +1,34 @@
+test_arr_import_does_not_prove_jellyfin_availability (test_bridge.Aggregation.test_arr_import_does_not_prove_jellyfin_availability) ... ok
+test_future_episode_waiting_for_release (test_bridge.Aggregation.test_future_episode_waiting_for_release) ... ok
+test_missing_or_invalid_auth_fails_before_data (test_bridge.Aggregation.test_missing_or_invalid_auth_fails_before_data) ... ok
+test_other_users_request_not_authorized_even_for_admin (test_bridge.Aggregation.test_other_users_request_not_authorized_even_for_admin) ... ok
+test_partial_sonarr_season_and_individual_progress (test_bridge.Aggregation.test_partial_sonarr_season_and_individual_progress) ... ok
+test_seerr_radarr_qbit_correlate_and_strip_private_fields (test_bridge.Aggregation.test_seerr_radarr_qbit_correlate_and_strip_private_fields) ... ok
+test_unmatched_movie_never_uses_other_queue (test_bridge.Aggregation.test_unmatched_movie_never_uses_other_queue) ... ok
+test_unrelated_episode_queue_not_applied (test_bridge.Aggregation.test_unrelated_episode_queue_not_applied) ... ok
+test_upstream_failures_degrade_without_fabricated_progress (test_bridge.Aggregation.test_upstream_failures_degrade_without_fabricated_progress) ... FAIL
+test_downloading_and_two_distinct_etas (test_bridge.Rules.test_downloading_and_two_distinct_etas) ... ok
+test_import_and_jellyfin_gates (test_bridge.Rules.test_import_and_jellyfin_gates) ... ok
+test_invalid_and_unbounded_eta_speed_remaining_and_stale (test_bridge.Rules.test_invalid_and_unbounded_eta_speed_remaining_and_stale) ... ok
+test_multiple_downloads_never_averaged (test_bridge.Rules.test_multiple_downloads_never_averaged) ... ok
+test_paused_stalled_error_and_queued_states (test_bridge.Rules.test_paused_stalled_error_and_queued_states) ... ok
+test_searching_requires_explicit_evidence (test_bridge.Rules.test_searching_requires_explicit_evidence) ... ok
+test_stable_ids_not_names_and_ambiguity (test_bridge.Rules.test_stable_ids_not_names_and_ambiguity) ... ok
+test_auth_ownership_bounds_and_readonly_methods (test_bridge.SecureHttp.test_auth_ownership_bounds_and_readonly_methods) ... ok
+test_client_trust_is_required (test_bridge.SecureHttp.test_client_trust_is_required) ... ok
+test_private_bind_only (test_bridge.SecureHttp.test_private_bind_only) ... ok
+test_tls_authenticated_batch_endpoint (test_bridge.SecureHttp.test_tls_authenticated_batch_endpoint) ... ok
+
+======================================================================
+FAIL: test_upstream_failures_degrade_without_fabricated_progress (test_bridge.Aggregation.test_upstream_failures_degrade_without_fabricated_progress)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/opt/jellyfintv-seerr-download-status-v1/backend/status-bridge/tests/test_bridge.py", line 155, in test_upstream_failures_degrade_without_fabricated_progress
+    self.assertIn(service.upper()+'_UNAVAILABLE',value['issues'])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'JELLYFIN_UNAVAILABLE' not found in ['JELLYFIN_NOT_VERIFIED']
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.763s
+
+FAILED (failures=1)

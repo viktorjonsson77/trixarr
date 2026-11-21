@@ -1,0 +1,26 @@
+{
+  "/opt/jellyfintv": {
+    "head": "1d7407710293a829c482b56baf5d1f5099eaba3f",
+    "dirty_entries": 117
+  },
+  "/opt/jellyfintv-beta-1.1": {
+    "head": "061cb6543980b9c77d522864b85632b85fb7c08a",
+    "dirty_entries": 0
+  },
+  "/opt/jellyfintv-seerr-discover-ui-v1": {
+    "head": "b87c100252aaaf6392a13912e17f7add1eb9b24f",
+    "dirty_entries": 0
+  },
+  "/opt/jellyfintv-image-quality-v1": {
+    "head": "0b7e5016e7576ed66cea07d6f1320b87adc9e61a",
+    "dirty_entries": 0
+  },
+  "/opt/jellyfintv-branding-v3": {
+    "head": "9ed83d86cffcede063335112a890b09d43277087",
+    "dirty_entries": 0
+  },
+  "/opt/jellyfintv-audio-dead-object-v1": {
+    "head": "c443283f57afbc2db85179675c96c43d944bb63f",
+    "dirty_entries": 0
+  }
+}

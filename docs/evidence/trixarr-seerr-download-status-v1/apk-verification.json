@@ -1,0 +1,13 @@
+{
+  "path": "/opt/jellyfintv-artifacts/trixarr-seerr-download-status-v1/trixarr-0.1.1-beta.3-download-status-debug.apk",
+  "sha256": "52bf968e91e3e22f0455bd0f2bc19274739a88c1921923b42adee2b6e2c6660f",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "versionName": "0.1.1-beta.3",
+  "versionCode": 10103,
+  "arm64_libraries": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/arm64-v8a/libffmpegJNI.so"
+  ],
+  "update_signature_matches": true
+}

@@ -40,7 +40,8 @@ group/other permissions. Required names:
 | `tls_cert`, `tls_key` | Certificate chain and private key, readable only through service credentials |
 
 The unit maps these names from `/etc/credstore/trixarr-*`. Missing Arr/qBittorrent
-credentials produce unknown/partial status; missing TLS credentials prevent startup.
+credentials in the Python component produce unknown/partial status. Provision all
+unit credential sources before enabling the unit; missing TLS credentials prevent startup.
 No credentials were provisioned by this implementation task. Arr API keys and the
 qBittorrent API do not provide endpoint-specific read-only scopes: use dedicated
 accounts/network restrictions where supported. The adapter enforces GET-only
