@@ -1,0 +1,4 @@
+    userId=10048
+    versionCode=10101 minSdk=21 targetSdk=36
+    versionName=0.1.1-beta.1
+    firstInstallTime=2026-09-02 23:52:47

@@ -1,0 +1,2 @@
+I/System.out(10839): IMAGE_ROUTE mode=root authenticated=true status=404 type=application/json; charset=utf-8 bytes=40 error={"message":"Image caching is disabled."}
+I/System.out(10839): IMAGE_ROUTE mode=api authenticated=true status=404 type=application/json; charset=utf-8 bytes=132 error={"message":"not found","errors":[{"path":"/api/v1/imageproxy/tmdb/t/p/w500/78lPtwv72eTNqFW9COBYI0dWDJa.jpg","message":"not found"}]}

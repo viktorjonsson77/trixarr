@@ -1,0 +1,9 @@
+Silo [160,192][288,286] focused=false
+Serie    2023-05-04    4 säsonger    Sci-Fi & Fantasy • Drama [160,300][781,328] focused=false
+I en framtid av ruiner och giftig miljö lever tusentals i en jättestor silo under jorden. När dess sheriff bryter mot en kardinalregel och dör mystiskt, börjar teknikern Juliette avslöja chockerande hemligheter och sanningen om silon. [160,342][1139,404] focused=false
+Delvis tillgänglig [160,480][334,508] focused=false
+Mer information [202,668][401,701] focused=false
+Information [196,788][341,821] focused=false
+I en framtid av ruiner och giftig miljö lever tusentals i en jättestor silo under jorden. När dess sheriff bryter mot en kardinalregel och dör mystiskt, börjar teknikern Juliette avslöja chockerande hemligheter och sanningen om silon. [160,876][1848,953] focused=false
+Serie [160,973][223,1006] focused=false
+Premiär: 2023-05-04 [160,1026][416,1028] focused=false

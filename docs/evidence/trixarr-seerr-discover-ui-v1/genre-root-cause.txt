@@ -1,0 +1,4 @@
+I/System.out( 9805): GENRE_VALIDATION hasPage=true status=400 shape=JsonObject validation=[{path="/query/page", message="Unknown query parameter 'page'"}]
+I/System.out( 9805): GENRE_VALIDATION hasPage=false status=200 shape=JsonArray validation=null
+I/System.out( 9805): GENRE_PROBE endpoint=genreslider/movie error=SeerrHttpException status=400
+I/System.out( 9805): GENRE_PROBE endpoint=genreslider/tv error=SeerrHttpException status=400

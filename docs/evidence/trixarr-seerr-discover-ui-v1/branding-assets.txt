@@ -1,0 +1,1 @@
+PASS: approved master SHA/RGB, 30 asset hashes/dimensions, alpha corners, 320x180 banner, triangle bounds/adaptive safe circle

@@ -1,0 +1,4 @@
+Begär The Hunger Games: Sunrise on the Reaping [564,400][1356,514] focused=false
+Bekräfta att du vill begära filmen. [564,538][972,571] focused=false
+Avbryt [621,621][700,654] focused=false
+Bekräfta begäran [816,621][1027,654] focused=false

@@ -1,0 +1,13 @@
+{
+  "path": "/opt/jellyfintv-artifacts/trixarr-seerr-discover-ui-v1/trixarr-0.1.1-beta.2-seerr-discover-ui-v1-r4-debug.apk",
+  "sha256": "e68cc9868108e7389dc5621a3908b5fd8fef35290734c4843a723b38e6d45334",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "versionName": "0.1.1-beta.2",
+  "versionCode": 10102,
+  "arm64_libraries": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/arm64-v8a/libffmpegJNI.so"
+  ],
+  "update_signature_matches": true
+}
