@@ -45,6 +45,7 @@ class CatalogRepository(
     private var local: List<CatalogTitle> = emptyList()
     private val localDtos = java.util.concurrent.ConcurrentHashMap<String, BaseItemDto>()
     private val remoteDtos = java.util.concurrent.ConcurrentHashMap<String, SeerrMedia>()
+    private var connectionFailure: Throwable? = null
     private var connection: Pair<SeerrApi, SeerrUser>? = null
     private var requestRepository: RequestRepository? = null
     private val discoveryCache =
@@ -53,8 +54,10 @@ class CatalogRepository(
     private var recommendations: List<CatalogTitle>? = null
 
     suspend fun connect() {
-        connection = clients.authenticated(profile).getOrNull()
-        requestRepository = connection?.let { RequestRepository(it.first) }
+        val result = clients.authenticated(profile)
+        connection = result.getOrNull()
+        connectionFailure = result.exceptionOrNull()
+        requestRepository = connection?.let { RequestRepository(it.first, it.second.permissions) }
     }
 
     private suspend fun <T> optional(block: suspend () -> T): T? =
@@ -96,6 +99,19 @@ class CatalogRepository(
             local
         }
 
+
+    private var discovery: org.jellyfin.androidtv.seerr.SeerrDiscovery? = null
+    suspend fun discoveryRows(category: org.jellyfin.androidtv.seerr.DiscoveryCategory, genreKey: String? = null): List<CatalogRow> {
+        val c = connection ?: run { connect(); connection } ?: throw (connectionFailure ?: IllegalStateException("Seerr connection unavailable"))
+        val loader = discovery ?: org.jellyfin.androidtv.seerr.SeerrDiscovery(c.first, c.second).also { discovery = it }
+        return loader.load(category, genreKey).map { row -> CatalogRow(row.key, row.label, row.media.map(::mapRemote).map(::resolveLocal)) }
+    }
+
+    suspend fun discoveryGenres(): List<org.jellyfin.androidtv.seerr.DiscoveryGenre> {
+        val c = connection ?: throw (connectionFailure ?: IllegalStateException("Seerr connection unavailable"))
+        val loader = discovery ?: org.jellyfin.androidtv.seerr.SeerrDiscovery(c.first, c.second).also { discovery = it }
+        return loader.genreOptions()
+    }
     suspend fun browse(page: Int): List<CatalogTitle> {
         val stored = library().drop((page - 1) * 20).take(20)
         val trending = discover(page)
@@ -199,7 +215,7 @@ class CatalogRepository(
     }
 
     private fun resolveLocal(title: CatalogTitle): CatalogTitle =
-        local.firstOrNull { sameTitle(it, title) }?.let { mergeTitles(listOf(title, it)).single() }
+        local.singleOrNull { verifiedDiscoveryMatch(it, title) }?.let { mergeTitles(listOf(title, it)).single() }
             ?: title
 
     suspend fun search(query: String): List<CatalogTitle> = coroutineScope {
@@ -314,6 +330,15 @@ class CatalogRepository(
                             watched = playable?.watched == true,
                         )
                 }
+                val external = remoteDtos[title.key]
+                val connected = connection
+                if (result.kind == TitleKind.Series && external != null && connected != null) {
+                    val updated = SeerrRepository(connected.first).details(MediaKind.Series, external.id).getOrNull()
+                    if (updated != null) {
+                        val remote = mapRemote(updated)
+                        result = result.copy(requestAllowed = remote.requestAllowed, requestSeasons = remote.seasons)
+                    }
+                }
                 result
             }
         val c = connection ?: error("Connection unavailable")
@@ -361,7 +386,8 @@ class CatalogRepository(
         val media =
             remoteDtos[title.key]
                 ?: return Result.failure(IllegalStateException("Title unavailable"))
-        return requestRepository?.request(media, seasons, confirmed = true)
+        val fresh = SeerrRepository(connection?.first ?: return Result.failure(IllegalStateException("Connection unavailable"))).details(media.kind, media.id).getOrElse { return Result.failure(it) }
+        return requestRepository?.request(fresh, seasons, confirmed = true)
             ?: Result.failure(IllegalStateException("Connection unavailable"))
     }
 
@@ -423,7 +449,7 @@ class CatalogRepository(
         )
     }
 
-    private fun mapRemote(media: SeerrMedia): CatalogTitle {
+    internal fun mapRemote(media: SeerrMedia): CatalogTitle {
         val kind = if (media.kind == MediaKind.Movie) TitleKind.Movie else TitleKind.Series
         val key = "$kind:tmdb:${media.id}"
         remoteDtos[key] = media
@@ -474,12 +500,19 @@ class CatalogRepository(
                         it.number.toString(),
                         it.number,
                         it.name,
-                        requestable = it.availability == MediaAvailability.Requestable,
+                        requestable = it.number > 0 && it.availability == MediaAvailability.Requestable,
+                        status = when (it.availability) {
+                            MediaAvailability.Available -> TitleStatus.Available
+                            MediaAvailability.Processing -> TitleStatus.Processing
+                            MediaAvailability.PartiallyAvailable -> TitleStatus.Partial
+                            MediaAvailability.Requested -> TitleStatus.Requested
+                            else -> TitleStatus.Unknown
+                        },
                     )
                 },
             requestAllowed =
                 connection?.second?.let {
-                    SeerrPermissions.canRequest(it.permissions, media.kind)
+                    SeerrPermissions.canRequest(it.permissions, media.kind) && org.jellyfin.androidtv.seerr.requestableMedia(media)
                 } == true,
         )
     }

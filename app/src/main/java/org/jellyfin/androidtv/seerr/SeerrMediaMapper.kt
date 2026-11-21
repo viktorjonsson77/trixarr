@@ -44,7 +44,7 @@ object SeerrMediaMapper {
 		val mediaInfo = value["mediaInfo"] as? JsonObject
 		val seasonAvailability = mediaInfo?.get("seasons")?.jsonArray.orEmpty().associate { season ->
 			val item = season.jsonObject
-			(item.int("seasonNumber") ?: -1) to mapAvailability(item.int("status"), item["requests"] != null)
+			(item.int("seasonNumber") ?: -1) to mapAvailability(item.int("status"), item["requests"]?.jsonArray?.isNotEmpty() == true)
 		}
 		return SeerrMedia(
 			id = id,
@@ -57,6 +57,7 @@ object SeerrMediaMapper {
 			runtimeMinutes = value.int("runtime") ?: value["episodeRunTime"]?.jsonArray?.firstOrNull()?.jsonPrimitive?.intOrNull,
 			certification = value.string("certification") ?: value.string("contentRating"),
 			rating = value["voteAverage"]?.jsonPrimitive?.doubleOrNull,
+			genreIds = value["genreIds"]?.jsonArray.orEmpty().mapNotNull { it.jsonPrimitive.intOrNull },
 			genres = value["genres"]?.jsonArray.orEmpty().mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() },
 			cast = (value["credits"] as? JsonObject)?.get("cast")?.jsonArray.orEmpty().take(8).mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() },
 			studios = (value["productionCompanies"]?.jsonArray.orEmpty() + value["networks"]?.jsonArray.orEmpty()).mapNotNull { runCatching { it.jsonObject.string("name") }.getOrNull() }.distinct(),
@@ -75,7 +76,7 @@ object SeerrMediaMapper {
 			posterUrl = value.string("posterPath")?.let { imageUrl(it, false) },
 			backdropUrl = value.string("backdropPath")?.let { imageUrl(it, true) },
 			providerIds = ProviderIds(tmdb = id, tvdb = value.int("tvdbId"), imdb = value.string("imdbId")),
-			availability = if (mediaInfo == null) MediaAvailability.Requestable else mapAvailability(mediaInfo.int("status"), mediaInfo["requests"] != null),
+			availability = if (mediaInfo == null) MediaAvailability.Requestable else mapAvailability(mediaInfo.int("status"), mediaInfo["requests"]?.jsonArray?.isNotEmpty() == true),
 			seasons = value["seasons"]?.jsonArray.orEmpty().mapNotNull { season ->
 				val item = season.jsonObject
 				val number = item.int("seasonNumber") ?: return@mapNotNull null

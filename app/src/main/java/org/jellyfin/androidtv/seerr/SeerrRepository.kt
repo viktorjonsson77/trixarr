@@ -30,25 +30,34 @@ class SeerrRepository(private val api: SeerrApi) {
 	}
 }
 
-class RequestRepository(private val api: SeerrApi) {
+class RequestRepository(private val api: SeerrApi, private val permissions: Long? = null) {
 	private val mutation = Mutex()
-	private val submitted = mutableSetOf<Pair<org.jellyfin.androidtv.seerr.model.MediaKind, Int>>()
+	private val submitted = mutableSetOf<Triple<MediaKind, Int, Int>>()
 	private val cacheGeneration = java.util.concurrent.atomic.AtomicLong()
 	fun generation() = cacheGeneration.get()
 
 	suspend fun request(media: SeerrMedia, selectedSeasons: Set<Int> = emptySet(), confirmed: Boolean): Result<Unit> {
 		if (!confirmed) return Result.failure(IllegalStateException("Explicit confirmation required"))
-		if (media.availability != MediaAvailability.Requestable) return Result.failure(IllegalStateException("Media is not requestable"))
+		if (permissions != null && !SeerrPermissions.canRequest(permissions, media.kind)) return Result.failure(SeerrHttpException(403))
+		if (!requestableMedia(media)) return Result.failure(IllegalStateException("Media is not requestable"))
+		if (media.kind == MediaKind.Series && !selectedSeasons.all { n -> media.seasons.any { it.number == n && n > 0 && it.availability == MediaAvailability.Requestable } }) return Result.failure(IllegalStateException("Season is not requestable"))
 		if (media.kind == MediaKind.Series && selectedSeasons.isEmpty()) return Result.failure(IllegalStateException("Select at least one season"))
 		if (!mutation.tryLock()) return Result.failure(IllegalStateException("Request already in progress"))
 		return try {
 				runCatching {
-					check((media.kind to media.id) !in submitted) { "Request already submitted" }
+					val keys = (if (media.kind == MediaKind.Movie) setOf(0) else selectedSeasons).map { Triple(media.kind, media.id, it) }
+					check(keys.none { it in submitted }) { "Request already submitted" }
 					api.createRequest(if (media.kind == MediaKind.Movie) "movie" else "tv", media.id, selectedSeasons.takeIf { it.isNotEmpty() })
-					submitted += media.kind to media.id
+					submitted.addAll(keys)
 					cacheGeneration.incrementAndGet()
 					Unit
 				}
 		} finally { mutation.unlock() }
 	}
 }
+
+/** A partial/requested show may still have unrequested seasons; never include specials. */
+fun requestableMedia(media: SeerrMedia): Boolean = if (media.kind == MediaKind.Movie)
+    media.availability == MediaAvailability.Requestable
+else media.availability in setOf(MediaAvailability.Requestable, MediaAvailability.PartiallyAvailable, MediaAvailability.Requested, MediaAvailability.Processing) &&
+    media.seasons.any { it.number > 0 && it.availability == MediaAvailability.Requestable }

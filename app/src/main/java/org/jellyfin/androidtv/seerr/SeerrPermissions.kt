@@ -10,9 +10,9 @@ object SeerrPermissions {
 	private const val REQUEST_TV = 524288L
 
 	fun canRequest(value: Long, kind: MediaKind): Boolean = has(value, ADMIN) ||
-		has(value, REQUEST) && has(value, if (kind == MediaKind.Movie) REQUEST_MOVIE else REQUEST_TV)
+		has(value, REQUEST) || has(value, if (kind == MediaKind.Movie) REQUEST_MOVIE else REQUEST_TV)
 
 	fun canViewRequests(value: Long) = has(value, ADMIN) || has(value, REQUEST_VIEW)
-	fun canViewOwnRequests(value: Long) = canViewRequests(value) || canRequest(value, MediaKind.Movie) || canRequest(value, MediaKind.Series)
+	fun canViewOwnRequests(value: Long) = value >= 0 // Authenticated users may read their own requests; server scopes requestedBy.
 	private fun has(value: Long, permission: Long) = value and permission != 0L
 }

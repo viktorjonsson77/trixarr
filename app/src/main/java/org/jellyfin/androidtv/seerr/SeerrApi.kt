@@ -53,7 +53,7 @@ class OkHttpSeerrApi(
 	override suspend fun currentUser() = get("auth/me")
 	override suspend fun search(query: String, page: Int) = get("search", query = mapOf("query" to query, "page" to page.toString()))
 	override suspend fun discover(path: String, page: Int): SeerrResponse {
-		require(path in ALLOWED_DISCOVERY) { "Unsupported discovery endpoint" }
+		require(path in ALLOWED_DISCOVERY || Regex("(movies|tv)/genre/[0-9]+").matches(path)) { "Unsupported discovery endpoint" }
 		return get("discover/$path", query = mapOf("page" to page.toString()))
 	}
 	override suspend fun movie(id: Int) = get("movie/$id")
@@ -110,11 +110,22 @@ class OkHttpSeerrApi(
 
 	private suspend fun execute(builder: Request.Builder, authenticated: Boolean): SeerrResponse = withContext(Dispatchers.IO) {
 		if (authenticated) session()?.let { builder.header("Cookie", it) }
-		client.newCall(builder.header("Accept", "application/json").build()).execute().use { response ->
+		val call = client.newCall(builder.header("Accept", "application/json").build())
+		val received = kotlinx.coroutines.suspendCancellableCoroutine<okhttp3.Response> { continuation ->
+			continuation.invokeOnCancellation { call.cancel() }
+			call.enqueue(object : okhttp3.Callback {
+				override fun onFailure(call: okhttp3.Call, e: java.io.IOException) { if (continuation.isActive) continuation.resumeWith(Result.failure(e)) }
+				override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+					continuation.resume(response) { _, value, _ -> value.close() }
+				}
+			})
+		}
+		received.use { response ->
 			if (!response.isSuccessful) throw SeerrHttpException(response.code)
 			val content = response.body?.string().orEmpty().ifBlank { "{}" }
 			val cookie = response.headers("Set-Cookie").firstOrNull { it.startsWith("connect.sid=") }?.substringBefore(';')
-			SeerrResponse(json.parseToJsonElement(content) as JsonObject, cookie)
+			val parsed = json.parseToJsonElement(content)
+			SeerrResponse(if (parsed is kotlinx.serialization.json.JsonArray) JsonObject(mapOf("results" to parsed)) else parsed as JsonObject, cookie)
 		}
 	}
 

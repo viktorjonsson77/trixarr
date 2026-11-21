@@ -23,6 +23,7 @@ data class SeerrMedia(
 	val certification: String? = null,
 	val rating: Double? = null,
 	val genres: List<String> = emptyList(),
+	val genreIds: List<Int> = emptyList(),
 	val cast: List<String> = emptyList(),
 	val studios: List<String> = emptyList(),
 	val originalLanguage: String? = null,

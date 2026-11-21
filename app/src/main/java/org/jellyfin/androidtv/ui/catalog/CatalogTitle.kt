@@ -29,6 +29,7 @@ data class CatalogTitle(
     val seriesName: String? = null,
     val requestAllowed: Boolean = false,
     val posterAspectRatio: Double? = null,
+    val requestSeasons: List<TitleSeason> = emptyList(),
 ) {
     val progress: Float
         get() =
@@ -48,7 +49,7 @@ data class CatalogTitle(
                 playbackId != null ->
                     if (positionTicks > 0 && !watched) TitleAction.Resume else TitleAction.Play
                 kind == TitleKind.Series && ids.local != null -> TitleAction.Episodes
-                status == TitleStatus.Requestable && requestAllowed -> TitleAction.Request
+                requestAllowed && (status == TitleStatus.Requestable || kind == TitleKind.Series) -> TitleAction.Request
                 else -> TitleAction.Information
             }
 }
@@ -99,6 +100,7 @@ data class TitleSeason(
     val name: String,
     val count: Int? = null,
     val requestable: Boolean = false,
+    val status: TitleStatus = TitleStatus.Unknown,
 )
 
 fun sameTitle(a: CatalogTitle, b: CatalogTitle): Boolean {
@@ -196,4 +198,13 @@ fun buildCatalogSections(kind: TitleKind?, local: List<CatalogTitle>, resume: Li
         CatalogRow("upcoming", "Kommer snart", typed(upcoming)),
         CatalogRow("all", "Alla $noun", all),
     ))
+}
+
+/** External availability and name/year similarity never authorize playback. */
+fun verifiedDiscoveryMatch(local: CatalogTitle, remote: CatalogTitle): Boolean {
+    if (local.ids.local == null || local.kind != remote.kind) return false
+    val pairs = listOf(local.ids.tmdb?.toString() to remote.ids.tmdb?.toString(),
+        local.ids.tvdb?.toString() to remote.ids.tvdb?.toString(), local.ids.imdb?.lowercase() to remote.ids.imdb?.lowercase())
+    if (pairs.any { (a, b) -> a != null && b != null && a != b }) return false
+    return pairs.any { (a, b) -> a != null && a == b }
 }
