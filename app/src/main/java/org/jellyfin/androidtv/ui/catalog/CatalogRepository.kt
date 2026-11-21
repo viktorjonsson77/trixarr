@@ -347,7 +347,7 @@ class CatalogRepository(
                 SeerrRepository(c.first).details(kind, requireNotNull(title.ids.tmdb)).getOrThrow()
             )
             .let(::resolveLocal)
-            .copy(key = title.key)
+            .copy(key = title.key, requestIds = title.requestIds)
     }
 
     suspend fun episodes(title: CatalogTitle, season: TitleSeason): List<CatalogTitle> =
@@ -494,6 +494,7 @@ class CatalogRepository(
                     .map { TitlePerson(it.name, it.role, it.image, it.job) }
                     .ifEmpty { media.cast.map { TitlePerson(it) } },
             studios = media.studios,
+            requestIds = media.requestIds,
             seasons =
                 media.seasons.map {
                     TitleSeason(

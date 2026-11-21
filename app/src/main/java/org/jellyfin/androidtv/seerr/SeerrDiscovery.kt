@@ -39,7 +39,7 @@ class SeerrDiscovery(private val api: SeerrApi, private val user: SeerrUser, pri
         return result
     }
     suspend fun load(category: DiscoveryCategory, genreKey: String? = null): List<DiscoveryRow> {
-        fun row(key: String, values: List<SeerrMedia>) = DiscoveryRow(key, key, values.distinctBy { it.kind to it.id })
+        fun row(key: String, values: List<SeerrMedia>) = DiscoveryRow(key, key, values.groupBy { it.kind to it.id }.values.map { group -> group.first().copy(requestIds = group.flatMap { it.requestIds }.toSet()) })
         return when (category) {
             DiscoveryCategory.New -> listOf(row("new_movies", recent(page("movies"), today())), row("new_tv", recent(page("tv"), today())))
             DiscoveryCategory.Upcoming -> listOf(row("upcoming_movies", upcoming(page("movies/upcoming"), today())), row("upcoming_tv", upcoming(page("tv/upcoming"), today())))
@@ -47,7 +47,7 @@ class SeerrDiscovery(private val api: SeerrApi, private val user: SeerrUser, pri
             DiscoveryCategory.Top -> listOf(row("top_movies", ranked(page("movies"))), row("top_tv", ranked(page("tv"))))
             DiscoveryCategory.Requests -> {
                 if (!SeerrPermissions.canViewOwnRequests(user.permissions)) throw SeerrHttpException(403)
-                val requested = SeerrRepository(api).requests(user.id).getOrThrow().map { it.media }
+                val requested = SeerrRepository(api).requests(user.id).getOrThrow().map { it.media.copy(requestIds = setOf(it.id)) }
                 listOf(row("my_requests", requested), row("request_movies", page("movies").filter { it.availability == MediaAvailability.Requestable && SeerrPermissions.canRequest(user.permissions, it.kind) }), row("request_tv", page("tv").filter { it.availability == MediaAvailability.Requestable && SeerrPermissions.canRequest(user.permissions, it.kind) }))
             }
             DiscoveryCategory.Genres -> {

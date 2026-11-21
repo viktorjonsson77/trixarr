@@ -14,6 +14,9 @@ class SeerrClientProvider(
 		.writeTimeout(10, TimeUnit.SECONDS)
 		.build(),
 ) {
+    fun statusBridge(endpoint: String, profileKey: String, jellyfinToken: () -> String?) =
+        org.jellyfin.androidtv.status.StatusBridgeClient(endpoint, client, { authStore.readSession(profileKey) }, jellyfinToken)
+
 	fun configuration(profileKey: String): SeerrConfiguration? = configurations.get(profileKey)
 
 	fun api(profileKey: String): SeerrApi? {

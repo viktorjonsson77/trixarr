@@ -30,6 +30,7 @@ data class CatalogTitle(
     val requestAllowed: Boolean = false,
     val posterAspectRatio: Double? = null,
     val requestSeasons: List<TitleSeason> = emptyList(),
+    val requestIds: Set<Int> = emptySet(),
 ) {
     val progress: Float
         get() =

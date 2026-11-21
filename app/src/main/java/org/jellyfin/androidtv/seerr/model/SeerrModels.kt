@@ -35,6 +35,7 @@ data class SeerrMedia(
 	val availability: MediaAvailability = MediaAvailability.Unknown,
 	val seasons: List<SeerrSeason> = emptyList(),
 	val related: List<SeerrMedia> = emptyList(),
+	val requestIds: Set<Int> = emptySet(),
 )
 
 data class SeerrPerson(val name: String, val role: String? = null, val image: String? = null, val job: String? = null)

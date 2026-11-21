@@ -647,9 +647,16 @@ class CatalogFragment : Fragment() {
                             if (!page.loading || page.rows.isNotEmpty())
                                 Home(page, hero, restore, ::target, ::focus)
                             else HomeLoadingSurface()
-                        CatalogScreen.Discover -> SeerrDiscoverScreen(page, hero,
-                            onCategory = { chooseDiscovery(page, it) }, onGenre = { page.discoveryGenre = it; chooseDiscovery(page, page.discoveryCategory, retry = true) }, onOpen = ::open, onPrimary = ::discoveryPrimary,
-                            onMenu = ::openMenu, onRetry = { chooseDiscovery(page, page.discoveryCategory, retry = true) })
+                        CatalogScreen.Discover -> RequestDownloadHost(clients,
+                            sessions.currentSession.value?.let { "${it.serverId}:${it.userId}" }.orEmpty(), { api.accessToken },
+                            active = !menuVisible && page.discoveryCategory == org.jellyfin.androidtv.seerr.DiscoveryCategory.Requests,
+                            requestIds = page.rows.firstOrNull { it.key == "my_requests" }?.titles.orEmpty().flatMap { it.requestIds }.distinct(),
+                            onOpen = ::open, onPlay = ::discoveryPrimary) { downloads, onDownload, panel ->
+                            SeerrDiscoverScreen(page, hero,
+                                onCategory = { chooseDiscovery(page, it) }, onGenre = { page.discoveryGenre = it; chooseDiscovery(page, page.discoveryCategory, retry = true) }, onOpen = ::open, onPrimary = ::discoveryPrimary,
+                                onMenu = ::openMenu, onRetry = { chooseDiscovery(page, page.discoveryCategory, retry = true) },
+                                downloads = downloads, onDownload = onDownload, statusPanel = panel)
+                        }
                         CatalogScreen.Movies, CatalogScreen.Series ->
                             CatalogRows(page, hero, ::open, ::openCategory, ::openMenu)
                         CatalogScreen.Collection -> Column {

@@ -49,7 +49,9 @@ internal fun discoveryStatus(title: CatalogTitle): Int = when (title.status) {
 @Composable
 internal fun SeerrDiscoverScreen(page: CatalogPage, hero: CatalogTitle?,
     onCategory: (DiscoveryCategory) -> Unit, onGenre: (String) -> Unit, onOpen: (CatalogTitle) -> Unit,
-    onPrimary: (CatalogTitle) -> Unit, onMenu: () -> Unit, onRetry: () -> Unit) {
+    onPrimary: (CatalogTitle) -> Unit, onMenu: () -> Unit, onRetry: () -> Unit,
+    downloads: Map<Int, org.jellyfin.androidtv.status.RequestDownload> = emptyMap(),
+    onDownload: (CatalogTitle) -> Unit = {}, statusPanel: @Composable () -> Unit = {}) {
     val enabled = LocalContentFocusEnabled.current
     val requesters = remember(page, page.discoveryCategory) { mutableMapOf<String, FocusRequester>() }
     fun requester(token: String) = requesters.getOrPut(token) { FocusRequester() }
@@ -86,6 +88,7 @@ internal fun SeerrDiscoverScreen(page: CatalogPage, hero: CatalogTitle?,
                     }
                 }
             }
+            if (page.discoveryCategory == DiscoveryCategory.Requests) statusPanel()
             if (page.discoveryCategory == DiscoveryCategory.Genres && page.discoveryGenres.isNotEmpty()) {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(page.discoveryGenres, key = { it.key }) { genre ->
@@ -137,12 +140,17 @@ internal fun SeerrDiscoverScreen(page: CatalogPage, hero: CatalogTitle?,
                         LazyRow(state = rowState, contentPadding = PaddingValues(7.dp), horizontalArrangement = Arrangement.spacedBy(14.dp)) {
                             itemsIndexed(row.titles, key = { _, title -> title.key }) { index, title ->
                                 val token = "discover:${row.key}:${title.key}"
+                                val matches = downloads.values.filter { it.requestId in title.requestIds || (title.requestIds.isEmpty() && it.tmdbId == title.ids.tmdb && it.mediaType == if (title.kind == TitleKind.Movie) "movie" else "tv") }
+                                Column {
                                 TitleCard(title, Modifier.width(180.dp).height(108.dp).testTag(token).onPreviewKeyEvent {
                                     if (index == 0 && it.key == Key.DirectionLeft) {
                                         if (it.type == KeyEventType.KeyDown) onMenu(); true
                                     } else false
                                 }, landscape = true, requester = requester(token),
-                                    onFocus = { focused(token, title) }, onClick = { onOpen(title) })
+                                    onFocus = { focused(token, title) }, onClick = { if (page.discoveryCategory == DiscoveryCategory.Requests && (title.requestIds.isNotEmpty() || matches.isNotEmpty())) onDownload(title) else onOpen(title) })
+                                if (matches.size == 1) CompactDownload(matches.single())
+                                else if (matches.size > 1) Text("${matches.size} begäranden – visa status", color = Muted, fontSize = 11.sp)
+                                }
                             }
                         }
                     }
