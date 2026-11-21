@@ -28,6 +28,8 @@ class SeerrClientProvider(
 
 	suspend fun authenticated(profileKey: String): Result<Pair<SeerrApi, org.jellyfin.androidtv.seerr.model.SeerrUser>> {
 		val api = api(profileKey) ?: return Result.failure(IllegalStateException("Seerr is not configured"))
+		// Read only: honor Seerr's existing image-cache mode; never enable it on the server.
+		runCatching { api.publicSettings() }
 		return SeerrSessionManager(profileKey, api, authStore).restore().map { api to it }
 	}
 }

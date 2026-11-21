@@ -45,7 +45,9 @@ class SeerrDiscoveryTests : StringSpec({
             discovery.genreOptions().map { it.key } shouldBe listOf("movie:18","tv:35")
             discovery.load(DiscoveryCategory.Genres,"tv:35").single().label shouldBe "Komedi"
             server.requestCount shouldBe 3
-            server.takeRequest();server.takeRequest();server.takeRequest().path shouldBe "/api/v1/discover/tv/genre/35?page=1"
+            server.takeRequest().path shouldBe "/api/v1/discover/genreslider/movie"
+            server.takeRequest().path shouldBe "/api/v1/discover/genreslider/tv"
+            server.takeRequest().path shouldBe "/api/v1/discover/tv/genre/35?page=1"
         } finally {server.shutdown()}
     }
     "discovery authentication permission timeout and server errors never become empty success" {
@@ -134,6 +136,20 @@ class SeerrDiscoveryTests : StringSpec({
             (server.takeRequest(2,java.util.concurrent.TimeUnit.SECONDS) != null) shouldBe true
             withTimeout(1000) {job.cancelAndJoin()}
             job.isCancelled shouldBe true
+        } finally {server.shutdown()}
+    }
+    "image URLs honor Seerr public cache mode without changing server settings" {
+        val server=MockWebServer();server.start()
+        try {
+            val client=api(server)
+            server.enqueue(MockResponse().setBody("""{"cacheImages":false}"""))
+            client.publicSettings()
+            client.imageUrl("/poster.jpg") shouldBe "https://image.tmdb.org/t/p/w500/poster.jpg"
+            client.imageUrl("/backdrop.jpg",true) shouldBe "https://image.tmdb.org/t/p/w1280/backdrop.jpg"
+            server.takeRequest().method shouldBe "GET"
+            server.enqueue(MockResponse().setBody("""{"cacheImages":true}"""))
+            client.publicSettings()
+            client.imageUrl("/poster.jpg") shouldBe server.url("imageproxy/tmdb/t/p/w500/poster.jpg").toString()
         } finally {server.shutdown()}
     }
 })

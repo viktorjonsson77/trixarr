@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.booleanOrNull
 import okhttp3.HttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -42,19 +43,23 @@ class OkHttpSeerrApi(
 	private val json: Json = Json { ignoreUnknownKeys = true },
 ) : SeerrApi {
 	private val mediaType = "application/json; charset=utf-8".toMediaType()
+	@Volatile private var proxyImages = true
 	override fun imageUrl(path: String, backdrop: Boolean): String {
 		val apiPath = baseUrl.encodedPath.removeSuffix("api/v1/")
 		val size = if (backdrop) "w1280" else "w500"
+		if (!proxyImages) return "https://image.tmdb.org/t/p/$size${if (path.startsWith('/')) path else "/$path"}"
 		return baseUrl.newBuilder().encodedPath("${apiPath}imageproxy/tmdb/t/p/$size${if (path.startsWith('/')) path else "/$path"}").query(null).build().toString()
 	}
 
 	override suspend fun status() = get("status", authenticated = false)
-	override suspend fun publicSettings() = get("settings/public", authenticated = false)
+	override suspend fun publicSettings() = get("settings/public", authenticated = false).also {
+		proxyImages = it.body["cacheImages"]?.jsonPrimitive?.booleanOrNull ?: true
+	}
 	override suspend fun currentUser() = get("auth/me")
 	override suspend fun search(query: String, page: Int) = get("search", query = mapOf("query" to query, "page" to page.toString()))
 	override suspend fun discover(path: String, page: Int): SeerrResponse {
 		require(path in ALLOWED_DISCOVERY || Regex("(movies|tv)/genre/[0-9]+").matches(path)) { "Unsupported discovery endpoint" }
-		return get("discover/$path", query = mapOf("page" to page.toString()))
+		return get("discover/$path", query = if (path.startsWith("genreslider/")) emptyMap() else mapOf("page" to page.toString()))
 	}
 	override suspend fun movie(id: Int) = get("movie/$id")
 	override suspend fun series(id: Int) = get("tv/$id")
