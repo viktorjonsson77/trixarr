@@ -1,0 +1,27 @@
+[Unit]
+Description=Trixarr Status Bridge (private TLS, read only)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+DynamicUser=yes
+WorkingDirectory=/opt/trixarr-status-bridge
+EnvironmentFile=/etc/trixarr-status-bridge/environment
+LoadCredential=radarr_key:/etc/credstore/trixarr-radarr-key
+LoadCredential=sonarr_key:/etc/credstore/trixarr-sonarr-key
+LoadCredential=qbit_username:/etc/credstore/trixarr-qbit-username
+LoadCredential=qbit_password:/etc/credstore/trixarr-qbit-password
+LoadCredential=tls_cert:/etc/credstore/trixarr-tls-cert
+LoadCredential=tls_key:/etc/credstore/trixarr-tls-key
+ExecStart=/usr/bin/python3 server.py --bind ${STATUS_BRIDGE_BIND} --port 8443
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6
+UMask=0077
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
