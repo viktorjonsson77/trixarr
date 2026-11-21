@@ -43,7 +43,7 @@ def credential(name, required=False):
 class Transport:
     def __init__(self, urls, secrets, timeout=4):
         self.urls, self.secrets, self.timeout = urls, secrets, timeout
-        self.opener = urllib.request.build_opener(NoRedirect())
+        self.opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
         self.qbit_cookie = None
         self.lock = threading.Lock()
         self.cache = {}

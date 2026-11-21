@@ -239,6 +239,11 @@ class WireIntegration(unittest.TestCase):
         value=self.bridge.statuses(user,cookie,'synthetic',[1])['requests'][0]
         self.assertEqual(value['seasons'][0]['availableEpisodes'],6)
         self.assertEqual(value['episodes'][6]['status']['progress'],.74)
+    def test_private_upstream_credentials_never_use_environment_proxy(self):
+        from unittest.mock import patch
+        with patch.dict(os.environ, {'HTTP_PROXY':'http://127.0.0.1:9','http_proxy':'http://127.0.0.1:9','NO_PROXY':'','no_proxy':''}):
+            transport=Transport(self.bridge.transport.urls,self.bridge.transport.secrets)
+            self.assertEqual(transport.get('seerr','api/v1/auth/me',{'Cookie':'connect.sid=synthetic'})['id'],7)
     def test_transport_rejects_non_authentication_posts(self):
         with self.assertRaises(ValueError):self.bridge.transport.call('qbit','api/v2/torrents/pause',form={'hashes':HASH})
 
