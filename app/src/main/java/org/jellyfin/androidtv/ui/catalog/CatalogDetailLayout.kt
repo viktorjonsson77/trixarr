@@ -64,6 +64,10 @@ internal fun CatalogDetailLayout(
                     TitleHero(title)
                     Text(statusLabel(title.status), color = if (title.status == TitleStatus.Available) Color(0xFF65CD79) else Muted, fontSize = 12.sp)
                 }
+                if (title.ids.local == null) title.poster?.let {
+                    CatalogImage(it, Modifier.align(Alignment.TopEnd).width(100.dp).height(150.dp), 2.0 / 3,
+                        org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind.POSTER)
+                }
                 Box(Modifier.align(Alignment.BottomStart).fillMaxWidth().focusProperties {
                     exit = { direction ->
                         if (direction == FocusDirection.Left || direction == FocusDirection.Right) FocusRequester.Cancel else FocusRequester.Default

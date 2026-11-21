@@ -89,7 +89,10 @@ internal fun ReadingSurface(title: CatalogTitle, modifier: Modifier, onLeft: (()
 internal fun RequestableTitleContent(title: CatalogTitle, requester: FocusRequester?, onFocus: () -> Unit,
     onRequest: () -> Unit, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(top = 40.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        TitleHero(title)
+        Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+            title.poster?.let { CatalogImage(it, Modifier.width(100.dp).height(150.dp), 2.0 / 3, org.jellyfin.androidtv.util.artwork.ArtworkRequestPolicy.Kind.POSTER) }
+            Column(Modifier.weight(1f)) { TitleHero(title) }
+        }
         Text(statusLabel(title.status), color = Muted, fontSize = 12.sp)
         TvButton(if (title.requestAllowed) "Begär" else "Tillbaka", requester = requester, primary = true,
             onFocus = onFocus, onClick = if (title.requestAllowed) onRequest else onBack)

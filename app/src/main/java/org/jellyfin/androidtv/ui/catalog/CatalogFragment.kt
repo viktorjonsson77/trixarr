@@ -102,6 +102,9 @@ internal enum class CatalogScreen(val label: String) {
 }
 
 internal class CatalogPage(val screen: CatalogScreen, title: CatalogTitle? = null) {
+    var discoveryCategory by mutableStateOf(org.jellyfin.androidtv.seerr.DiscoveryCategory.New)
+    var discoveryGenres by mutableStateOf(emptyList<org.jellyfin.androidtv.seerr.DiscoveryGenre>())
+    var discoveryGenre by mutableStateOf<String?>(null)
     var heading by mutableStateOf("")
     var title by mutableStateOf(title)
     var items by mutableStateOf(emptyList<CatalogTitle>())
@@ -177,6 +180,7 @@ class CatalogFragment : Fragment() {
     private var requestTitle by mutableStateOf<CatalogTitle?>(null)
     private var versions by mutableStateOf<CatalogTitle?>(null)
     private var sending by mutableStateOf(false)
+    private var requestFeedback by mutableStateOf<String?>(null)
     private var requestError by mutableStateOf<String?>(null)
     private lateinit var searchCoordinator: SearchCoordinator<List<CatalogTitle>>
     private val preferences = registerForActivityResult(androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult()) { result ->
@@ -184,6 +188,7 @@ class CatalogFragment : Fragment() {
             menuSections.firstOrNull { it.name == name }?.let(::switch)
         }
     }
+    private var discoveryJob: kotlinx.coroutines.Job? = null
     private var playStarted = 0L
     private var history by mutableStateOf(emptyList<String>())
     private val current
@@ -287,16 +292,24 @@ class CatalogFragment : Fragment() {
         try {
             when (page.screen) {
                 CatalogScreen.Home -> page.rows = repository.home()
-                CatalogScreen.Discover, CatalogScreen.Movies, CatalogScreen.Series -> {
+                CatalogScreen.Discover -> {
+                    if (page.discoveryCategory == org.jellyfin.androidtv.seerr.DiscoveryCategory.Genres) {
+                        page.discoveryGenres = repository.discoveryGenres()
+                        if (page.discoveryGenre == null) page.discoveryGenre = page.discoveryGenres.firstOrNull()?.key
+                    }
+                    page.rows = repository.discoveryRows(page.discoveryCategory, page.discoveryGenre)
+                    page.items = page.rows.flatMap { it.titles }.distinctBy { it.key }
+                }
+                CatalogScreen.Movies, CatalogScreen.Series -> {
                     page.rows = repository.sections(page.type)
                     page.items = mergeTitles(page.rows.flatMap { it.titles })
                 }
                 CatalogScreen.Search -> Unit
                 else -> page.items = repository.browse(1)
             }
-        } catch (_: Exception) {
+        } catch (failure: Exception) {
             kotlinx.coroutines.currentCoroutineContext().ensureActive()
-            page.error = "Innehållet kunde inte hämtas. Försök igen."
+            page.error = if (page.screen == CatalogScreen.Discover) getString(discoveryError(failure)) else "Innehållet kunde inte hämtas. Försök igen."
         }
         if (page.focusToken == "initial")
             page.focusToken =
@@ -304,12 +317,35 @@ class CatalogFragment : Fragment() {
                     CatalogScreen.Home ->
                         if (page.rows.any { it.titles.isNotEmpty() }) "hero" else "empty"
                     CatalogScreen.Search -> "query"
+                    CatalogScreen.Discover -> "tab:${page.discoveryCategory}"
                     else ->
                         page.items
                             .firstOrNull { page.type == null || it.kind == page.type }
                             ?.let { "card:${it.key}" } ?: "filter:Alla"
                 }
         page.loading = false
+    }
+
+
+    private fun chooseDiscovery(page: CatalogPage, category: org.jellyfin.androidtv.seerr.DiscoveryCategory, retry: Boolean = false) {
+        if (page.discoveryCategory == category && !retry) return
+        discoveryJob?.cancel()
+        page.discoveryCategory = category
+        page.rows = emptyList()
+        page.items = emptyList()
+        page.selected = null
+        page.loading = true
+        page.focusToken = "tab:$category"
+        page.list.requestScrollToItem(0)
+        page.restoreFocus()
+        discoveryJob = lifecycleScope.launch { load(page) }
+    }
+    private fun discoveryPrimary(title: CatalogTitle) {
+        when (title.primary) {
+            TitleAction.Play, TitleAction.Resume -> play(title)
+            TitleAction.Request -> { requestError = null; requestTitle = title }
+            else -> open(title)
+        }
     }
 
     private fun switch(screen: CatalogScreen) {
@@ -582,6 +618,7 @@ class CatalogFragment : Fragment() {
             }
             CompositionLocalProvider(LocalContentFocusEnabled provides !menuVisible) {
             Box(Modifier.fillMaxSize()) {
+                androidx.compose.runtime.key(if (page.screen == CatalogScreen.Discover) "discover:${hero?.key}" else "catalog") {
                 Fanart(
                     hero?.backdrop,
                     page.screen in
@@ -595,6 +632,7 @@ class CatalogFragment : Fragment() {
                         page.screen == CatalogScreen.Information ||
                             page.screen == CatalogScreen.Episodes,
                 )
+                }
                 Box(
                     Modifier.fillMaxSize()
                         .padding(
@@ -609,7 +647,10 @@ class CatalogFragment : Fragment() {
                             if (!page.loading || page.rows.isNotEmpty())
                                 Home(page, hero, restore, ::target, ::focus)
                             else HomeLoadingSurface()
-                        CatalogScreen.Discover, CatalogScreen.Movies, CatalogScreen.Series ->
+                        CatalogScreen.Discover -> SeerrDiscoverScreen(page, hero,
+                            onCategory = { chooseDiscovery(page, it) }, onGenre = { page.discoveryGenre = it; chooseDiscovery(page, page.discoveryCategory, retry = true) }, onOpen = ::open, onPrimary = ::discoveryPrimary,
+                            onMenu = ::openMenu, onRetry = { chooseDiscovery(page, page.discoveryCategory, retry = true) })
+                        CatalogScreen.Movies, CatalogScreen.Series ->
                             CatalogRows(page, hero, ::open, ::openCategory, ::openMenu)
                         CatalogScreen.Collection -> Column {
                             Text(page.heading, color = Color.White, fontSize = 24.sp)
@@ -627,7 +668,7 @@ class CatalogFragment : Fragment() {
                             color = Muted,
                             modifier = Modifier.align(Alignment.BottomStart).padding(bottom = 28.dp),
                         )
-                    page.error?.let { message ->
+                    page.error?.takeIf { page.screen != CatalogScreen.Discover }?.let { message ->
                         TvButton(
                             message + "  Försök igen",
                             Modifier.align(Alignment.BottomStart),
@@ -694,6 +735,10 @@ class CatalogFragment : Fragment() {
                             mediaSourceId = source.id,
                         )
                 }
+            }
+            requestFeedback?.let { message ->
+                Text(message, color = Color(0xFF4EDCFF), modifier = Modifier.align(Alignment.BottomEnd).padding(24.dp))
+                LaunchedEffect(message) { kotlinx.coroutines.delay(4000); requestFeedback = null }
             }
             requestTitle?.let {
                 RequestConfirmation(
@@ -921,6 +966,10 @@ class CatalogFragment : Fragment() {
                         onFocus = { focus("primary") },
                         onClick = { primary(page) },
                     )
+                }
+                if (title.ids.local != null && title.kind == TitleKind.Series && title.requestAllowed && title.requestSeasons.any { it.requestable }) item {
+                    TvButton(getString(R.string.discover_request_seasons), requester = target("request-seasons", false),
+                        onFocus = { focus("request-seasons") }, onClick = { requestError = null; requestTitle = title })
                 }
                 val dto = repository.dto(title)
                 if (dto != null && TrailerUtils.hasPlayableTrailers(requireContext(), dto))
@@ -1250,71 +1299,23 @@ class CatalogFragment : Fragment() {
 
     @Composable
     private fun RequestConfirmation(title: CatalogTitle, onDismiss: () -> Unit) {
-        val initial = remember { FocusRequester() }
-        var seasons by remember(title.key) { mutableStateOf(emptySet<Int>()) }
-        Dialog(onDismissRequest = onDismiss) {
-            LaunchedEffect(Unit) {
-                withFrameNanos {}
-                initial.requestFocus()
-            }
-            LazyColumn(
-                Modifier.width(480.dp).heightIn(max = 450.dp).background(Ink).padding(22.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                item {
-                    Text("Begär ${title.name}", color = Color.White, fontSize = 24.sp)
-                    Text(
-                        if (title.kind == TitleKind.Series) "Välj säsonger att begära."
-                        else "Bekräfta att du vill begära filmen.",
-                        color = Muted,
-                        fontSize = 14.sp,
-                    )
-                }
-                itemsIndexed(title.seasons.filter { it.requestable }) { _, season ->
-                    TvButton(
-                        (if (season.number in seasons) "✓  " else "") + season.name,
-                        Modifier.fillMaxWidth(),
-                        onClick = {
-                            if (!sending)
-                                seasons =
-                                    if (season.number in seasons) seasons - season.number
-                                    else seasons + season.number
-                        },
-                    )
-                }
-                item {
-                    requestError?.let { Text(it, color = Accent, fontSize = 13.sp) }
-                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        TvButton("Avbryt", requester = initial, onClick = onDismiss)
-                        if (title.kind == TitleKind.Movie || seasons.isNotEmpty())
-                            TvButton(
-                                if (sending) "Begäran skickas …" else "Bekräfta begäran",
-                                onClick = {
-                                    if (!sending) {
-                                        sending = true
-                                        lifecycleScope.launch {
-                                            repository
-                                                .request(title, seasons)
-                                                .fold(
-                                                    onSuccess = {
-                                                        current.title =
-                                                            title.copy(
-                                                                status = TitleStatus.Requested
-                                                            )
-                                                        requestTitle = null
-                                                        current.restoreFocus()
-                                                    },
-                                                    onFailure = {
-                                                        requestError =
-                                                            "Begäran kunde inte skickas. Försök igen."
-                                                    },
-                                                )
-                                            sending = false
-                                        }
-                                    }
-                                },
-                            )
-                    }
+        SeerrRequestDialog(title, sending, requestError, onDismiss) { seasons ->
+            if (!sending) {
+                sending = true
+                lifecycleScope.launch {
+                    try {
+                        repository.request(title, seasons).fold(
+                            onSuccess = {
+                                if (current.screen == CatalogScreen.Details) current.title = title.copy(status = if (title.ids.local == null) TitleStatus.Requested else title.status, requestAllowed = false)
+                                current.rows = current.rows.map { row -> row.copy(titles = row.titles.map { if (it.key == title.key) it.copy(status = TitleStatus.Requested, requestAllowed = false) else it }) }
+                                current.items = current.items.map { if (it.key == title.key) it.copy(status = TitleStatus.Requested, requestAllowed = false) else it }
+                                requestFeedback = getString(R.string.discover_success)
+                                requestTitle = null
+                                current.restoreFocus()
+                            },
+                            onFailure = { requestError = getString(discoveryError(it)) },
+                        )
+                    } finally { sending = false }
                 }
             }
         }
