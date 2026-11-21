@@ -1,0 +1,49 @@
+11-21 19:35:40.845  4679  4679 I PlaybackController: Internal player would direct stream
+11-21 19:35:40.846  4679  4679 D PlaybackController: default audio index set to 1
+11-21 19:35:40.847  4679  4679 I PlaybackController: default audio index set to 1 remote default 1
+11-21 19:35:40.847  4679  4679 I PlaybackController: default sub index set to -1 remote default -1
+11-21 19:35:40.848  4679  4679 D PlaybackController: trying to find display mode for video: 3832x1600@23,976025
+11-21 19:35:40.849  4679  4679 D PlaybackController: considering display mode: 1 - 1920x1080@59,940060
+11-21 19:35:40.850  4679  4679 D PlaybackController: considering display mode: 6 - 1280x720@59,940060
+11-21 19:35:40.850  4679  4679 D PlaybackController: considering display mode: 7 - 1920x1080@60,000004
+11-21 19:35:40.851  4679  4679 D PlaybackController: considering display mode: 8 - 720x480@60,000004
+11-21 19:35:40.851  4679  4679 D PlaybackController: considering display mode: 9 - 1280x720@50,000000
+11-21 19:35:40.851  4679  4679 D PlaybackController: considering display mode: 12 - 1920x1080@50,000000
+11-21 19:35:40.852  4679  4679 D PlaybackController: considering display mode: 17 - 1280x720@60,000004
+11-21 19:35:40.853  4679  4679 D PlaybackController: considering display mode: 20 - 1920x1080@23,976025
+11-21 19:35:40.853  4679  4679 D PlaybackController: considering display mode: 21 - 1920x1080@29,970030
+11-21 19:35:40.854  4679  4679 D PlaybackController: considering display mode: 22 - 3840x2160@23,976025
+11-21 19:35:40.854  4679  4679 I PlaybackController: qualifying display mode: 22 - 3840x2160@23,976025
+11-21 19:35:40.855  4679  4679 D PlaybackController: preferring mode: 22 - 3840x2160@23,976025
+11-21 19:35:40.855  4679  4679 D PlaybackController: considering display mode: 23 - 3840x2160@29,970030
+11-21 19:35:40.856  4679  4679 D PlaybackController: considering display mode: 24 - 1920x1080@24,000002
+11-21 19:35:40.856  4679  4679 D PlaybackController: considering display mode: 25 - 1920x1080@30,000002
+11-21 19:35:40.857  4679  4679 D PlaybackController: considering display mode: 26 - 3840x2160@24,000002
+11-21 19:35:40.858  4679  4679 D PlaybackController: considering display mode: 27 - 3840x2160@25,000000
+11-21 19:35:40.859  4679  4679 D PlaybackController: considering display mode: 28 - 3840x2160@30,000002
+11-21 19:35:40.859  4679  4679 D PlaybackController: considering display mode: 29 - 3840x2160@50,000000
+11-21 19:35:40.860  4679  4679 D PlaybackController: considering display mode: 30 - 3840x2160@60,000004
+11-21 19:35:40.861  4679  4679 D PlaybackController: considering display mode: 31 - 3840x2160@59,940060
+11-21 19:35:40.862  4679  4679 I PlaybackController: *** Best refresh mode is: 22 - 3840x2160/23,976025
+11-21 19:35:40.863  4679  4679 I PlaybackController: *** Attempting to change refresh rate from: 31 - 3840x2160@59,940060
+11-21 19:35:40.864  4679  4679 D VideoManager: Setting playback speed: 1,000000
+11-21 19:35:40.892  4679  4679 I VideoManager: Video delivery selected: DirectPlay
+11-21 19:35:40.908  4679  4679 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-21 19:35:40.912  4679  4679 D VideoManager: Player is buffering
+11-21 19:35:40.961  4679  4679 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 19:35:41.795  4679  4679 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 19:35:41.831  4679  4679 D VideoManager: Tracks changed
+11-21 19:35:42.087  4679  4679 D VideoManager: re-retrieved exoplayer track index 1
+11-21 19:35:42.090  4679  4679 I PlaybackController: Play method: Direct
+11-21 19:35:42.091  4679  4679 I PlaybackControllerHelperKt: Switching subtitles from index -1 to -1
+11-21 19:35:42.091  4679  4679 I PlaybackControllerHelperKt: Disabling non-baked subtitles
+11-21 19:35:42.100  4679  4679 D VideoManager: re-retrieved exoplayer track index 1
+11-21 19:35:42.100  4679  4679 I PlaybackController: trying to switch audio stream from 1 to 1
+11-21 19:35:42.100  4679  4679 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-21 19:35:42.101  4679  4679 I PlaybackController: setting mCurrentOptions audio stream index from null to 1
+11-21 19:35:42.168  4679  4679 D VideoManager: Tracks changed
+11-21 19:35:46.947  4679  4679 I PlaybackController: pause called at 4522
+11-21 19:35:46.964  4679  4679 I PlaybackController: stop called at 4826
+11-21 19:35:46.986  4679  4679 I ExoPlayerImpl: Release 76b36d [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor]
+11-21 19:35:51.453  5104  5104 I ExoPlayerImpl: Init 8127c58 [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-21 19:35:51.508  5104  5104 I DefaultRenderersFactory: Loaded FfmpegAudioRenderer.

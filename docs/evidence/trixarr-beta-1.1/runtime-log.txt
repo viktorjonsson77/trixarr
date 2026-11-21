@@ -1,0 +1,300 @@
+--------- beginning of main
+11-21 19:34:03.353  3609  3609 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) expire 79 lines
+11-21 19:34:05.000  3609  3684 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) WM.task-1 expire 10 lines
+11-21 19:34:05.114  3609  3687 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) WM.task-3 expire 4 lines
+11-21 19:34:05.141  3609  3688 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 7 lines
+11-21 19:34:05.489  3609  3705 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) expire 3 lines
+11-21 19:34:06.034  3609  3694 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) RenderThread expire 116 lines
+11-21 19:34:06.805  3609  3686 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) WM.task-2 expire 3 lines
+11-21 19:34:06.822  3609  3717 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 3 lines
+11-21 19:34:06.823  3609  3716 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 5 lines
+11-21 19:34:06.823  3609  3715 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 2 lines
+11-21 19:34:06.825  3609  3725 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 4 lines
+11-21 19:34:06.827  3609  3713 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 2 lines
+11-21 19:34:06.831  3609  3714 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 2 lines
+11-21 19:34:06.833  3609  3689 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 4 lines
+11-21 19:34:06.849  3609  3731 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 1 line
+11-21 19:34:06.880  3609  3699 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) 8.1.35:8096/... expire 3 lines
+11-21 19:34:06.881  3609  3690 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 2 lines
+11-21 19:34:07.017  3609  3729 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 1 line
+11-21 19:34:07.702  3609  3732 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) DefaultDispatch expire 4 lines
+11-21 19:34:08.070  3609  3631 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) HeapTaskDaemon expire 2 lines
+11-21 19:34:08.917  3609  3686 D WM-SystemJobScheduler: Scheduling work ID 8657342b-2828-4f95-afc5-b349c4cfbc14Job ID 1515
+11-21 19:34:09.929  3609  3689 W Gralloc4: allocator 3.x is not supported
+11-21 19:34:09.929  3609  3689 W Gralloc3: allocator 3.x is not supported
+11-21 19:34:09.934  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_ASYNC"
+11-21 19:34:09.934  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_LOGFPS"
+11-21 19:34:09.934  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_PROCESS_NAME"
+11-21 19:34:09.934  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_FPSDYNAMIC"
+11-21 19:34:10.163  3609  3609 D ArrStreamerLaunch: 363266879 destination frame committed; cover fade begins MainActivity
+11-21 19:34:10.516  3609  3609 D ArrStreamerLaunch: 363267232 cover removed MainActivity
+11-21 19:34:10.575  3609  3879 D ProfileInstaller: Installing profile for se.viktorjonsson.jellyfintv.debug
+11-21 19:34:10.615  3609  3609 D ACRA    : onActivityPaused class org.jellyfin.androidtv.ui.browsing.MainActivity
+11-21 19:34:10.643  3609  3609 I ActivityThemeExtensionsKt: Applying theme DARK
+11-21 19:34:10.646  3609  3609 D ACRA    : onActivityCreated class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:10.668  3609  3609 D ArrStreamerLaunch: 363267384 cover attached StartupActivity
+11-21 19:34:10.674  3609  3609 D ACRA    : onActivityStarted class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:10.677  3609  3609 D ACRA    : onActivityResumed class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:10.680  3609  3609 I android_os_HwBinder: HwBinder: Starting thread pool for getting: vendor.nvidia.hardware.cpl.service_common@1.0::INvCplHalCommonService/default
+11-21 19:34:10.684  3609  3609 I android_os_HwBinder: HwBinder: Starting thread pool for getting: vendor.nvidia.hardware.cpl.service_common@1.0::INvCplHalCommonService/default
+11-21 19:34:10.695  3609  3609 D View    : com.nvidia.immediateInput = false
+11-21 19:34:10.695  3609  3609 D View    : com.nvidia.mRawCursorInputRequested = false
+11-21 19:34:10.756  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_ASYNC"
+11-21 19:34:10.756  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_LOGFPS"
+11-21 19:34:10.756  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_PROCESS_NAME"
+11-21 19:34:10.756  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_FPSDYNAMIC"
+11-21 19:34:10.779  3609  3609 I StartupActivity$onPermissionsGranted: Found a session in the session repository, waiting for the currentUser in the application class.
+11-21 19:34:10.780  3609  3609 I StartupActivity$onPermissionsGranted: CurrentUser changed to bcc2eb80-c903-4ade-9902-c9316e21a4ab while waiting for startup.
+11-21 19:34:10.781  3609  3609 I StartupActivity: Determining next activity (action=null, itemId=dae676fc-22d2-a272-784e-30b9ff521ab8, itemIsUserView=false)
+11-21 19:34:10.809  3609  3687 D WM-Processor: Processor cancelling 8657342b-2828-4f95-afc5-b349c4cfbc14
+11-21 19:34:10.809  3609  3687 D WM-Processor: WorkerWrapper could not be found for 8657342b-2828-4f95-afc5-b349c4cfbc14
+11-21 19:34:10.818  3609  3687 D WM-GreedyScheduler: Cancelling work ID 8657342b-2828-4f95-afc5-b349c4cfbc14
+11-21 19:34:10.846  3609  3686 D WM-SystemJobScheduler: Scheduling work ID c6498013-cd63-4253-9df6-b86b44edc77aJob ID 1516
+11-21 19:34:10.849  3609  3686 D WM-GreedyScheduler: Starting work for c6498013-cd63-4253-9df6-b86b44edc77a
+11-21 19:34:10.860  3609  3684 D WM-Processor: Processor: processing WorkGenerationalId(workSpecId=c6498013-cd63-4253-9df6-b86b44edc77a, generation=0)
+11-21 19:34:10.872  3609  3609 I NavigationRepositoryImpl: Navigating to Fragment(fragment=class org.jellyfin.androidtv.ui.itemdetail.FullDetailsFragment (Kotlin reflection is not available), arguments=Bundle[{ItemId=dae676fc-22d2-a272-784e-30b9ff521ab8}]) (via reset, clearHistory=true)
+11-21 19:34:10.872  3609  3609 I StartupActivity: Opening next activity Intent { flg=0x10004000 cmp=se.viktorjonsson.jellyfintv.debug/org.jellyfin.androidtv.ui.browsing.MainActivity }
+11-21 19:34:10.885  3609  3609 D WM-SystemJobService: onStartJob for WorkGenerationalId(workSpecId=c6498013-cd63-4253-9df6-b86b44edc77a, generation=0)
+11-21 19:34:10.889  3609  3687 D WM-Processor: Work WorkGenerationalId(workSpecId=c6498013-cd63-4253-9df6-b86b44edc77a, generation=0) is already enqueued for processing
+11-21 19:34:10.926  3609  3609 I android_os_HwBinder: HwBinder: Starting thread pool for getting: vendor.nvidia.hardware.cpl.service_common@1.0::INvCplHalCommonService/default
+11-21 19:34:11.153  3609  3609 D WM-WorkerWrapper: Starting work for org.jellyfin.androidtv.integration.LeanbackChannelWorker
+11-21 19:34:11.156  3609  3609 D ACRA    : onActivityPaused class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:11.211  3609  3609 W RecyclerView: No adapter attached; skipping layout
+11-21 19:34:11.239  3609  3609 W CoilTimberLogger.MemoryCacheService: No keyer is registered for data with type 'VectorDrawable'. Register Keyer<VectorDrawable> in the component registry to cache the output image in the memory cache.
+11-21 19:34:11.254  3609  3609 D ACRA    : onActivityResumed class org.jellyfin.androidtv.ui.browsing.MainActivity
+11-21 19:34:11.327  3609  3631 I ellyfintv.debu: Background young concurrent copying GC freed 212800(8730KB) AllocSpace objects, 5(560KB) LOS objects, 24% free, 20MB/27MB, paused 134us total 104.090ms
+11-21 19:34:11.337  3609  3694 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+11-21 19:34:11.347  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_ASYNC"
+11-21 19:34:11.348  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_LOGFPS"
+11-21 19:34:11.348  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_PROCESS_NAME"
+11-21 19:34:11.348  3609  3694 E libc    : Access denied finding property "ro.vendor.sys.NV_FPSDYNAMIC"
+11-21 19:34:11.464  3609  3609 D FullDetailsFragment: Item type: Movie
+11-21 19:34:11.792  3609  3631 I ellyfintv.debu: Background concurrent copying GC freed 230995(11MB) AllocSpace objects, 22(7496KB) LOS objects, 49% free, 17MB/34MB, paused 194us total 235.959ms
+11-21 19:34:12.492  3609  3694 I OpenGLRenderer: Davey! duration=1109ms; Flags=0, IntendedVsync=363268098566962, Vsync=363268198666960, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=363268203542359, AnimationStart=363268203548713, PerformTraversalsStart=363268264785328, DrawStart=363269077247879, SyncQueued=363269126986994, SyncStart=363269127274442, IssueDrawCommandsStart=363269128162202, SwapBuffers=363269207297254, FrameCompleted=363269208157046, DequeueBufferDuration=575208, QueueBufferDuration=497448, GpuCompleted=0, 
+11-21 19:34:12.497  3609  3694 I OpenGLRenderer: Davey! duration=1044ms; Flags=0, IntendedVsync=363268098566962, Vsync=363268198666960, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=363268203542359, AnimationStart=363268203548713, PerformTraversalsStart=363268264785328, DrawStart=363269128616317, SyncQueued=363269141750379, SyncStart=363269211879025, IssueDrawCommandsStart=363269211952879, SwapBuffers=363269212376577, FrameCompleted=363269213179286, DequeueBufferDuration=0, QueueBufferDuration=414583, GpuCompleted=120259084308, 
+11-21 19:34:12.508  3609  3609 I Choreographer: Skipped 59 frames!  The application may be doing too much work on its main thread.
+11-21 19:34:12.546  3609  3694 I OpenGLRenderer: Davey! duration=1027ms; Flags=0, IntendedVsync=363268232033707, Vsync=363269216350354, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=363269223960536, AnimationStart=363269223967775, PerformTraversalsStart=363269239552775, DrawStart=363269250012098, SyncQueued=363269256847619, SyncStart=363269258957306, IssueDrawCommandsStart=363269259370171, SwapBuffers=363269261143452, FrameCompleted=363269262085588, DequeueBufferDuration=0, QueueBufferDuration=531406, GpuCompleted=0, 
+11-21 19:34:12.550  3609  3694 I OpenGLRenderer: Davey! duration=1032ms; Flags=0, IntendedVsync=363268232033707, Vsync=363269216350354, OldestInputEvent=9223372036854775807, NewestInputEvent=0, HandleInputStart=363269223960536, AnimationStart=363269223967775, PerformTraversalsStart=363269239552775, DrawStart=363269259677984, SyncQueued=363269263662619, SyncStart=363269264387254, IssueDrawCommandsStart=363269264448140, SwapBuffers=363269264802567, FrameCompleted=363269265706525, DequeueBufferDuration=0, QueueBufferDuration=479791, GpuCompleted=-4294967296, 
+11-21 19:34:12.553  3609  3609 D ACRA    : onActivityStopped class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:12.564  3609  3609 D ACRA    : onActivityDestroyed class org.jellyfin.androidtv.ui.startup.StartupActivity
+11-21 19:34:12.569  3609  3694 E Surface : freeAllBuffers: 1 buffers were freed while being dequeued!
+11-21 19:34:12.573  3609  3609 I ItemRowAdapterHelperKt: Creating items from 0 existing and 5 new, adapter size is 0
+11-21 19:34:12.582  3609  3609 D FullDetailsFragment: current time 1795286052581 last playback event time null last refresh time 1795286051463
+11-21 19:34:12.613  3609  3686 I WM-WorkerWrapper: Worker result SUCCESS for Work [ id=c6498013-cd63-4253-9df6-b86b44edc77a, tags={ org.jellyfin.androidtv.integration.LeanbackChannelWorker } ]
+11-21 19:34:12.656  3609  3609 D WM-Processor: Processor c6498013-cd63-4253-9df6-b86b44edc77a executed; reschedule = false
+11-21 19:34:12.657  3609  3609 D WM-SystemJobService: c6498013-cd63-4253-9df6-b86b44edc77a executed on JobScheduler
+11-21 19:34:12.660  3609  3684 D WM-GreedyScheduler: Cancelling work ID c6498013-cd63-4253-9df6-b86b44edc77a
+11-21 19:34:12.673  3609  3684 D WM-SystemJobScheduler: Scheduling work ID c6498013-cd63-4253-9df6-b86b44edc77aJob ID 1517
+11-21 19:34:12.696  3609  3609 D WM-SystemJobService: onStopJob for WorkGenerationalId(workSpecId=c6498013-cd63-4253-9df6-b86b44edc77a, generation=0)
+11-21 19:34:14.880  3609  3609 I NavigationRepositoryImpl: Navigating to Fragment(fragment=class org.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment (Kotlin reflection is not available), arguments=Bundle[{Position=0}]) (via navigate function)
+11-21 19:34:14.926  3609  3609 I PlaybackController: ** Available display refresh rates:
+11-21 19:34:14.927  3609  3609 I PlaybackController: display mode 1 - 1920x1080@59,940060
+11-21 19:34:14.927  3609  3609 I PlaybackController: display mode 6 - 1280x720@59,940060
+11-21 19:34:14.928  3609  3609 I PlaybackController: display mode 7 - 1920x1080@60,000004
+11-21 19:34:14.929  3609  3609 I PlaybackController: display mode 8 - 720x480@60,000004
+11-21 19:34:14.929  3609  3609 I PlaybackController: display mode 9 - 1280x720@50,000000
+11-21 19:34:14.930  3609  3609 I PlaybackController: display mode 12 - 1920x1080@50,000000
+11-21 19:34:14.931  3609  3609 I PlaybackController: display mode 17 - 1280x720@60,000004
+11-21 19:34:14.932  3609  3609 I PlaybackController: display mode 20 - 1920x1080@23,976025
+11-21 19:34:14.933  3609  3609 I PlaybackController: display mode 21 - 1920x1080@29,970030
+11-21 19:34:14.933  3609  3609 I PlaybackController: display mode 22 - 3840x2160@23,976025
+11-21 19:34:14.934  3609  3609 I PlaybackController: display mode 23 - 3840x2160@29,970030
+11-21 19:34:14.935  3609  3609 I PlaybackController: display mode 24 - 1920x1080@24,000002
+11-21 19:34:14.936  3609  3609 I PlaybackController: display mode 25 - 1920x1080@30,000002
+11-21 19:34:14.938  3609  3609 I PlaybackController: display mode 26 - 3840x2160@24,000002
+11-21 19:34:14.939  3609  3609 I PlaybackController: display mode 27 - 3840x2160@25,000000
+11-21 19:34:14.940  3609  3609 I PlaybackController: display mode 28 - 3840x2160@30,000002
+11-21 19:34:14.941  3609  3609 I PlaybackController: display mode 29 - 3840x2160@50,000000
+11-21 19:34:14.942  3609  3609 I PlaybackController: display mode 30 - 3840x2160@60,000004
+11-21 19:34:14.943  3609  3609 I PlaybackController: display mode 31 - 3840x2160@59,940060
+11-21 19:34:15.210  3609  3609 I ExoPlayerImpl: Init 2b96c9b [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30]
+11-21 19:34:15.212  3609  3609 I DefaultRenderersFactory: Loaded FfmpegVideoRenderer.
+11-21 19:34:15.213  3609  3609 I DefaultRenderersFactory: Loaded FfmpegAudioRenderer.
+11-21 19:34:15.247  3609  3609 I PlaybackController: Play called from state: IDLE with pos: 0, sub index: null and forced audio: null
+11-21 19:34:15.269  3609  3609 W AudioCapabilities: Unsupported mime audio/mpeg-L2
+11-21 19:34:15.270  3609  3609 W AudioCapabilities: Unsupported mime audio/x-ms-wma
+11-21 19:34:15.270  3609  3609 W VideoCapabilities: Unsupported mime image/vnd.android.heic
+11-21 19:34:15.275  3609  3609 W VideoCapabilities: Unsupported mime video/dolby-vision
+11-21 19:34:15.276  3609  3609 W VideoCapabilities: Unsupported mime video/dolby-vision
+11-21 19:34:15.280  3609  3609 W VideoCapabilities: Unsupported mime video/x-motion-jpeg
+11-21 19:34:15.282  3609  3609 W VideoCapabilities: Unsupported mime video/wvc1
+11-21 19:34:15.283  3609  3609 W VideoCapabilities: Unsupported mime video/x-ms-wmv
+11-21 19:34:15.293  3609  3609 I VideoCapabilities: Unsupported profile 4 for video/mp4v-es
+11-21 19:34:15.296  3609  3609 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.h265.decode for mime video/hevc
+11-21 19:34:15.298  3609  3609 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.h264.decode for mime video/avc
+11-21 19:34:15.301  3609  3609 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.vc1.decode for mime video/wvc1
+11-21 19:34:15.302  3609  3609 D MediaCodecCapabilitiesTest: Computed max resolution for video/avc: 4080x4080
+11-21 19:34:15.302  3609  3609 D MediaCodecCapabilitiesTest: Computed max resolution for video/hevc: 4096x4096
+11-21 19:34:15.303  3609  3609 D MediaCodecCapabilitiesTest: Computed max resolution for video/av01: 0x0
+11-21 19:34:15.304  3609  3609 D MediaCodecCapabilitiesTest: Computed max resolution for video/wvc1: 3840x2176
+11-21 19:34:15.306  3609  3609 I MediaCodecCapabilitiesTest: found codec OMX.Nvidia.DOVI.decode for mime video/dolby-vision
+11-21 19:34:15.353  3609  3609 W AudioManager: Use of stream types is deprecated for operations other than volume control
+11-21 19:34:15.353  3609  3609 W AudioManager: See the documentation of requestAudioFocus() for what to use instead with android.media.AudioAttributes to qualify your playback use case
+11-21 19:34:15.451  3609  3609 W CoilTimberLogger.MemoryCacheService: No keyer is registered for data with type 'VectorDrawable'. Register Keyer<VectorDrawable> in the component registry to cache the output image in the memory cache.
+11-21 19:34:15.501  3609  3609 I PlaybackController: Internal player would direct stream
+11-21 19:34:15.502  3609  3609 D PlaybackController: default audio index set to 1
+11-21 19:34:15.502  3609  3609 I PlaybackController: default audio index set to 1 remote default 1
+11-21 19:34:15.502  3609  3609 I PlaybackController: default sub index set to -1 remote default -1
+11-21 19:34:15.503  3609  3609 D PlaybackController: trying to find display mode for video: 3832x1600@23,976025
+11-21 19:34:15.504  3609  3609 D PlaybackController: considering display mode: 1 - 1920x1080@59,940060
+11-21 19:34:15.505  3609  3609 D PlaybackController: considering display mode: 6 - 1280x720@59,940060
+11-21 19:34:15.506  3609  3609 D PlaybackController: considering display mode: 7 - 1920x1080@60,000004
+11-21 19:34:15.507  3609  3609 D PlaybackController: considering display mode: 8 - 720x480@60,000004
+11-21 19:34:15.507  3609  3609 D PlaybackController: considering display mode: 9 - 1280x720@50,000000
+11-21 19:34:15.508  3609  3609 D PlaybackController: considering display mode: 12 - 1920x1080@50,000000
+11-21 19:34:15.509  3609  3609 D PlaybackController: considering display mode: 17 - 1280x720@60,000004
+11-21 19:34:15.509  3609  3609 D PlaybackController: considering display mode: 20 - 1920x1080@23,976025
+11-21 19:34:15.510  3609  3609 D PlaybackController: considering display mode: 21 - 1920x1080@29,970030
+11-21 19:34:15.511  3609  3609 D PlaybackController: considering display mode: 22 - 3840x2160@23,976025
+11-21 19:34:15.512  3609  3609 I PlaybackController: qualifying display mode: 22 - 3840x2160@23,976025
+11-21 19:34:15.512  3609  3609 D PlaybackController: preferring mode: 22 - 3840x2160@23,976025
+11-21 19:34:15.513  3609  3609 D PlaybackController: considering display mode: 23 - 3840x2160@29,970030
+11-21 19:34:15.513  3609  3609 D PlaybackController: considering display mode: 24 - 1920x1080@24,000002
+11-21 19:34:15.514  3609  3609 D PlaybackController: considering display mode: 25 - 1920x1080@30,000002
+11-21 19:34:15.514  3609  3609 D PlaybackController: considering display mode: 26 - 3840x2160@24,000002
+11-21 19:34:15.515  3609  3609 D PlaybackController: considering display mode: 27 - 3840x2160@25,000000
+11-21 19:34:15.515  3609  3609 D PlaybackController: considering display mode: 28 - 3840x2160@30,000002
+11-21 19:34:15.516  3609  3609 D PlaybackController: considering display mode: 29 - 3840x2160@50,000000
+11-21 19:34:15.516  3609  3609 D PlaybackController: considering display mode: 30 - 3840x2160@60,000004
+11-21 19:34:15.517  3609  3609 D PlaybackController: considering display mode: 31 - 3840x2160@59,940060
+11-21 19:34:15.517  3609  3609 I PlaybackController: *** Best refresh mode is: 22 - 3840x2160/23,976025
+11-21 19:34:15.518  3609  3609 I PlaybackController: *** Attempting to change refresh rate from: 31 - 3840x2160@59,940060
+11-21 19:34:15.519  3609  3609 D VideoManager: Setting playback speed: 1,000000
+11-21 19:34:15.571  3609  3609 I VideoManager: Video delivery selected: DirectPlay
+11-21 19:34:15.587  3609  3609 D VideoManager: Caught player timeline change - reason: PLAYLIST_CHANGED
+11-21 19:34:15.590  3609  3609 D VideoManager: Player is buffering
+11-21 19:34:15.655  3609  3609 D AudioManager: dispatching onAudioFocusChange(-1) to android.media.AudioManager@b2936edorg.jellyfin.androidtv.ui.playback.CustomPlaybackOverlayFragment$6@796c922
+11-21 19:34:15.657  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_ASYNC"
+11-21 19:34:15.657  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_LOGFPS"
+11-21 19:34:15.657  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_PROCESS_NAME"
+11-21 19:34:15.657  3609  3865 E libc    : Access denied finding property "ro.vendor.sys.NV_FPSDYNAMIC"
+11-21 19:34:15.658  3609  3609 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 19:34:16.194  3609  3699 D org.jellyfin.sdk.api.okhttp.OkHttpSocketConnection: Receiving (raw) message {"MessageId":"fe74581ab6554686b830bad3a0365f90","Data":{"UserId":"bcc2eb80c9034ade9902c9316e21a4ab","UserDataList":[{"PlaybackPositionTicks":0,"PlayCount":44,"IsFavorite":false,"LastPlayedDate":"2026-11-21T18:34:18.6231036Z","Played":false,"Key":"1423191","ItemId":"dae676fc22d2a272784e30b9ff521ab8"},{"PlayedPercentage":13.333333333333334,"UnplayedItemCount":13,"PlaybackPositionTicks":0,"PlayCount":0,"IsFavorite":false,"Played":false,"Key":"b928f83d-dbc3-7622-c4fa-c1486d7aa11e","ItemId":"b928f83ddbc37622c4fac1486d7aa11e"}]},"MessageType":"UserDataChanged"}
+11-21 19:34:16.472  3609  3609 D VideoManager: Caught player timeline change - reason: SOURCE_UPDATE
+11-21 19:34:16.514  3609  3609 D VideoManager: Tracks changed
+11-21 19:34:16.520  3609  3997 I android_os_HwBinder: HwBinder: Starting thread pool for getting: vendor.nvidia.hardware.cpl.service_common@1.0::INvCplHalCommonService/default
+11-21 19:34:16.540  3609  4018 I OMXClient: IOmx service obtained
+11-21 19:34:16.560  3609  3997 I android_os_HwBinder: HwBinder: Starting thread pool for getting: vendor.nvidia.hardware.cpl.service_common@1.0::INvCplHalCommonService/default
+11-21 19:34:16.562  3609  3997 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) identical 2 lines
+11-21 19:34:16.568  3609  4017 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) expire 5 lines
+11-21 19:34:16.573  3609  4018 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) expire 10 lines
+11-21 19:34:16.986  3609  3609 I chatty  : uid=10048(se.viktorjonsson.jellyfintv.debug) expire 8 lines
+11-21 19:34:17.110  3609  3997 E AudioTrack-JNI: Error -32 during AudioTrack native read
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer: Audio sink error
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:   androidx.media3.exoplayer.audio.AudioSink$WriteException: AudioTrack write failed: -6
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.audio.DefaultAudioSink.drainOutputBuffer(DefaultAudioSink.java:1349)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.audio.DefaultAudioSink.processBuffers(DefaultAudioSink.java:1231)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.audio.DefaultAudioSink.handleBuffer(DefaultAudioSink.java:1094)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:832)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.bypassRender(MediaCodecRenderer.java:2485)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:891)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.RendererHolder.render(RendererHolder.java:391)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1367)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:697)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at android.os.Handler.dispatchMessage(Handler.java:102)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at android.os.Looper.loop(Looper.java:223)
+11-21 19:34:17.114  3609  3997 E DecoderAudioRenderer:       at android.os.HandlerThread.run(HandlerThread.java:67)
+11-21 19:34:17.145  3609  3609 D VideoManager: Tracks changed
+11-21 19:34:17.146  3609  3609 W PlaybackDiagnostics: AudioSink write code=-6 recoverable=true state=3 positionMs=0
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal: Recoverable renderer error
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:   androidx.media3.exoplayer.ExoPlaybackException: MediaCodecAudioRenderer error, index=2, format=Format(2, null, video/x-matroska, audio/eac3, null, -1, en, [-1, -1, -1.0, null], [6, 48000]), format_supported=NO_UNSUPPORTED_TYPE
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.BaseRenderer.createRendererException(BaseRenderer.java:545)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:843)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.bypassRender(MediaCodecRenderer.java:2485)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.mediacodec.MediaCodecRenderer.render(MediaCodecRenderer.java:891)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.RendererHolder.render(RendererHolder.java:391)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.doSomeWork(ExoPlayerImplInternal.java:1367)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.ExoPlayerImplInternal.handleMessage(ExoPlayerImplInternal.java:697)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at android.os.Handler.dispatchMessage(Handler.java:102)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at android.os.Looper.loop(Looper.java:223)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at android.os.HandlerThread.run(HandlerThread.java:67)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:   Caused by: androidx.media3.exoplayer.audio.AudioSink$WriteException: AudioTrack write failed: -6
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.drainOutputBuffer(DefaultAudioSink.java:1349)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.processBuffers(DefaultAudioSink.java:1231)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.DefaultAudioSink.handleBuffer(DefaultAudioSink.java:1094)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       at androidx.media3.exoplayer.audio.MediaCodecAudioRenderer.processOutputBuffer(MediaCodecAudioRenderer.java:832)
+11-21 19:34:17.201  3609  3997 W ExoPlayerImplInternal:       ... 8 more
+11-21 19:34:17.228  3609  3609 D VideoManager: Tracks changed
+11-21 19:34:17.229  3609  3609 D VideoManager: Player is buffering
+11-21 19:34:17.297  3609  3609 D VideoManager: Tracks changed
+11-21 19:34:17.412  3609  3609 I PlaybackController: Play method: Direct
+11-21 19:34:17.412  3609  3609 I PlaybackControllerHelperKt: Switching subtitles from index -1 to -1
+11-21 19:34:17.412  3609  3609 I PlaybackControllerHelperKt: Disabling non-baked subtitles
+11-21 19:34:17.413  3609  3609 I PlaybackController: trying to switch audio stream from 1 to 1
+11-21 19:34:17.414  3609  3609 D PlaybackController: skipping setting audio stream, already set to requested index 1
+11-21 19:34:17.671  3609  3631 I ellyfintv.debu: Background concurrent copying GC freed 68144(3056KB) AllocSpace objects, 12(4948KB) LOS objects, 41% free, 33MB/57MB, paused 65us total 112.031ms
+11-21 19:34:24.080  3609  3631 I ellyfintv.debu: Background concurrent copying GC freed 6679(459KB) AllocSpace objects, 0(0B) LOS objects, 29% free, 57MB/81MB, paused 50us total 100.269ms
+11-21 19:34:33.636  3609  3609 W ellyfintv.debu: Accessing hidden method Landroid/view/KeyEvent;->isMediaSessionKey(I)Z (blacklist, linking, denied)
+11-21 19:34:33.641  3609  3609 W TelecomManager: Telecom Service not found.
+11-21 19:34:33.657  3609  3609 I PlaybackController: pause called at 16197
+11-21 19:34:34.404  3609  3609 W TelecomManager: Telecom Service not found.
+11-21 19:34:34.408  3609  3609 W MediaSessionImpl: Play requested without current MediaItem, but playback resumption prevented by missing available commands
+11-21 19:34:34.414  3609  3609 D MediaSessionPlayer: handlePrepare()
+11-21 19:34:34.422  3609  3609 D MediaSessionPlayer: handleSetPlayWhenReady(playWhenReady=true)
+11-21 19:34:34.428  3609  3609 I PlaybackController: Play called from state: PAUSED with pos: 0, sub index: null and forced audio: eng
+11-21 19:34:34.430  3609  3609 I PlaybackController: Play method: Direct
+11-21 19:34:35.189  3609  3609 I PlaybackController: Skip amount requested was 30000. Calculated position is 47190
+11-21 19:34:35.189  3609  3609 I PlaybackController: Duration reported as: 5629600 current pos: 17190
+11-21 19:34:35.190  3609  3609 D MediaSessionPlayer$handleSeek: handleSeek(mediaItemIndex=0, positionMs=30000, seekCommand=12)
+11-21 19:34:35.190  3609  3609 W ExoPlayerBackend: Trying to seek but ExoPlayer doesn't support it for the current item
+11-21 19:34:35.928  3609  3609 I NavigationRepositoryImpl: Navigating back
+11-21 19:34:35.931  3609  3609 I PlaybackController: pause called at 47190
+11-21 19:34:35.941  3609  3609 I CustomPlaybackOverlayFragment: Stopping!
+11-21 19:34:35.942  3609  3609 I CustomPlaybackOverlayFragment: this fragment belongs to the current session, ending it
+11-21 19:34:35.944  3609  3609 I PlaybackController: stop called at 47190
+11-21 19:34:35.970  3609  4017 D SurfaceUtils: disconnecting from surface 0x30d6e31530, reason disconnectFromSurface
+11-21 19:34:35.977  3609  3609 I ExoPlayerImpl: Release 2b96c9b [AndroidXMedia3/1.8.0] [mdarcy, SHIELD Android TV, NVIDIA, 30] [media3.common, media3.exoplayer, media3.decoder, media3.session, media3.ui, media3.decoder.ffmpeg, media3.datasource.okhttp, media3.datasource, media3.extractor]
+11-21 19:34:35.980  3609  4173 W MessageQueue: Handler (android.os.Handler) {7771097} sending message to a Handler on a dead thread
+11-21 19:34:35.980  3609  4173 W MessageQueue: java.lang.IllegalStateException: Handler (android.os.Handler) {7771097} sending message to a Handler on a dead thread
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at android.os.MessageQueue.enqueueMessage(MessageQueue.java:560)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at android.os.Handler.enqueueMessage(Handler.java:778)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at android.os.Handler.sendMessageAtTime(Handler.java:727)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at android.os.Handler.sendMessageDelayed(Handler.java:697)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at android.os.Handler.post(Handler.java:427)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at androidx.media3.exoplayer.audio.DefaultAudioSink.lambda$releaseAudioTrackAsync$1(DefaultAudioSink.java:2065)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at androidx.media3.exoplayer.audio.DefaultAudioSink$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:462)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:301)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+11-21 19:34:35.980  3609  4173 W MessageQueue: 	at java.lang.Thread.run(Thread.java:923)
+11-21 19:34:35.988  3609  4017 D MediaCodec: flushMediametrics
+11-21 19:34:35.988  3609  4017 D MediaCodec: flushMediametrics
+11-21 19:34:36.064  3609  3609 W RecyclerView: No adapter attached; skipping layout
+11-21 19:34:36.087  3609  3609 W CoilTimberLogger.MemoryCacheService: No keyer is registered for data with type 'VectorDrawable'. Register Keyer<VectorDrawable> in the component registry to cache the output image in the memory cache.
+11-21 19:34:36.180  3609  3609 D FullDetailsFragment: Item type: Movie
+11-21 19:34:36.485  3609  3699 D org.jellyfin.sdk.api.okhttp.OkHttpSocketConnection: Receiving (raw) message {"MessageId":"b0fa964bd17445b39f59c9ed18d98ace","Data":{"UserId":"bcc2eb80c9034ade9902c9316e21a4ab","UserDataList":[{"PlaybackPositionTicks":0,"PlayCount":44,"IsFavorite":false,"LastPlayedDate":"2026-11-21T18:34:18.6231036Z","Played":false,"Key":"1423191","ItemId":"dae676fc22d2a272784e30b9ff521ab8"},{"PlayedPercentage":13.333333333333334,"UnplayedItemCount":13,"PlaybackPositionTicks":0,"PlayCount":0,"IsFavorite":false,"Played":false,"Key":"b928f83d-dbc3-7622-c4fa-c1486d7aa11e","ItemId":"b928f83ddbc37622c4fac1486d7aa11e"}]},"MessageType":"UserDataChanged"}
+11-21 19:34:36.543  3609  3609 I ItemRowAdapterHelperKt: Creating items from 0 existing and 5 new, adapter size is 0
+11-21 19:34:36.797  3609  3609 D FullDetailsFragment: current time 1795286076796 last playback event time 2026-11-21T18:34:35.945Z last refresh time 1795286076180
+11-21 19:34:36.797  3609  3609 I FullDetailsFragment: Updating info after playback
+11-21 19:34:36.926  3609  3638 W MessageQueue: Handler (android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate) {2942511} sending message to a Handler on a dead thread
+11-21 19:34:36.926  3609  3638 W MessageQueue: java.lang.IllegalStateException: Handler (android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate) {2942511} sending message to a Handler on a dead thread
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.MessageQueue.enqueueMessage(MessageQueue.java:560)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Handler.enqueueMessage(Handler.java:778)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessageAtTime(Handler.java:727)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessageDelayed(Handler.java:697)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessage(Handler.java:635)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate.sendDisplayEvent(DisplayManagerGlobal.java:722)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal.handleDisplayEvent(DisplayManagerGlobal.java:351)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal.access$200(DisplayManagerGlobal.java:55)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal$DisplayManagerCallback.onDisplayEvent(DisplayManagerGlobal.java:708)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.hardware.display.IDisplayManagerCallback$Stub.onTransact(IDisplayManagerCallback.java:84)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Binder.execTransactInternal(Binder.java:1159)
+11-21 19:34:36.926  3609  3638 W MessageQueue: 	at android.os.Binder.execTransact(Binder.java:1123)
+11-21 19:34:36.928  3609  3638 W MessageQueue: Handler (android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate) {2942511} sending message to a Handler on a dead thread
+11-21 19:34:36.928  3609  3638 W MessageQueue: java.lang.IllegalStateException: Handler (android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate) {2942511} sending message to a Handler on a dead thread
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.MessageQueue.enqueueMessage(MessageQueue.java:560)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Handler.enqueueMessage(Handler.java:778)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessageAtTime(Handler.java:727)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessageDelayed(Handler.java:697)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Handler.sendMessage(Handler.java:635)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal$DisplayListenerDelegate.sendDisplayEvent(DisplayManagerGlobal.java:722)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal.handleDisplayEvent(DisplayManagerGlobal.java:351)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal.access$200(DisplayManagerGlobal.java:55)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.hardware.display.DisplayManagerGlobal$DisplayManagerCallback.onDisplayEvent(DisplayManagerGlobal.java:708)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.hardware.display.IDisplayManagerCallback$Stub.onTransact(IDisplayManagerCallback.java:84)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Binder.execTransactInternal(Binder.java:1159)
+11-21 19:34:36.928  3609  3638 W MessageQueue: 	at android.os.Binder.execTransact(Binder.java:1123)
+11-21 19:34:36.944  3609  3728 D org.jellyfin.sdk.api.okhttp.OkHttpSocketConnection: Sending (raw) message {"MessageType":"KeepAlive"}
+11-21 19:34:36.946  3609  3699 D org.jellyfin.sdk.api.okhttp.OkHttpSocketConnection: Receiving (raw) message {"MessageId":"6c996c3c73604bb1b4f68eae4e2e06f9","MessageType":"KeepAlive"}

@@ -1,0 +1,1 @@
+Starting: Intent { cmp=se.viktorjonsson.jellyfintv.debug/org.jellyfin.androidtv.ui.startup.StartupActivity }

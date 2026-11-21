@@ -1,0 +1,13 @@
+{
+  "path": "/opt/jellyfintv-artifacts/trixarr-beta-1.1/trixarr-0.1.1-beta.1-debug.apk",
+  "sha256": "982f5a81c93f99cfd5437d533bf1311d1ab4791f3fe62a2fb91797aad368a927",
+  "signer_sha256": "f3e4c2ca6d4f6462161eb268157cdcd5dfaa947d1179abce44bdcb055424b97c",
+  "package": "se.viktorjonsson.jellyfintv.debug",
+  "versionName": "0.1.1-beta.1",
+  "versionCode": 10101,
+  "arm64_libraries": [
+    "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "lib/arm64-v8a/libffmpegJNI.so"
+  ],
+  "update_signature_matches": true
+}

@@ -1,0 +1,16 @@
+logcat: -T '11-21.000' not in time format.
+Traceback (most recent call last):
+  File "/tmp/beta11-playback-once.py", line 43, in <module>
+    raw = call('shell',f'logcat -d -v threadtime --pid={pid} -T "{start}.000" PlaybackDiagnostics:V PlaybackController:V VideoManager:V AudioTrack:V DefaultAudioSink:V ExoPlayerImpl:V "*:S"')
+  File "/tmp/beta11-playback-once.py", line 26, in call
+    return subprocess.check_output(adb + list(parts), text=True, timeout=18).strip()
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 472, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['adb', '-s', '100.91.172.18:5555', 'shell', 'logcat -d -v threadtime --pid=3609 -T "11-21.000" PlaybackDiagnostics:V PlaybackController:V VideoManager:V AudioTrack:V DefaultAudioSink:V ExoPlayerImpl:V "*:S"']' returned non-zero exit status 1.
